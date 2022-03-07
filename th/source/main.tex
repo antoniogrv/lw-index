@@ -1,14 +1,76 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
-
-\title{Prototipo -- ABSENT-WORDS/AG/RZ}
-\author{Antonio Gravino}
-\date{Febbraio 2022}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\renewcommand{\baselinestretch}{1.75}
+\usepackage{xcolor}
+\usepackage{changepage}
+\usepackage{lipsum}
+\usepackage{setspace}
+\usepackage{multicol}
+\usepackage{etoolbox}
+\usepackage[explicit]{titlesec}
+\titleformat{\section}{\bfseries\huge}{Capitolo \arabic{section}. \titcon{#1}}{6pt}{}
+\thispagestyle{empty}
 
 \begin{document}
 
-\maketitle
+    \begin{center}
+    
+        \includegraphics[scale=0.2]{assets/logo_standard.png}
+    
+        \vspace{2mm}
+    
+        \textsc{\huge Università degli Studi di Salerno}
+        
+        \vspace{5mm}
+        
+        {\LARGE Dipartimento di Informatica}
+        
+        {\LARGE Corso di Laurea Triennale in Informatica}
+        
+        \vspace{10mm}
+        
+        \textsc{\huge Tesi di Laurea}
+        
+        \vspace{10mm}
+        
+        \textbf{\huge Il ruolo dell'informazione negativa nei confronti fra stringhe: integrazione di un algoritmo di Minimal Absent Words nel tool SMART}
+        
+    \end{center}
+    
+        \vspace{20mm}
+    
+        {\large \setstretch{1.5}
+            \begin{multicols}{2}
+                \begin{adjustwidth}{0pt}{0pt}\textsc{Relatrice}\end{adjustwidth}
+                Prof.ssa \textbf{Rosalba Zizza}\\
+                Università degli Studi di Salerno
+                
+                \columnbreak
+                
+                \hspace*{\fill}\textsc{Candidato}\\
+                \hspace*{\fill}\textbf{Antonio Gravino}\\
+                \hspace*{\fill}Matricola: 05121 07161
+            \end{multicols}
+        }
+        
+        \begin{center}
+            \vspace*{\fill}Anno Accademico 2021-2022
+        \end{center}
+        
+        \break
+        
+        \include{contents/thanks}
+        
+        \include{contents/abstract}
+        
+        \begin{adjustwidth}{0pt}{0pt}{\huge\textbf{Indice}}\end{adjustwidth}
+        \vspace{-20mm}
+        
+        \tableofcontents
 
-\section{TBA}
+        \include{contents/chapters/1}
 
 \end{document}
