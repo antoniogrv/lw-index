@@ -1,9 +1,10 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage[a4paper, total={5.5in, 7.5in}]{geometry}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \renewcommand{\baselinestretch}{1.75}
+\renewcommand{\contentsname}{Indice}
 \usepackage{xcolor}
 \usepackage{changepage}
 \usepackage{lipsum}
@@ -11,7 +12,6 @@
 \usepackage{multicol}
 \usepackage{etoolbox}
 \usepackage[explicit]{titlesec}
-\titleformat{\section}{\bfseries\huge}{Capitolo \arabic{section}. \titcon{#1}}{6pt}{}
 \thispagestyle{empty}
 
 \begin{document}
@@ -36,7 +36,7 @@
         
         \vspace{10mm}
         
-        \textbf{\huge Il ruolo dell'informazione negativa nei confronti fra stringhe: integrazione di un algoritmo di Minimal Absent Words nel tool SMART}
+        \textbf{\huge Il ruolo dell'informazione negativa nei confronti alignment-free fra stringhe: integrazione di un algoritmo di Minimal Absent Words nel tool SMART}
         
     \end{center}
     
@@ -66,11 +66,17 @@
         
         \include{contents/abstract}
         
-        \begin{adjustwidth}{0pt}{0pt}{\huge\textbf{Indice}}\end{adjustwidth}
         \vspace{-20mm}
         
         \tableofcontents
 
-        \include{contents/chapters/1}
+        \include{contents/chapters/intr}
+        \include{contents/chapters/nozioni}
+        \include{contents/chapters/pattern}
+        \include{contents/chapters/algo}
+        \include{contents/chapters/impl}
+        \include{contents/chapters/smart}
+        \include{contents/chapters/final}
+        \include{contents/chapters/biblio}
 
 \end{document}
