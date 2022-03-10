@@ -1,16 +1,16 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage[a4paper, total={5.5in, 7.5in}]{geometry}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \renewcommand{\baselinestretch}{1.75}
 \renewcommand{\contentsname}{Indice}
 \usepackage{xcolor}
+\usepackage[fontsize=12pt]{fontsize}
 \usepackage{changepage}
 \usepackage{lipsum}
 \usepackage{setspace}
 \usepackage{multicol}
-\usepackage{etoolbox}
 \usepackage[explicit]{titlesec}
 \thispagestyle{empty}
 
@@ -26,21 +26,21 @@
         
         \vspace{5mm}
         
-        {\LARGE Dipartimento di Informatica}
+        {\fontsize{20pt}{30} \selectfont Dipartimento di Informatica}
         
-        {\LARGE Corso di Laurea Triennale in Informatica}
-        
-        \vspace{10mm}
-        
-        \textsc{\huge Tesi di Laurea}
+        {\fontsize{20pt}{30} \selectfont Corso di Laurea Triennale in Informatica}
         
         \vspace{10mm}
         
-        \textbf{\huge Il ruolo dell'informazione negativa nei confronti alignment-free fra stringhe: integrazione di un algoritmo di Minimal Absent Words nel tool SMART}
+        \textsc{\Large Tesi di Laurea}
+        
+        \vspace{10mm}
+        
+        \textbf{\fontsize{20pt}{30} \selectfont Il ruolo dell'informazione negativa nei confronti alignment-free fra stringhe: integrazione di un algoritmo di Minimal Absent Words nel tool SMART}
         
     \end{center}
     
-        \vspace{20mm}
+        \vspace{10mm}
     
         {\large \setstretch{1.5}
             \begin{multicols}{2}
@@ -62,21 +62,12 @@
         
         \break
         
-        \include{contents/thanks}
-        
         \include{contents/abstract}
         
-        \vspace{-20mm}
+        \vspace{-15mm}
         
         \tableofcontents
 
         \include{contents/chapters/intr}
-        \include{contents/chapters/nozioni}
-        \include{contents/chapters/pattern}
-        \include{contents/chapters/algo}
-        \include{contents/chapters/impl}
-        \include{contents/chapters/smart}
-        \include{contents/chapters/final}
-        \include{contents/chapters/biblio}
 
 \end{document}
