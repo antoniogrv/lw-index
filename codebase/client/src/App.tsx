@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import React, { useEffect, useState } from 'react';
+import Nav from './components/Nav';
+import Graph from './components/Graph';
+import { GraphProps } from './model/GraphProps';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [selectedGraph, setSelectedGraph] = useState<number>(-1);
+	const [graphs, setGraphs] = useState<GraphProps[]>([]);
+	const [renderedGraphs, setRenderedGraphs] = useState<React.ReactElement[]>([]);
+
+	useEffect(() => {
+		let tempGraphs: React.ReactElement[] = [];
+		graphs.forEach(graph => {
+			tempGraphs.push(<Graph graph={graph} />)
+		});
+		setRenderedGraphs(tempGraphs);
+	}, [graphs]);
+
+	return (
+		<main>
+			<div id="content-wrapper">
+				{
+					!graphs.length ? (
+						<div id="content-logo">
+							LW
+							<br />
+							<span>index</span>
+						</div>
+					) : (
+						<div id="content">
+							{renderedGraphs}
+						</div>
+					)
+				}
+			</div>
+			<Nav
+				graphs={graphs}
+				setGraphs={setGraphs}
+			/>
+		</main>
+	);
 }
 
 export default App;

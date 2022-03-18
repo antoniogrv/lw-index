@@ -1,38 +1,99 @@
-.App {
-  text-align: center;
+main {
+    display: flex;
+    height: 100%;
+    flex-flow: row;
+    background:#191919;
+    margin-left: 50px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+nav {
+    flex: 0.35;
+    overflow: hidden;
+    margin: 35px 100px 35px 30px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+#content-wrapper {
+    flex: 1;
+    display: flex;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+#content-logo {
+    font-family: BigBlue_TerminalPlus Nerd Font;
+    font-weight: 100;
+    position: fixed;
+    left: 50%;
+    margin-left: -300px;
+    margin-top: -100px;
+    top: 50%;
+    opacity: 0.7;
+    font-size: 100px;
+    color: #353535;
 }
 
-.App-link {
-  color: #61dafb;
+#content-logo span {
+    margin-left: -15px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#menu {
+    /*background: #292929; 
+    box-shadow: 20px 20px red; */
+    height: 100%;
+    position: relative;
+}
+
+.menu-title {
+    font-family:  BigBlue_TerminalPlus Nerd Font;
+    background: #131313;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 27.5px;
+    z-index: -1;
+}
+
+.operation {
+    font-family: VGA;
+    color: white;
+    padding: 12.5px;
+    background: #292929;
+    padding-left: 20px;
+    font-size: 22.5px;
+}
+
+.operation span {
+    cursor: pointer;
+    text-decoration: underline;
+
+}
+
+.operation span:hover {
+    color: #9a99ff;
+    text-decoration-color: #9a99ff;
+}
+
+.menu-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    font-size: 12.5px;
+    line-height: 20px;
+    font-family: BigBlue_TerminalPlus Nerd Font;
+    color: grey;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#content {
+    flex: 1;
+    display: flex;
+    margin: 30px;
+    flex-wrap: wrap;
+}
+
+.graph-window {
+    flex: 1 0 45%;
+    color: white;
+    margin: 15px;
+    background: rgb(190, 190, 190);
+    border: 5px solid #131313;
 }
