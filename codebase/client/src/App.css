@@ -325,3 +325,21 @@ nav {
 .NO-input-status {
 	background: rgb(246, 147, 147);
 }
+
+.delete-button {
+	display: flex;
+	flex: 0.2 !important;
+	align-items: center;
+	justify-content: center;
+	padding: 5px !important;
+	cursor: pointer;
+	color: white;
+	background: darkred;
+	transition: 0.1s;
+	margin-left: 5px;
+	border: 1px solid black;
+}
+
+.delete-button:hover {
+	background: rgb(79, 0, 0);
+}

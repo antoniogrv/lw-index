@@ -51,7 +51,7 @@ function App() {
 
 		graphs.forEach((graph) => {
 			let deletableGraph = { ...graph, deleteSelf: deleteSelf };
-			tempGraphs.push(<Graph graph={deletableGraph} />);
+			tempGraphs.push(<Graph key={graph.id} graph={deletableGraph} />);
 		});
 		setRenderedGraphs(tempGraphs);
 	}, [graphs]);

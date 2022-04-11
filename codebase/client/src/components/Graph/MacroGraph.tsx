@@ -2,33 +2,71 @@ import { useEffect, useState } from 'react';
 import { MacroGraphProps } from '../../model/MacroGraphProps';
 import ComputedGraph from './ComputedGraph';
 import StringInput from '../StringInput';
-import { parse } from 'path';
+import { FormProps } from '../../model/FormProps';
 
 function MacroGraph(props: MacroGraphProps) {
-	const [strings, setStrings] = useState<string[]>(props.graph.strings);
-	const [renderedStrings, setRenderedStrings] = useState<
-		React.ReactElement[]
-	>([<StringInput strings={strings} setStrings={setStrings} />]);
+	const [strings, setStrings] = useState<string[]>([]);
+	const [fid, setFid] = useState(0);
+	const [forms, setForms] = useState<FormProps[]>([]);
+
+	const [updateReq, setUpdateReq] = useState<{
+		id: number;
+		text: string;
+		type: string;
+	}>({ id: 0, text: '', type: '' });
+
+	const BlankForm: FormProps = {
+		id: fid,
+		string: '',
+		updateSelf: setUpdateReq,
+	};
+
+	const [renderedForms, setRenderedForms] = useState<React.ReactElement[]>(
+		[]
+	);
 
 	useEffect(() => {
-		let tempStrings: React.ReactElement[] = [];
+		let temp: FormProps[] = [];
 
-		console.log(strings);
+		if (updateReq.type == 'del') {
+			temp = forms.filter((form) => form.id != updateReq?.id);
+		} else if (updateReq.type == 'upd') {
+			temp = forms.map(function (form) {
+				return {
+					...BlankForm,
+					id: form.id,
+					string:
+						form.id == updateReq?.id ? updateReq.text : form.string,
+				};
+			});
+		}
+		setForms(temp);
+	}, [updateReq]);
 
-		strings.forEach((string) => {
-			tempStrings.push(
-				<StringInput
-					string={string}
-					strings={strings}
-					setStrings={setStrings}
-				/>
-			);
+	useEffect(() => {
+		let tempRenderedForms: React.ReactElement[] = [];
+		let tempStrings: string[] = [];
+
+		printForms();
+
+		forms.forEach((form) => {
+			tempRenderedForms.push(<StringInput key={form.id} {...form} />);
+			tempStrings.push(form.string);
 		});
-		setRenderedStrings(tempStrings);
-	}, [strings]);
+
+		setRenderedForms(tempRenderedForms);
+		setStrings(strings);
+	}, [forms]);
 
 	function drawGraph() {
-		console.log(strings);
+		printForms();
+	}
+
+	function printForms() {
+		console.log('Printing forms...');
+		forms.forEach((form) =>
+			console.log('ID: ' + form.id + ' - String: ' + form.string)
+		);
 	}
 
 	return (
@@ -40,7 +78,7 @@ function MacroGraph(props: MacroGraphProps) {
 			<div className='macro-data'>
 				<div className='macro-strings'>
 					<div className='macro-block-title'>Stringhe</div>
-					{renderedStrings}
+					{renderedForms}
 					<div className='macro-buttons'>
 						<div
 							className='macro-button macro-button-compute'
@@ -50,15 +88,17 @@ function MacroGraph(props: MacroGraphProps) {
 						</div>
 						<div
 							className='macro-button'
-							onClick={() =>
-								setRenderedStrings([
-									...renderedStrings,
-									<StringInput
-										strings={strings}
-										setStrings={setStrings}
-									/>,
-								])
-							}
+							onClick={() => {
+								setFid(fid + 1);
+								setForms([
+									...forms,
+									{
+										...BlankForm,
+										id: fid,
+										string: fid.toString(),
+									},
+								]);
+							}}
 						>
 							Inserisci
 						</div>

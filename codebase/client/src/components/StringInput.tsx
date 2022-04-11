@@ -1,31 +1,21 @@
 import { useState } from 'react';
-import { StringInputProps } from '../model/StringInputProps';
+import { idText } from 'typescript';
+import { FormProps } from '../model/FormProps';
 import { DNARegex } from '../templates/DNARegex';
 
-function StringInput(props: StringInputProps) {
+function StringInput(props: FormProps) {
 	const [disabled, setDisabled] = useState<boolean>(false);
 	const [status, setStatus] = useState<string>('?');
 	const [input, setInput] = useState<string>(
 		props.string === undefined || props.string === '' ? '' : props.string
 	);
 
-	const [former, setFormer] = useState<String>();
-
 	function parseStrings() {
 		if (!disabled) {
-			console.log(input == former);
-
-			if (input == former) props.setStrings([...props.strings]);
-			else {
-				let tempStrings = props.strings.filter(
-					(string) => former != string
-				);
-				props.setStrings([...tempStrings, input]);
-			}
+			props.updateSelf({ id: props.id, text: input, type: 'upd' });
 
 			setDisabled(true);
 			setStatus(checkInputStatus());
-			setFormer(input);
 		} else {
 			setDisabled(false);
 			setStatus('?');
@@ -56,6 +46,14 @@ function StringInput(props: StringInputProps) {
 			/>
 			<div className={status + '-input-status input-status'}>
 				<span>{status}</span>
+			</div>
+			<div
+				onClick={() =>
+					props.updateSelf({ id: props.id, text: input, type: 'del' })
+				}
+				className='delete-button'
+			>
+				<span>X</span>
 			</div>
 		</form>
 	);
