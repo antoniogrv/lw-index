@@ -18,7 +18,7 @@ function ComputedGraph(props: GraphWrapper) {
                     </LineChart>
                 </ResponsiveContainer>
             </div>
-            <div className="graph-window-title" onClick={() => props.graph.isDeletable && (props.graph.deleteSelf)?.(props.graph.id)}>{props.graph.isDeletable.toString()}</div>
+            <div className="graph-window-title">Title</div>
         </div>
     )
 }

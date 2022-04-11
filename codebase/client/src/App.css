@@ -177,3 +177,8 @@ nav {
     font-size: 22.5px;
     text-align: center;
 }
+
+.isDeletable {
+    border: 1px solid red;
+    box-shadow: inset 0px 0px 20px 7px red;
+}

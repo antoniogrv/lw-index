@@ -1,14 +1,32 @@
+import { useEffect, useState } from 'react';
 import GraphProps from '../model/GraphProps';
 import NavProps from '../model/NavProps';
 import NavPropsWrapper from '../model/NavPropsWrapper';
 
 function Nav(props: NavPropsWrapper) {
 	const state: NavProps = props.navProps;
+	const [deletability, setDeletability] = useState(false);
+
+	useEffect(() => {
+		let newGraphs: GraphProps[] = [];
+		state.graphs.forEach(graph => {
+			let temp = {...graph, isDeletable: deletability}
+			newGraphs.push(temp)
+		});
+		state.setGraphs(newGraphs);
+	}, [deletability])
 
 	const blankGraph: GraphProps = {
 		id: state.graphs.length,
 		isEmpty: false, 
 		isDeletable: false
+	}
+
+	function alert(alertText: string) {
+		state.setAlertStatus(true);
+		state.setAlertProps({
+			text: alertText
+		});
 	}
 
     return(
@@ -17,35 +35,52 @@ function Nav(props: NavPropsWrapper) {
 					<div className="menu-title">
 						Operazioni
 					</div>
-					<div className="operation" onClick={() => { 
-						if(state.graphs.length !== 4)
-							state.setGraphs([...state.graphs, blankGraph]);
-						else {
-							state.setAlertStatus(true);
-							state.setAlertProps({
-								text: "Numero massimo di istanze raggiunto (4). Svuota il tavolo di lavoro per produrre nuovi misurzioni."
-							});
-						}
-					}}>
-						&gt; <span>Crea nuova istanza</span>
+
+					{/* Operazioni > Crea Nuova Istanza */}
+
+					<div className="operation">
+						&gt; <span onClick={() => { 
+							if(state.graphs.length !== 4)
+								state.setGraphs([...state.graphs, blankGraph]);
+							else {
+								state.setAlertStatus(true);
+								state.setAlertProps({
+									text: "Numero massimo di istanze raggiunto (4). Svuota il tavolo di lavoro per produrre nuovi misurzioni."
+								});
+							}
+						}}>
+							Crea nuova istanza
+						</span>
 					</div>
+
+					{/* Operazioni > Analizza Istanza */}
+
 					<div className="operation">
 						&gt; <span>Analizza istanza</span>
 					</div>
-					<div className="operation" onClick={() => {
-						let newGraphs: GraphProps[] = [];
-						state.graphs.forEach(graph => {
-							let temp = {...graph, isDeletable: true}
-							newGraphs.push(temp)
-						});
-						state.setGraphs(newGraphs);
-					}}>
-						&gt; <span>Elimina istanza</span>
+
+					{/* Operazioni > Elimina Istanze */}
+
+					<div className="operation">
+						&gt; <span onClick={() => {
+							if(!state.graphs.length)
+								alert("Nessun grafico presente.");
+							else
+								setDeletability(!deletability);
+						}}>
+							Elimina istanza
+						</span>
 					</div>
-					<div className="operation" onClick={() => {
-						state.setGraphs([]);
-					}}>
-						&gt; <span>Svuota tavolo di lavoro</span>
+
+					{/* Operazioni > Svuota Tavolo di Lavoro */}
+
+					<div className="operation">
+						&gt; <span  onClick={() => {
+							state.setGraphs([]);
+							alert("Tavolo di lavoro svuotato.")
+						}}>
+							Svuota tavolo di lavoro
+						</span>
 					</div>
 
 					<br />
@@ -53,14 +88,22 @@ function Nav(props: NavPropsWrapper) {
 					<div className="menu-title">
 						Algoritmo
 					</div>
+
+					{/* Algoritmo > Informazioni Algoritmo */}
+
 					<div className="operation">
 						&gt; <span>Informazioni algoritmo</span>
 					</div>
+
+					{/* Algoritmo > Seleziona Algoritmo */}
+
 					<div className="operation">
 						&gt; <span>Seleziona algoritmo</span>
 					</div>
 
 					<br />
+
+					{/* Debug */}
 
 					<div className="menu-title">
 						Debug
@@ -68,12 +111,7 @@ function Nav(props: NavPropsWrapper) {
 					<div className="operation">
 						&gt; <span>Download --MAW_Sources</span>
 					</div>
-					<div className="operation" onClick={() => {
-						state.setAlertStatus(true);
-						state.setAlertProps({
-							text: "Lorem Ipsum"
-						});
-					}}>
+					<div className="operation">
 						&gt; <span>Codebase Repository</span>
 					</div>
 					<div className="operation">
