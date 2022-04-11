@@ -6,10 +6,22 @@ import GraphProps from './model/GraphProps';
 import AlertProps from './model/AlertProps';
 import NavProps from './model/NavProps';
 import Alert from './components/Alert';
+import AppStatus from './model/AppStatus';
+import AppStatusEnum from './model/AppStatus';
+import MacroGraph from './components/MacroGraph';
+import blankGraph from './templates/BlankGraph';
 
 function App() {
+	const [appStatus, setAppStatus] = useState<AppStatusEnum>(AppStatus.__MultiGraph);
+
 	const [graphs, setGraphs] = useState<GraphProps[]>([]);
+
+	/* __MultiGraph Views */
 	const [renderedGraphs, setRenderedGraphs] = useState<React.ReactElement[]>([]);
+
+	/* __SingleGraph Views */
+	const [evokedGraph, setEvokedGraph] = useState<GraphProps>(blankGraph);
+	
 	const [alertProps, setAlertProps] = useState<AlertProps>({ text: '?None' });
 	const [alertStatus, setAlertStatus] = useState<boolean>(false);
 
@@ -52,7 +64,7 @@ function App() {
 							</div>
 						) : (
 							<div id="content">
-								{renderedGraphs}
+								{appStatus === AppStatus.__MultiGraph ? renderedGraphs : <MacroGraph /> }
 							</div>
 						)
 					}

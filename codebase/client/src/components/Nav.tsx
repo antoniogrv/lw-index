@@ -2,31 +2,36 @@ import { useEffect, useState } from 'react';
 import GraphProps from '../model/GraphProps';
 import NavProps from '../model/NavProps';
 import NavPropsWrapper from '../model/NavPropsWrapper';
+import blankGraph from '../templates/BlankGraph';
 
 function Nav(props: NavPropsWrapper) {
 	const state: NavProps = props.navProps;
-	const [deletability, setDeletability] = useState(false);
+
+	const __default = {
+			isDeletable: false,
+			isAnalyzable: false,		
+	}
+
+	const [ability, setAbility] = useState(__default);
 
 	useEffect(() => {
 		let newGraphs: GraphProps[] = [];
 		state.graphs.forEach(graph => {
-			let temp = {...graph, isDeletable: deletability}
+			let temp = {...graph, ...ability}
 			newGraphs.push(temp)
 		});
 		state.setGraphs(newGraphs);
-	}, [deletability])
-
-	const blankGraph: GraphProps = {
-		id: state.graphs.length,
-		isEmpty: false, 
-		isDeletable: false
-	}
+	}, [ability])
 
 	function alert(alertText: string) {
 		state.setAlertStatus(true);
 		state.setAlertProps({
 			text: alertText
 		});
+	}
+
+	function restore() {
+		setAbility(__default);
 	}
 
     return(
@@ -40,14 +45,16 @@ function Nav(props: NavPropsWrapper) {
 
 					<div className="operation">
 						&gt; <span onClick={() => { 
-							if(state.graphs.length !== 4)
-								state.setGraphs([...state.graphs, blankGraph]);
-							else {
-								state.setAlertStatus(true);
-								state.setAlertProps({
-									text: "Numero massimo di istanze raggiunto (4). Svuota il tavolo di lavoro per produrre nuovi misurzioni."
-								});
-							}
+							if(state.graphs.length !== 4) {
+								state.setGraphs([...state.graphs, 
+									{	
+										...blankGraph,
+										id: state.graphs.length
+									} 
+								]);
+								restore();
+							} else 
+								alert("Numero massimo di istanze raggiunto.");
 						}}>
 							Crea nuova istanza
 						</span>
@@ -56,7 +63,18 @@ function Nav(props: NavPropsWrapper) {
 					{/* Operazioni > Analizza Istanza */}
 
 					<div className="operation">
-						&gt; <span>Analizza istanza</span>
+						&gt; <span onClick={() => {
+							if(!state.graphs.length)
+								alert("Nessun grafico presente.");
+							else {
+								setAbility({
+									isAnalyzable: true,
+									isDeletable: false
+								});
+							}
+						}}>
+							Analizza istanza
+						</span>
 					</div>
 
 					{/* Operazioni > Elimina Istanze */}
@@ -65,8 +83,12 @@ function Nav(props: NavPropsWrapper) {
 						&gt; <span onClick={() => {
 							if(!state.graphs.length)
 								alert("Nessun grafico presente.");
-							else
-								setDeletability(!deletability);
+							else {
+								setAbility({
+									isAnalyzable: false,
+									isDeletable: true
+								});
+							}
 						}}>
 							Elimina istanza
 						</span>
@@ -77,7 +99,8 @@ function Nav(props: NavPropsWrapper) {
 					<div className="operation">
 						&gt; <span  onClick={() => {
 							state.setGraphs([]);
-							alert("Tavolo di lavoro svuotato.")
+							alert("Tavolo di lavoro svuotato.");
+							restore();
 						}}>
 							Svuota tavolo di lavoro
 						</span>
@@ -117,8 +140,14 @@ function Nav(props: NavPropsWrapper) {
 					<div className="operation">
 						&gt; <span>Genera esemplificazioni</span>
 					</div>
+					
+					<div className="menu-footer-up">
+						deletability: {ability.isDeletable.toString()} <br />
+						analyzability: {ability.isAnalyzable.toString()} <br />
+						appStatus: blank
+					</div>
 
-					<div className="menu-footer">MAW-LW-Index<br />LW Index di Crochemore</div>
+					<div className="menu-footer-down">MAW-LW-Index<br />LW Index di Crochemore</div>
 				</div>
 			</nav>
     )

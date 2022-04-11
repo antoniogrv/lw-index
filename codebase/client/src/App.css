@@ -77,7 +77,7 @@ nav {
     text-decoration-color: #9a99ff;
 }
 
-.menu-footer {
+.menu-footer-down {
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -87,6 +87,18 @@ nav {
     color: grey;
     text-align: center;
     margin-bottom: 10px;
+}
+
+.menu-footer-up {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    font-size: 12.5px;
+    line-height: 20px;
+    font-family: BigBlue_TerminalPlus Nerd Font;
+    color: grey;
+    text-align: center;
+    margin-bottom: 100px;
 }
 
 #content {
@@ -181,4 +193,9 @@ nav {
 .isDeletable {
     border: 1px solid red;
     box-shadow: inset 0px 0px 20px 7px red;
+}
+
+.isAnalyzable {
+    border: 1px solid blue;
+    box-shadow: inset 0px 0px 20px 7px blue;
 }
