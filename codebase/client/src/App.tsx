@@ -7,7 +7,7 @@ import AlertProps from './model/AlertProps';
 import NavProps from './model/NavProps';
 import Alert from './components/Alert';
 import AppStatus from './model/AppStatus';
-import MacroGraph from './components/MacroGraph';
+import MacroGraph from './components/Graph/MacroGraph';
 import { AppStatusSet } from './model/AppStatusSet';
 import { BlankGraph } from './templates/BlankGraph';
 
@@ -24,6 +24,8 @@ function App() {
 		[]
 	);
 
+	const [gid, setGid] = useState<number>(0);
+
 	const [alertProps, setAlertProps] = useState<AlertProps>({ text: '?None' });
 	const [alertStatus, setAlertStatus] = useState<boolean>(false);
 
@@ -39,6 +41,9 @@ function App() {
 
 		appStatusSet: appStatusSet,
 		setAppStatusSet: setAppStatusSet,
+
+		gid: gid,
+		setGid: setGid,
 	};
 
 	useEffect(() => {

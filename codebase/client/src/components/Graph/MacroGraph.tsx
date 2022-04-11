@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { MacroGraphProps } from '../model/MacroGraphProps';
-import ComputedGraph from './Graph/ComputedGraph';
-import StringInput from './StringInput';
+import { MacroGraphProps } from '../../model/MacroGraphProps';
+import ComputedGraph from './ComputedGraph';
+import StringInput from '../StringInput';
 
 function MacroGraph(props: MacroGraphProps) {
 	const [renderedStrings, setRenderedStrings] = useState<

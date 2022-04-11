@@ -18,14 +18,16 @@ function MultiGraphOperations(props: MultiGraphOperationsProps) {
 								...state.graphs,
 								{
 									...BlankGraph,
-									id: state.graphs.length,
+									id: props.navProps.gid,
 
 									appStatusSet: state.appStatusSet,
 									setAppStatusSet: state.setAppStatusSet,
 								},
 							]);
+							props.navProps.setGid(++props.navProps.gid);
 							props.restore();
-						} else alert('Numero massimo di istanze raggiunto.');
+						} else
+							props.alert('Numero massimo di istanze raggiunto.');
 					}}
 				>
 					Crea nuova istanza
@@ -37,10 +39,10 @@ function MultiGraphOperations(props: MultiGraphOperationsProps) {
 				<span
 					onClick={() => {
 						if (!state.graphs.length)
-							alert('Nessun grafico presente.');
+							props.alert('Nessun grafico presente.');
 						else {
 							props.setAbility({
-								isAnalyzable: true,
+								isAnalyzable: !props.ability.isAnalyzable,
 								isDeletable: false,
 							});
 						}
@@ -55,11 +57,11 @@ function MultiGraphOperations(props: MultiGraphOperationsProps) {
 				<span
 					onClick={() => {
 						if (!state.graphs.length)
-							alert('Nessun grafico presente.');
+							props.alert('Nessun grafico presente.');
 						else {
 							props.setAbility({
 								isAnalyzable: false,
-								isDeletable: true,
+								isDeletable: !props.ability.isDeletable,
 							});
 						}
 					}}
@@ -73,7 +75,7 @@ function MultiGraphOperations(props: MultiGraphOperationsProps) {
 				<span
 					onClick={() => {
 						state.setGraphs([]);
-						alert('Tavolo di lavoro svuotato.');
+						props.alert('Tavolo di lavoro svuotato.');
 						props.restore();
 					}}
 				>

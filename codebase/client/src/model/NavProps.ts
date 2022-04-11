@@ -15,4 +15,7 @@ export default interface NavProps {
 
 	appStatusSet: AppStatusSet;
 	setAppStatusSet: React.Dispatch<React.SetStateAction<AppStatusSet>>;
+
+	gid: number;
+	setGid: React.Dispatch<React.SetStateAction<number>>;
 }
