@@ -1,15 +1,12 @@
-import AppStatus from "../model/AppStatus";
-import GraphProps from "../model/GraphProps";
+import AppStatus from '../model/AppStatus';
+import GraphProps from '../model/GraphProps';
 
-const blankGraph: GraphProps = {
-    id: -1,
+export const BlankGraph: GraphProps = {
+	id: -1,
 
-    isEmpty: false,
-    isDeletable: false,
-    isAnalyzable: false,
+	isEmpty: false,
+	isDeletable: false,
+	isAnalyzable: false,
 
-    strings: []
-}
-
-
-export default blankGraph;
+	strings: [],
+};

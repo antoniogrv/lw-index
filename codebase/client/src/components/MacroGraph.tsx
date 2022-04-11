@@ -1,56 +1,52 @@
-import { useEffect, useState } from "react";
-import GraphProps from "../model/GraphProps";
-import ComputedGraph from "./Graph/ComputedGraph";
-import Graph from "./Graph/Graph";
-import StringInput from "./StringInput";
+import { useEffect, useState } from 'react';
+import { MacroGraphProps } from '../model/MacroGraphProps';
+import ComputedGraph from './Graph/ComputedGraph';
+import StringInput from './StringInput';
 
-function MacroGraph(props: GraphProps) {
-    const [renderedStrings, setRenderedStrings] = useState<React.ReactElement[]>([]); 
-    const [strings, setStrings] = useState<string[]>(props.strings);
+function MacroGraph(props: MacroGraphProps) {
+	const [renderedStrings, setRenderedStrings] = useState<
+		React.ReactElement[]
+	>([]);
+	const [strings, setStrings] = useState<string[]>(props.graph.strings);
 
-    useEffect(() => {
-        let tempStrings: React.ReactElement[] = [];
+	useEffect(() => {
+		let tempStrings: React.ReactElement[] = [];
 
-		strings.forEach(string => {
+		strings.forEach((string) => {
 			tempStrings.push(
-                <StringInput 
-                    string={string}
-                    strings={strings}
-                    setStrings={setStrings}
-                />
-            )
+				<StringInput
+					string={string}
+					strings={strings}
+					setStrings={setStrings}
+				/>
+			);
 		});
 
-        tempStrings.push(
-            <StringInput
-                strings={strings}
-                setStrings={setStrings} 
-            />
-        );
+		tempStrings.push(
+			<StringInput strings={strings} setStrings={setStrings} />
+		);
 
 		setRenderedStrings(tempStrings);
-    }, [strings]);
+	}, [strings]);
 
-    return(
-        <div className="graph-window macro-graph">
-            <div className="macro-graph-title">
-                Grafico {props.id}
-            </div>
-            <ComputedGraph graph={props} />
+	return (
+		<div className='graph-window macro-graph'>
+			<div className='macro-graph-title'>Grafico {props.graph.id}</div>
 
-            <div className="macro-data">
-                <div className="macro-strings">
-                    <div className="macro-block-title">Stringhe</div>
-                    { renderedStrings }
-                </div>
+			<ComputedGraph graph={props.graph} />
 
-                <div className="macro-compute">
-                    <div className="macro-block-title">Computazione</div>               
-                </div>    
-            </div>
-        </div>
-    )
+			<div className='macro-data'>
+				<div className='macro-strings'>
+					<div className='macro-block-title'>Stringhe</div>
+					{renderedStrings}
+				</div>
+
+				<div className='macro-compute'>
+					<div className='macro-block-title'>Computazione</div>
+				</div>
+			</div>
+		</div>
+	);
 }
-
 
 export default MacroGraph;
