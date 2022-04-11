@@ -1,275 +1,327 @@
 .main-wrapper {
-    display: flex;
-    height: 100%;
-    flex-flow: row;
-    flex: 1;
-    background:#191919;
-    margin-left: 50px;
+	display: flex;
+	height: 100%;
+	flex-flow: row;
+	flex: 1;
+	background: #191919;
+	margin-left: 50px;
 }
 
 main {
-    height: 100%;
-    display: flex;
+	height: 100%;
+	display: flex;
 }
 
 nav {
-    flex: 0.35;
-    overflow: hidden;
-    margin: 35px 100px 35px 30px;
+	flex: 0.35;
+	overflow: hidden;
+	margin: 35px 100px 35px 30px;
 }
 
 #content-wrapper {
-    flex: 1;
-    display: flex;
+	flex: 1;
+	display: flex;
 }
 
 #content-logo {
-    font-family: BigBlue_TerminalPlus Nerd Font;
-    font-weight: 100;
-    position: fixed;
-    left: 50%;
-    margin-left: -300px;
-    margin-top: -100px;
-    top: 50%;
-    opacity: 0.7;
-    font-size: 100px;
-    color: #353535;
+	font-family: BigBlue_TerminalPlus Nerd Font;
+	font-weight: 100;
+	position: fixed;
+	left: 50%;
+	margin-left: -300px;
+	margin-top: -100px;
+	top: 50%;
+	opacity: 0.7;
+	font-size: 100px;
+	color: #353535;
 }
 
 #content-logo span {
-    margin-left: -15px;
+	margin-left: -15px;
 }
 
 #menu {
-    /*background: #292929; 
+	/*background: #292929; 
     box-shadow: 20px 20px red; */
-    height: 100%;
-    position: relative;
+	height: 100%;
+	position: relative;
 }
 
 .menu-title {
-    font-family:  BigBlue_TerminalPlus Nerd Font;
-    background: #131313;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    font-size: 27.5px;
-    z-index: -1;
+	font-family: BigBlue_TerminalPlus Nerd Font;
+	background: #131313;
+	color: white;
+	padding: 15px;
+	text-align: center;
+	font-size: 27.5px;
+	z-index: -1;
 }
 
 .operation {
-    font-family: VGA;
-    color: white;
-    padding: 12.5px;
-    background: #292929;
-    padding-left: 20px;
-    font-size: 22.5px;
+	font-family: VGA;
+	color: white;
+	padding: 12.5px;
+	background: #292929;
+	padding-left: 20px;
+	font-size: 22.5px;
 }
 
 .operation span {
-    cursor: pointer;
-    text-decoration: underline;
-
+	cursor: pointer;
+	text-decoration: underline;
 }
 
 .operation span:hover {
-    color: #9a99ff;
-    text-decoration-color: #9a99ff;
+	color: #9a99ff;
+	text-decoration-color: #9a99ff;
 }
 
 .menu-footer-down {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    font-size: 12.5px;
-    line-height: 20px;
-    font-family: BigBlue_TerminalPlus Nerd Font;
-    color: grey;
-    text-align: center;
-    margin-bottom: 10px;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	font-size: 12.5px;
+	line-height: 20px;
+	font-family: BigBlue_TerminalPlus Nerd Font;
+	color: grey;
+	text-align: center;
+	margin-bottom: 10px;
 }
 
 .menu-footer-up {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    font-size: 12.5px;
-    line-height: 20px;
-    font-family: BigBlue_TerminalPlus Nerd Font;
-    color: grey;
-    text-align: center;
-    margin-bottom: 100px;
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	font-size: 12.5px;
+	line-height: 20px;
+	font-family: BigBlue_TerminalPlus Nerd Font;
+	color: grey;
+	text-align: center;
+	margin-bottom: 100px;
 }
 
 #content {
-    flex: 1;
-    display: flex;
-    margin: 30px;
-    flex-wrap: wrap;
+	flex: 1;
+	display: flex;
+	margin: 30px;
+	flex-wrap: wrap;
 }
 
 .graph-window {
-    flex: 1 0 45%;
-    color: white;
-    margin: 15px;
-    border: 5px solid #131313;
-    display: flex;
-    min-width: 0;
-    flex-flow: column;
+	flex: 1 0 45%;
+	color: white;
+	margin: 15px;
+	border: 5px solid #131313;
+	display: flex;
+	min-width: 0;
+	flex-flow: column;
 }
 
 .alert {
-    position: fixed;
-    display: flex;
-    line-height: 15px;
-    font-family: VGA;
-    width: 750px;
-    height: 150px;
-    border: 2px dotted blue;
-    background: #161616;
-    text-align: center;
-    z-index: 2;
-    color: white;
-    display: flex;
-    flex-flow: column;
+	position: fixed;
+	display: flex;
+	line-height: 15px;
+	font-family: VGA;
+	width: 750px;
+	height: 150px;
+	border: 2px dotted blue;
+	background: #161616;
+	text-align: center;
+	z-index: 2;
+	color: white;
+	display: flex;
+	flex-flow: column;
 }
 
 .alert .alert-content {
-    font-size: 17.5px;
-    padding: 10px;
-    margin: auto;
+	font-size: 17.5px;
+	padding: 10px;
+	margin: auto;
 }
 
 .alert .alert-title {
-    font-size: 22.5px;
-    background: black;
-    border-bottom: 2px dotted blue;
-    padding: 20px;
+	font-size: 22.5px;
+	background: black;
+	border-bottom: 2px dotted blue;
+	padding: 20px;
 }
 
 .blurred {
-    opacity: 0.25;
+	opacity: 0.25;
 }
 
 .h-v-center {
-    justify-content: center;
-    align-items: center;
+	justify-content: center;
+	align-items: center;
 }
 
 .graph-window-title {
-    font-family: VGA;
-    background: #131313;
-    text-align: center;
-    font-size: 20px;
+	font-family: VGA;
+	background: #131313;
+	text-align: center;
+	font-size: 20px;
 }
 
 .graph-wrapper {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    justify-content: center;
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
 }
 
 .empty-graph {
-    display: flex;
-    flex-flow: column;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
 }
 
 .empty-graph .graph-title {
-    font-family: BigBlue_TerminalPlus Nerd Font; 
-    font-size: 35px;  
-    margin: 0;
+	font-family: BigBlue_TerminalPlus Nerd Font;
+	font-size: 35px;
+	margin: 0;
 }
 
 .empty-graph .graph-subtitle {
-    font-family: VGA;
-    font-size: 22.5px;
-    text-align: center;
+	font-family: VGA;
+	font-size: 22.5px;
+	text-align: center;
 }
 
 .isDeletable {
-    border: 1px solid red;
-    box-shadow: inset 0px 0px 20px 7px red;
+	border: 1px solid red;
+	box-shadow: inset 0px 0px 20px 7px red;
 }
 
 .isAnalyzable {
-    border: 1px solid blue;
-    box-shadow: inset 0px 0px 20px 7px blue;
+	border: 1px solid blue;
+	box-shadow: inset 0px 0px 20px 7px blue;
 }
 
 .macro-graph {
-    background: white;
-    border: 1px solid rgb(209, 209, 237);
-    box-shadow: inset 0px 0px 20px 7px rgb(95, 95, 114);
-    font-family: VGA;
-    color: black;
-    display: flex;
-    flex-flow: column;
-    font-size: 25px;
-    padding: 30px;
+	background: white;
+	border: 1px solid rgb(209, 209, 237);
+	box-shadow: inset 0px 0px 20px 7px rgb(95, 95, 114);
+	font-family: VGA;
+	color: black;
+	display: flex;
+	flex-flow: column;
+	font-size: 25px;
+	padding: 30px;
 }
 
 .macro-graph-title {
-    text-align: center;
-    margin-right: 30px;
-    font-size: 40px;
+	text-align: center;
+	margin-right: 30px;
+	font-size: 40px;
 }
 
-.macro-graph .computed-graph, 
+.macro-graph .computed-graph,
 .macro-graph .computed-graph .graph-wrapper {
-    height: 500px;
+	height: 500px;
 }
 
 .computed-graph {
-    margin-left: -40px;
+	margin-left: -40px;
 }
 
 .macro-data {
-    display: flex;
-    flex-flow: row;
+	display: flex;
+	flex-flow: row;
 }
 
 .macro-data div {
-    flex: 1;
-    padding: 20px;
+	flex: 1;
+	padding: 20px;
 }
 
 .macro-strings {
-    border-right: 1px solid grey;
+	border-right: 1px solid grey;
 }
 
 .macro-block-title {
-    text-align: center;
+	text-align: center;
 }
 
-.macro-strings input[type="text"] {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 20px;
-    flex: 1;
-    font-family: Open Sans;
-    border-radius: 0;
-    border: 1px solid blue;
-    outline: none;
+.macro-strings input[type='text'] {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	flex: 1;
+	font-family: Open Sans;
+	border-radius: 0;
+	border: 1px solid blue;
+	outline: none;
 }
 
 .macro-strings form {
-    display: flex;
-    margin-bottom: 10px;
+	display: flex;
+	margin-bottom: 10px;
 }
 
-.macro-strings input[type="submit"] {
-    flex: 0.2;
-    border-radius: 0;
-    border: 1px solid blue;
-    border-left: 0;
-    outline: none;
-    cursor: pointer;
-    background: blue;
-    color: white;
-    font-family: VGA;
-    font-size: 17.5px;
+.macro-strings input[type='submit'] {
+	flex: 0.2;
+	border-radius: 0;
+	border: 1px solid blue;
+	border-left: 0;
+	outline: none;
+	cursor: pointer;
+	background: blue;
+	transition: 0.25s;
+	color: white;
+	font-family: VGA;
+	font-size: 17.5px;
+}
+
+.macro-strings input[type='text']:disabled {
+	background: rgba(233, 233, 233, 0.993);
+	cursor: not-allowed;
+}
+
+.macro-button {
+	background: blue;
+	padding: 10px !important;
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+	color: white;
+	transition: 0.25s;
+}
+
+.macro-button:hover {
+	background: rgb(0, 0, 131);
+}
+
+.macro-strings input[type='submit']:hover {
+	background: rgb(0, 0, 131);
+}
+
+.input-status {
+	display: flex;
+	flex: 0.2 !important;
+	align-items: center;
+	justify-content: center;
+	padding: 5px !important;
+	cursor: default;
+	margin-left: 5px;
+	border: 1px solid blue;
+}
+
+.macro-buttons {
+	display: flex;
+	flex-flow: row;
+	padding: 0 !important;
+}
+
+.macro-button-compute {
+	margin-right: 5px;
+}
+
+.OK-input-status {
+	background: rgb(170, 250, 170);
+}
+
+.NO-input-status {
+	background: rgb(246, 147, 147);
 }
