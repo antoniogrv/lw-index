@@ -31,3 +31,8 @@ Estrarre manualmente il tar `sdsl-lite.tar.gz` prima di lanciare `bash ./pre-ins
 Potrebbe essere necessario [convertire l'encoding del file](https://stackoverflow.com/questions/11616835/r-command-not-found-bashrc-bash-profile) in un formato adatto a Unix. Successivamente, copiare il contenuto di `sdsl-lite/libsdsl/include/sdsl` in `sdsl-lite`. Creare, infine, una nuova cartella `sdsl` nella root di `scMAW` inserendovi gli stessi file del passo precedente.
 
 Sarà adesso possibile lanciare `make -f Makefile.64-bit.gcc` e utilizzare `./sc-maw`.
+
+*Nota:* aprire file FASTA con editor di testo non appropriati potrebbe compromettere la lettura del file. Altresì, è possibile aprire i file OUT con qualsiasi software.
+
+Esempio d'uso di scMAW:
+`./sc-maw -a DNA -i ./data/2.fasta -o 2.fasta.out -k 2 -K 10`
