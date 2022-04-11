@@ -40,7 +40,7 @@ function App() {
 
 	return (
 		<main className={alertStatus ? "h-v-center" : ""}>
-			{alertStatus ? <Alert alertProps={alertProps} /> : <div>&nbsp;</div>}
+			{alertStatus && <Alert alertProps={alertProps} />}
 			<div onClick={() => { if(alertStatus) setAlertStatus(false) }} className={"main-wrapper " + (alertStatus ? "blurred" : "")}>
 				<div id="content-wrapper">
 					{
