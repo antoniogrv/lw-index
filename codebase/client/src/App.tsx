@@ -7,20 +7,17 @@ import AlertProps from './model/AlertProps';
 import NavProps from './model/NavProps';
 import Alert from './components/Alert';
 import AppStatus from './model/AppStatus';
-import AppStatusEnum from './model/AppStatus';
 import MacroGraph from './components/MacroGraph';
 import blankGraph from './templates/BlankGraph';
+import { AppStatusSet } from './model/AppStatusSet';
 
 function App() {
-	const [appStatus, setAppStatus] = useState<AppStatusEnum>(AppStatus.__MultiGraph);
+	const [appStatusSet, setAppStatusSet] = useState<AppStatusSet>({ appStatus: AppStatus.__MultiGraph, graph: blankGraph });
 
 	const [graphs, setGraphs] = useState<GraphProps[]>([]);
 
 	/* __MultiGraph Views */
 	const [renderedGraphs, setRenderedGraphs] = useState<React.ReactElement[]>([]);
-
-	/* __SingleGraph Views */
-	const [evokedGraph, setEvokedGraph] = useState<GraphProps>(blankGraph);
 	
 	const [alertProps, setAlertProps] = useState<AlertProps>({ text: '?None' });
 	const [alertStatus, setAlertStatus] = useState<boolean>(false);
@@ -33,11 +30,15 @@ function App() {
 		setAlertStatus: setAlertStatus,
 
 		alertProps: alertProps,
-		setAlertProps: setAlertProps
+		setAlertProps: setAlertProps,
+
+		appStatusSet: appStatusSet,
+		setAppStatusSet: setAppStatusSet
 	}
 
 	useEffect(() => {
 		let tempGraphs: React.ReactElement[] = [];
+
 		graphs.forEach(graph => {
 			let deletableGraph = {...graph, deleteSelf: deleteSelf}
 			tempGraphs.push(<Graph graph={deletableGraph} />)
@@ -46,7 +47,7 @@ function App() {
 	}, [graphs]);
 
 	function deleteSelf(id: number) {
-		let temp = graphs.filter(graph => graph.id != id);
+		let temp = graphs.filter(graph => graph.id !== id);
 		setGraphs(temp);
 	}
 
@@ -64,7 +65,7 @@ function App() {
 							</div>
 						) : (
 							<div id="content">
-								{appStatus === AppStatus.__MultiGraph ? renderedGraphs : <MacroGraph /> }
+								{appStatusSet.appStatus === AppStatus.__MultiGraph ? renderedGraphs : <MacroGraph {...appStatusSet.graph} /> }
 							</div>
 						)
 					}

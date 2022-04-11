@@ -49,7 +49,10 @@ function Nav(props: NavPropsWrapper) {
 								state.setGraphs([...state.graphs, 
 									{	
 										...blankGraph,
-										id: state.graphs.length
+										id: state.graphs.length,
+										
+										appStatusSet: state.appStatusSet,
+										setAppStatusSet: state.setAppStatusSet
 									} 
 								]);
 								restore();
@@ -144,7 +147,7 @@ function Nav(props: NavPropsWrapper) {
 					<div className="menu-footer-up">
 						deletability: {ability.isDeletable.toString()} <br />
 						analyzability: {ability.isAnalyzable.toString()} <br />
-						appStatus: blank
+						appStatus: {state.appStatusSet.appStatus}
 					</div>
 
 					<div className="menu-footer-down">MAW-LW-Index<br />LW Index di Crochemore</div>

@@ -1,3 +1,4 @@
+import AppStatus from "../model/AppStatus";
 import GraphProps from "../model/GraphProps";
 
 const blankGraph: GraphProps = {
@@ -6,6 +7,8 @@ const blankGraph: GraphProps = {
     isEmpty: false,
     isDeletable: false,
     isAnalyzable: false,
+
+    strings: []
 }
 
 

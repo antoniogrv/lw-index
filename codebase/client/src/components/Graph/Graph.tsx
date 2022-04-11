@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import AppStatus from '../../model/AppStatus';
 import GraphWrapper from '../../model/GraphWrapper';
 import ComputedGraph from './ComputedGraph';
 import EmptyGraph from './EmptyGraph';
@@ -12,7 +14,10 @@ function Graph(props: GraphWrapper) {
         <div 
             onClick={() => {
                 props.graph.isDeletable && (props.graph.deleteSelf)?.(props.graph.id);
-                props.graph.isAnalyzable && (props.graph.deleteSelf)?.(props.graph.id);
+                props.graph.isAnalyzable && (props.graph.setAppStatusSet)?.({
+                    appStatus: AppStatus.__SingleGraph,
+                    graph: props.graph
+                });
             }}
             className={"graph-window " + sideEffects}
         >
