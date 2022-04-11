@@ -5,6 +5,14 @@ var spawn = require('child_process').spawn;
 // root: codebase/api
 
 router.get('/', function(req, res, next) {
+    // accolgo un array di stringhe come input
+    // lo trasformo in fasta
+    // do il fasta in input all'algoritmo
+    // converto il risultato dell'algoritmo in json
+    // invio la risposta
+
+    //var strings = req.query.strings;
+
     var wsl = spawn('wsl');
 
     wsl.stdin.setEncoding('utf8');
@@ -18,7 +26,14 @@ router.get('/', function(req, res, next) {
     wsl.stdout.on('data', data => console.log(data));
     wsl.stderr.on('data', data => console.log(data));
 
-    res.send('API is working properly');
+    wsl.on('exit', () => {
+        // convert to JSON
+        // send data back
+        console.log("done");
+
+        
+        res.send('JSON');
+    });
 });
 
 module.exports = router;

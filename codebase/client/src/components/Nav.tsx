@@ -7,8 +7,8 @@ function Nav(props: NavPropsWrapper) {
 
 	const blankGraph: GraphProps = {
 		id: state.graphs.length,
-		empty: false, 
-		deletable: false
+		isEmpty: false, 
+		isDeletable: false
 	}
 
     return(
@@ -35,7 +35,7 @@ function Nav(props: NavPropsWrapper) {
 					<div className="operation" onClick={() => {
 						let newGraphs: GraphProps[] = [];
 						state.graphs.forEach(graph => {
-							let temp = {...graph, deletable: true}
+							let temp = {...graph, isDeletable: true}
 							newGraphs.push(temp)
 						});
 						state.setGraphs(newGraphs);

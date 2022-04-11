@@ -157,3 +157,23 @@ nav {
     align-items: center;
     justify-content: center;
 }
+
+.empty-graph {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-graph .graph-title {
+    font-family: BigBlue_TerminalPlus Nerd Font; 
+    font-size: 35px;  
+    margin: 0;
+}
+
+.empty-graph .graph-subtitle {
+    font-family: VGA;
+    font-size: 22.5px;
+    text-align: center;
+}

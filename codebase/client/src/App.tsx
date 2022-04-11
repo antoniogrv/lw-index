@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import Nav from './components/Nav';
-import Graph from './components/Graph';
+import Graph from './components/Graph/Graph';
 import GraphProps from './model/GraphProps';
 import AlertProps from './model/AlertProps';
 import NavProps from './model/NavProps';
