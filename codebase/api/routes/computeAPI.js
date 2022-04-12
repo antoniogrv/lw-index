@@ -17,6 +17,8 @@ router.post('/', function (req, res, next) {
 	const strings = req.body.strings;
 	const algo = req.body.algo;
 
+	const stringNames = [];
+
 	const ENCODING = 'utf8';
 
 	console.log(
@@ -33,6 +35,7 @@ router.post('/', function (req, res, next) {
 	strings.forEach((string) => {
 		FASTA += '>' + index + '\n';
 		FASTA += string.toUpperCase() + '\n';
+		stringNames.push(string.toUpperCase());
 		++index;
 	});
 
@@ -129,12 +132,14 @@ router.post('/', function (req, res, next) {
 			rows.shift();
 			rows.pop();
 
+			var j = 0;
+
 			rows.forEach((row) => {
 				console.log('LW-Index > Conversione riga ' + row);
 
 				const splitData = row.split('\t');
 
-				let string = splitData[0];
+				let string = stringNames[j++];
 				let lw = [];
 
 				splitData.shift();

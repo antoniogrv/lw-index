@@ -21,13 +21,6 @@ function Nav(props: NavPropsWrapper) {
 		state.setGraphs(newGraphs);
 	}, [ability]);
 
-	function alert(alertText: string) {
-		state.setAlertStatus(true);
-		state.setAlertProps({
-			text: alertText,
-		});
-	}
-
 	function restore() {
 		setAbility(DefaultAbilities);
 	}
@@ -42,7 +35,7 @@ function Nav(props: NavPropsWrapper) {
 						navProps={state}
 						ability={ability}
 						setAbility={setAbility}
-						alert={alert}
+						alert={state.alert}
 						restore={restore}
 					/>
 				) : (

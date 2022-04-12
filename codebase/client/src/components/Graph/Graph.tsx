@@ -28,7 +28,7 @@ function Graph(props: GraphWrapper) {
 			className={'graph-window ' + sideEffects}
 		>
 			{props.graph.isEmpty ? (
-				<ComputedGraph {...props} />
+				<ComputedGraph graphProps={props.graph} />
 			) : (
 				<EmptyGraph {...props} />
 			)}

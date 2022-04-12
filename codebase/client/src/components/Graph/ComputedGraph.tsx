@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import {
 	LineChart,
 	Line,
@@ -6,19 +7,35 @@ import {
 	ResponsiveContainer,
 	Tooltip,
 } from 'recharts';
-import GraphWrapper from '../../model/GraphWrapper';
+import { ComputedGraphProps } from '../../model/ComputedGraphProps';
+import { GraphData } from '../../model/GraphData';
 
-function ComputedGraph(props: GraphWrapper) {
-	//const data = [{self: "CCA", compared: "GGA", lw: 1, lw2: 5}, {self: "G", compared: "DASD", lw: 5, lw2: 7}, {self: "GGGA", compared: "TFF", lw: 2.5, lw2: 9}, ];
+function ComputedGraph(props: ComputedGraphProps) {
+	const [renderedLines, setRenderedLines] = useState<React.ReactElement[]>();
+
+	useEffect(() => {
+		console.log('Updating ComputedGraph');
+
+		let index = 0;
+		let tempLines: React.ReactElement[] = [];
+
+		props.data?.forEach(() => {
+			let lw = 'lw[' + index++ + ']';
+
+			tempLines.push(
+				<Line type='monotone' dataKey={lw} stroke='#8884d8' />
+			);
+		});
+		setRenderedLines(tempLines);
+	}, [props]);
 
 	return (
 		<div className='sub-graph-window computed-graph'>
 			<div className='graph-wrapper'>
 				<ResponsiveContainer width='90%' height='90%'>
-					<LineChart>
-						<Line type='monotone' dataKey='lw' stroke='#8884d8' />
-						<Line type='monotone' dataKey='lw2' stroke='#8884d8' />
-						<XAxis dataKey='self' />
+					<LineChart data={props.data}>
+						{renderedLines}
+						<XAxis dataKey='string' />
 						<YAxis />
 						<Tooltip />
 					</LineChart>

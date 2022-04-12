@@ -36,8 +36,7 @@ function App() {
 		alertStatus: alertStatus,
 		setAlertStatus: setAlertStatus,
 
-		alertProps: alertProps,
-		setAlertProps: setAlertProps,
+		alert: alert,
 
 		appStatusSet: appStatusSet,
 		setAppStatusSet: setAppStatusSet,
@@ -59,6 +58,13 @@ function App() {
 	function deleteSelf(id: number) {
 		let temp = graphs.filter((graph) => graph.id !== id);
 		setGraphs(temp);
+	}
+
+	function alert(alertText: string) {
+		setAlertStatus(true);
+		setAlertProps({
+			text: alertText,
+		});
 	}
 
 	return (

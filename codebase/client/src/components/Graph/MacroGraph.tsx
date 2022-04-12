@@ -4,7 +4,8 @@ import ComputedGraph from './ComputedGraph';
 import StringInput from '../StringInput';
 import { FormProps } from '../../model/FormProps';
 import { COMPUTE_GRAPH_ENDPOINT } from '../../templates/Endpoints';
-import { AsyncLocalStorage } from 'async_hooks';
+import { GraphData } from '../../model/GraphData';
+import Graph from './Graph';
 
 function MacroGraph(props: MacroGraphProps) {
 	const [strings, setStrings] = useState<string[]>([]);
@@ -14,6 +15,7 @@ function MacroGraph(props: MacroGraphProps) {
 		strings: string[];
 		algo: string;
 	}>();
+	const [result, setResult] = useState<GraphData[]>();
 
 	const [updateReq, setUpdateReq] = useState<{
 		id: number;
@@ -72,15 +74,21 @@ function MacroGraph(props: MacroGraphProps) {
 	}, [forms]);
 
 	function drawGraph() {
-		setComputeRequest({
-			strings: strings,
-			algo: 'scMAW',
-		});
+		if (strings.length >= 2) {
+			setComputeRequest({
+				strings: strings,
+				algo: 'scMAW',
+			});
+		} else if (strings.length == 1) {
+			props.alert(
+				'Per computare il grafico, servono almeno due stringhe valide.'
+			);
+		} else {
+			props.alert('Inserisci delle stringhe per computare il grafico.');
+		}
 	}
 
 	useEffect(() => {
-		console.log('Computing: ' + JSON.stringify(computeRequest));
-
 		if (computeRequest?.strings.length) {
 			fetch(COMPUTE_GRAPH_ENDPOINT, {
 				method: 'POST',
@@ -90,10 +98,14 @@ function MacroGraph(props: MacroGraphProps) {
 					Accept: 'application/json',
 				}),
 			})
-				.then((res) => res.json())
-				.then((json) => console.log(json));
-		} else {
-			props.alert('Non puoi computare ');
+				.then((response) => response.json())
+				.then((result) => {
+					console.log(result);
+
+					setResult(result);
+
+					props.alert('Grafico computato con successo!');
+				});
 		}
 	}, [computeRequest]);
 
@@ -108,7 +120,7 @@ function MacroGraph(props: MacroGraphProps) {
 		<div className='graph-window macro-graph'>
 			<div className='macro-graph-title'>Grafico {props.graph.id}</div>
 
-			<ComputedGraph graph={props.graph} />
+			<ComputedGraph data={result} graphProps={props.graph} />
 
 			<div className='macro-data'>
 				<div className='macro-strings'>

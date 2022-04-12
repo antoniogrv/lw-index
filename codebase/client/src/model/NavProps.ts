@@ -10,8 +10,7 @@ export default interface NavProps {
 	alertStatus: boolean;
 	setAlertStatus: Dispatch<SetStateAction<boolean>>;
 
-	alertProps: AlertProps;
-	setAlertProps: Dispatch<SetStateAction<AlertProps>>;
+	alert: (alertText: string) => void;
 
 	appStatusSet: AppStatusSet;
 	setAppStatusSet: React.Dispatch<React.SetStateAction<AppStatusSet>>;
