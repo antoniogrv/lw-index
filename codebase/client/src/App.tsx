@@ -86,6 +86,7 @@ function App() {
 								<MacroGraph
 									setGraphs={setGraphs}
 									graph={appStatusSet.graph}
+									alert={alert}
 								/>
 							)}
 						</div>

@@ -3,11 +3,17 @@ import { MacroGraphProps } from '../../model/MacroGraphProps';
 import ComputedGraph from './ComputedGraph';
 import StringInput from '../StringInput';
 import { FormProps } from '../../model/FormProps';
+import { COMPUTE_GRAPH_ENDPOINT } from '../../templates/Endpoints';
+import { AsyncLocalStorage } from 'async_hooks';
 
 function MacroGraph(props: MacroGraphProps) {
 	const [strings, setStrings] = useState<string[]>([]);
 	const [fid, setFid] = useState(0);
 	const [forms, setForms] = useState<FormProps[]>([]);
+	const [computeRequest, setComputeRequest] = useState<{
+		strings: string[];
+		algo: string;
+	}>();
 
 	const [updateReq, setUpdateReq] = useState<{
 		id: number;
@@ -56,8 +62,6 @@ function MacroGraph(props: MacroGraphProps) {
 		let tempRenderedForms: React.ReactElement[] = [];
 		let tempStrings: string[] = [];
 
-		printForms();
-
 		forms.forEach((form) => {
 			tempRenderedForms.push(<StringInput key={form.id} {...form} />);
 			if (form.valid) tempStrings.push(form.string);
@@ -68,8 +72,30 @@ function MacroGraph(props: MacroGraphProps) {
 	}, [forms]);
 
 	function drawGraph() {
-		printForms();
+		setComputeRequest({
+			strings: strings,
+			algo: 'scMAW',
+		});
 	}
+
+	useEffect(() => {
+		console.log('Computing: ' + JSON.stringify(computeRequest));
+
+		if (computeRequest?.strings.length) {
+			fetch(COMPUTE_GRAPH_ENDPOINT, {
+				method: 'POST',
+				body: JSON.stringify(computeRequest),
+				headers: new Headers({
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+				}),
+			})
+				.then((res) => res.json())
+				.then((json) => console.log(json));
+		} else {
+			props.alert('Non puoi computare ');
+		}
+	}, [computeRequest]);
 
 	function printForms() {
 		console.log('Printing forms...');

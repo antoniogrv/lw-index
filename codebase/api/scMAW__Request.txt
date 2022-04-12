@@ -1,0 +1,6 @@
+./algo/scMAW/>1
+A
+>2
+AG
+>3
+CGGT
