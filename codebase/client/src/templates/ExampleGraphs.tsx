@@ -7,11 +7,11 @@ import { BlankGraph } from './BlankGraph';
 // 4 stringhe per ciascun grafico
 
 function generateString() {
-	let stringLength = Math.floor(Math.random() * 6); // 0 .. 5
+	let stringLength = Math.floor(Math.random() * 5) + 2; // 1 .. 7
 	let string = '';
 
 	for (let i = 0; i < stringLength; i++) {
-		let rand = Math.floor(Math.random() * 4); // 0 .. 3
+		let rand = Math.floor(Math.random() * 4); // 1 .. 3
 		let c = '';
 
 		switch (rand) {

@@ -23,7 +23,12 @@ function MacroGraph(props: MacroGraphProps) {
 		text: string;
 		valid: boolean;
 		type: string;
-	}>({ id: 0, text: '', type: '', valid: false });
+		new?: boolean;
+	}>({ id: 0, text: '', type: '', valid: false, new: false });
+
+	const [renderedForms, setRenderedForms] = useState<React.ReactElement[]>(
+		[]
+	);
 
 	const BlankForm: FormProps = {
 		id: fid,
@@ -32,9 +37,9 @@ function MacroGraph(props: MacroGraphProps) {
 		valid: false,
 	};
 
-	const [renderedForms, setRenderedForms] = useState<React.ReactElement[]>(
-		[]
-	);
+	useEffect(() => {
+		setResult(props.graph.data);
+	}, []);
 
 	useEffect(() => {
 		let temp: FormProps[] = [];
@@ -69,6 +74,9 @@ function MacroGraph(props: MacroGraphProps) {
 			tempRenderedForms.push(<StringInput key={form.id} {...form} />);
 			if (form.valid) tempStrings.push(form.string);
 		});
+
+		console.log('Updating rendered forms');
+		console.log(forms);
 
 		setRenderedForms(tempRenderedForms);
 		setStrings(tempStrings);
@@ -128,6 +136,31 @@ function MacroGraph(props: MacroGraphProps) {
 			data: result,
 		};
 
+		if (!updateReq.new) {
+			let tempForms: FormProps[] = [];
+
+			if (props.graph.data != null) {
+				let i: number = 0;
+
+				props.graph.data.forEach((graph) => {
+					console.log(0);
+
+					tempForms.push({
+						...BlankForm,
+						id: i++,
+						string: graph.string,
+						valid: true,
+						preDisabled: true,
+						preState: 'OK',
+					});
+
+					setFid(fid + 4);
+				});
+
+				setForms(tempForms);
+			}
+		}
+
 		console.log('Aggiorno il grafico ' + props.graph.id);
 		console.log(result);
 
@@ -140,10 +173,6 @@ function MacroGraph(props: MacroGraphProps) {
 			console.log('ID: ' + form.id + ' - String: ' + form.string)
 		);
 	}
-
-	useEffect(() => {
-		setResult(props.graph.data);
-	}, []);
 
 	return (
 		<div className='graph-window macro-graph'>

@@ -3,8 +3,12 @@ import { FormProps } from '../model/FormProps';
 import { DNARegex } from '../templates/DNARegex';
 
 function StringInput(props: FormProps) {
-	const [disabled, setDisabled] = useState<boolean>(false);
-	const [statusText, setStatusText] = useState<string>('?');
+	const [disabled, setDisabled] = useState<boolean>(
+		props.preDisabled === undefined ? false : props.preDisabled
+	);
+	const [statusText, setStatusText] = useState<string>(
+		props.preState === undefined ? '?' : props.preState
+	);
 	const [input, setInput] = useState<string>(
 		props.string === undefined || props.string === '' ? '' : props.string
 	);
@@ -17,6 +21,7 @@ function StringInput(props: FormProps) {
 				text: input,
 				valid: valid,
 				type: 'upd',
+				new: true,
 			});
 
 			setDisabled(true);
@@ -59,6 +64,7 @@ function StringInput(props: FormProps) {
 						text: input,
 						valid: false,
 						type: 'del',
+						new: true,
 					})
 				}
 				className='delete-button'

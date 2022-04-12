@@ -7,7 +7,10 @@ export interface FormProps {
 			text: string;
 			valid: boolean;
 			type: string;
+			new?: boolean;
 		}>
 	>;
 	valid: boolean;
+	preDisabled?: boolean;
+	preState?: string;
 }
