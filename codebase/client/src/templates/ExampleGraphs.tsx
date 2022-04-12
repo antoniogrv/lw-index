@@ -92,10 +92,6 @@ function generateGraphs() {
 			isEmpty: false,
 			id: i,
 			data: generateGraphData()[i],
-			appStatusSet: {
-				appStatus: AppStatus.__MultiGraph,
-				graph: BlankGraph,
-			},
 		};
 
 		graphs[i] = graph;

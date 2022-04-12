@@ -141,6 +141,10 @@ function MacroGraph(props: MacroGraphProps) {
 		);
 	}
 
+	useEffect(() => {
+		setResult(props.graph.data);
+	}, []);
+
 	return (
 		<div className='graph-window macro-graph'>
 			<div className='macro-graph-title'>Grafico {props.graph.id}</div>

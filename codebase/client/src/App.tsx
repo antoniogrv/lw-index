@@ -10,6 +10,7 @@ import AppStatus from './model/AppStatus';
 import MacroGraph from './components/Graph/MacroGraph';
 import { AppStatusSet } from './model/AppStatusSet';
 import { BlankGraph } from './templates/BlankGraph';
+import { DefaultAbilities } from './templates/DefaultAbilities';
 
 function App() {
 	const [appStatusSet, setAppStatusSet] = useState<AppStatusSet>({
@@ -29,6 +30,8 @@ function App() {
 	const [alertProps, setAlertProps] = useState<AlertProps>({ text: '?None' });
 	const [alertStatus, setAlertStatus] = useState<boolean>(false);
 
+	const [ability, setAbility] = useState(DefaultAbilities);
+
 	const navProps: NavProps = {
 		graphs: graphs,
 		setGraphs: setGraphs,
@@ -43,6 +46,9 @@ function App() {
 
 		gid: gid,
 		setGid: setGid,
+
+		ability: ability,
+		setAbility: setAbility,
 	};
 
 	useEffect(() => {
@@ -98,6 +104,7 @@ function App() {
 									setGraphs={setGraphs}
 									graph={appStatusSet.graph}
 									alert={alert}
+									setAbility={setAbility}
 								/>
 							)}
 						</div>

@@ -17,4 +17,12 @@ export default interface NavProps {
 
 	gid: number;
 	setGid: React.Dispatch<React.SetStateAction<number>>;
+
+	ability: { isDeletable: boolean; isAnalyzable: boolean };
+	setAbility: React.Dispatch<
+		React.SetStateAction<{
+			isDeletable: boolean;
+			isAnalyzable: boolean;
+		}>
+	>;
 }

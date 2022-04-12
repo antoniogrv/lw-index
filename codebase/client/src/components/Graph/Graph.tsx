@@ -19,6 +19,8 @@ function Graph(props: GraphWrapper) {
 					props.graph.deleteSelf?.(props.graph.id);
 
 				if (props.graph.isAnalyzable) {
+					console.log('Analyzing [' + props.graph.id + ']');
+
 					props.graph.setAppStatusSet?.({
 						appStatus: AppStatus.__SingleGraph,
 						graph: props.graph,

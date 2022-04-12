@@ -11,26 +11,32 @@ import SingleGraphOperations from './SingleGraphOperations';
 function Nav(props: NavPropsWrapper) {
 	const state: NavProps = props.navProps;
 
-	const [ability, setAbility] = useState(DefaultAbilities);
-
 	useEffect(() => {
 		let newGraphs: GraphProps[] = [];
 		state.graphs.forEach((graph) => {
-			let temp = { ...graph, ...ability };
+			let temp = { ...graph, ...state.ability };
 			newGraphs.push(temp);
 		});
 		state.setGraphs(newGraphs);
-	}, [ability]);
+	}, [state.ability]);
 
 	function restore() {
-		setAbility(DefaultAbilities);
+		state.setAbility(DefaultAbilities);
 	}
 
 	function generateExampleGraphs() {
-		let graphs = EXAMPLE_GRAPHS;
+		let tempGraphs: GraphProps[] = [];
 
-		console.log(graphs);
-		state.setGraphs(graphs);
+		EXAMPLE_GRAPHS.forEach((graph) => {
+			tempGraphs.push({
+				...graph,
+				appStatusSet: state.appStatusSet,
+				setAppStatusSet: state.setAppStatusSet,
+			});
+		});
+
+		console.log(tempGraphs);
+		state.setGraphs(tempGraphs);
 	}
 
 	return (
@@ -41,8 +47,8 @@ function Nav(props: NavPropsWrapper) {
 				{state.appStatusSet.appStatus === AppStatus.__MultiGraph ? (
 					<MultiGraphOperations
 						navProps={state}
-						ability={ability}
-						setAbility={setAbility}
+						ability={state.ability}
+						setAbility={state.setAbility}
 						alert={state.alert}
 						restore={restore}
 					/>
@@ -50,6 +56,7 @@ function Nav(props: NavPropsWrapper) {
 					<SingleGraphOperations
 						appStatusSet={state.appStatusSet}
 						setAppStatusSet={state.setAppStatusSet}
+						setAbility={state.setAbility}
 					/>
 				)}
 
@@ -88,8 +95,9 @@ function Nav(props: NavPropsWrapper) {
 				</div>
 
 				<div className='menu-footer-up'>
-					deletability: {ability.isDeletable.toString()} <br />
-					analyzability: {ability.isAnalyzable.toString()} <br />
+					deletability: {state.ability.isDeletable.toString()} <br />
+					analyzability: {state.ability.isAnalyzable.toString()}{' '}
+					<br />
 					appStatus: {state.appStatusSet.appStatus}
 				</div>
 
