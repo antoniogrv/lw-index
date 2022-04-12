@@ -5,7 +5,9 @@ export interface FormProps {
 		React.SetStateAction<{
 			id: number;
 			text: string;
+			valid: boolean;
 			type: string;
 		}>
 	>;
+	valid: boolean;
 }

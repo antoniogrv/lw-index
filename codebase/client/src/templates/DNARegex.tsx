@@ -1,1 +1,1 @@
-export const DNARegex = /[a-zA-Z]+/;
+export const DNARegex = /(?<!\S)[agct]+(?!\S)/;

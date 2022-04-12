@@ -1,24 +1,29 @@
 import { useState } from 'react';
-import { idText } from 'typescript';
 import { FormProps } from '../model/FormProps';
 import { DNARegex } from '../templates/DNARegex';
 
 function StringInput(props: FormProps) {
 	const [disabled, setDisabled] = useState<boolean>(false);
-	const [status, setStatus] = useState<string>('?');
+	const [statusText, setStatusText] = useState<string>('?');
 	const [input, setInput] = useState<string>(
 		props.string === undefined || props.string === '' ? '' : props.string
 	);
 
 	function parseStrings() {
 		if (!disabled) {
-			props.updateSelf({ id: props.id, text: input, type: 'upd' });
+			let valid: boolean = DNARegex.test(input);
+			props.updateSelf({
+				id: props.id,
+				text: input,
+				valid: valid,
+				type: 'upd',
+			});
 
 			setDisabled(true);
-			setStatus(checkInputStatus());
+			setStatusText(checkInputStatus());
 		} else {
 			setDisabled(false);
-			setStatus('?');
+			setStatusText('?');
 		}
 	}
 
@@ -44,12 +49,17 @@ function StringInput(props: FormProps) {
 					parseStrings();
 				}}
 			/>
-			<div className={status + '-input-status input-status'}>
-				<span>{status}</span>
+			<div className={statusText + '-input-status input-status'}>
+				<span>{statusText}</span>
 			</div>
 			<div
 				onClick={() =>
-					props.updateSelf({ id: props.id, text: input, type: 'del' })
+					props.updateSelf({
+						id: props.id,
+						text: input,
+						valid: false,
+						type: 'del',
+					})
 				}
 				className='delete-button'
 			>

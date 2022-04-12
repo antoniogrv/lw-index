@@ -12,13 +12,15 @@ function MacroGraph(props: MacroGraphProps) {
 	const [updateReq, setUpdateReq] = useState<{
 		id: number;
 		text: string;
+		valid: boolean;
 		type: string;
-	}>({ id: 0, text: '', type: '' });
+	}>({ id: 0, text: '', type: '', valid: false });
 
 	const BlankForm: FormProps = {
 		id: fid,
 		string: '',
 		updateSelf: setUpdateReq,
+		valid: false,
 	};
 
 	const [renderedForms, setRenderedForms] = useState<React.ReactElement[]>(
@@ -28,18 +30,25 @@ function MacroGraph(props: MacroGraphProps) {
 	useEffect(() => {
 		let temp: FormProps[] = [];
 
-		if (updateReq.type == 'del') {
-			temp = forms.filter((form) => form.id != updateReq?.id);
-		} else if (updateReq.type == 'upd') {
+		if (updateReq.type === 'del') {
+			temp = forms.filter((form) => form.id !== updateReq?.id);
+		} else if (updateReq.type === 'upd') {
 			temp = forms.map(function (form) {
 				return {
 					...BlankForm,
 					id: form.id,
 					string:
-						form.id == updateReq?.id ? updateReq.text : form.string,
+						form.id === updateReq?.id
+							? updateReq.text
+							: form.string,
+					valid:
+						form.id === updateReq?.id
+							? updateReq.valid
+							: form.valid,
 				};
 			});
 		}
+
 		setForms(temp);
 	}, [updateReq]);
 
@@ -51,11 +60,11 @@ function MacroGraph(props: MacroGraphProps) {
 
 		forms.forEach((form) => {
 			tempRenderedForms.push(<StringInput key={form.id} {...form} />);
-			tempStrings.push(form.string);
+			if (form.valid) tempStrings.push(form.string);
 		});
 
 		setRenderedForms(tempRenderedForms);
-		setStrings(strings);
+		setStrings(tempStrings);
 	}, [forms]);
 
 	function drawGraph() {
@@ -107,6 +116,7 @@ function MacroGraph(props: MacroGraphProps) {
 
 				<div className='macro-compute'>
 					<div className='macro-block-title'>Elaborazione</div>
+					{strings.join(', ')}
 				</div>
 			</div>
 		</div>
