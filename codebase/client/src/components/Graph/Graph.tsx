@@ -27,8 +27,11 @@ function Graph(props: GraphWrapper) {
 			}}
 			className={'graph-window ' + sideEffects}
 		>
-			{props.graph.isEmpty ? (
-				<ComputedGraph graphProps={props.graph} />
+			{!props.graph.isEmpty ? (
+				<ComputedGraph
+					data={props.graph.data}
+					graphProps={props.graph}
+				/>
 			) : (
 				<EmptyGraph {...props} />
 			)}

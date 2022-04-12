@@ -16,5 +16,5 @@ export default interface GraphProps {
 
 	strings: string[];
 
-	data?: GraphData;
+	data?: GraphData[];
 }

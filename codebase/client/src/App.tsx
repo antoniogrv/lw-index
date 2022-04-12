@@ -52,7 +52,11 @@ function App() {
 			let deletableGraph = { ...graph, deleteSelf: deleteSelf };
 			tempGraphs.push(<Graph key={graph.id} graph={deletableGraph} />);
 		});
+
 		setRenderedGraphs(tempGraphs);
+
+		console.log('Aggiornamento grafici in __MultiGraph View');
+		console.log(graphs);
 	}, [graphs]);
 
 	function deleteSelf(id: number) {
@@ -90,6 +94,7 @@ function App() {
 								renderedGraphs
 							) : (
 								<MacroGraph
+									graphs={graphs}
 									setGraphs={setGraphs}
 									graph={appStatusSet.graph}
 									alert={alert}

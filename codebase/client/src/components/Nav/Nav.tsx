@@ -4,6 +4,7 @@ import GraphProps from '../../model/GraphProps';
 import NavProps from '../../model/NavProps';
 import NavPropsWrapper from '../../model/NavPropsWrapper';
 import { DefaultAbilities } from '../../templates/DefaultAbilities';
+import { EXAMPLE_GRAPHS } from '../../templates/ExampleGraphs';
 import MultiGraphOperations from './MultiGraphOperations';
 import SingleGraphOperations from './SingleGraphOperations';
 
@@ -23,6 +24,13 @@ function Nav(props: NavPropsWrapper) {
 
 	function restore() {
 		setAbility(DefaultAbilities);
+	}
+
+	function generateExampleGraphs() {
+		let graphs = EXAMPLE_GRAPHS;
+
+		console.log(graphs);
+		state.setGraphs(graphs);
 	}
 
 	return (
@@ -73,7 +81,10 @@ function Nav(props: NavPropsWrapper) {
 					&gt; <span>Codebase Repository</span>
 				</div>
 				<div className='operation'>
-					&gt; <span>Genera esemplificazioni</span>
+					&gt;{' '}
+					<span onClick={() => generateExampleGraphs()}>
+						Genera esemplificazioni
+					</span>
 				</div>
 
 				<div className='menu-footer-up'>

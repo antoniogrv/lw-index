@@ -4,7 +4,7 @@ import GraphProps from '../model/GraphProps';
 export const BlankGraph: GraphProps = {
 	id: -1,
 
-	isEmpty: false,
+	isEmpty: true,
 	isDeletable: false,
 	isAnalyzable: false,
 

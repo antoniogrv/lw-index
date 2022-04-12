@@ -222,6 +222,14 @@ nav {
 	height: 500px;
 }
 
+.multi-computed-graph {
+	height: auto !important;
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+}
+
 .computed-graph {
 	margin-left: -40px;
 }

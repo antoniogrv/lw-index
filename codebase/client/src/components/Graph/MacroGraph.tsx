@@ -6,6 +6,7 @@ import { FormProps } from '../../model/FormProps';
 import { COMPUTE_GRAPH_ENDPOINT } from '../../templates/Endpoints';
 import { GraphData } from '../../model/GraphData';
 import Graph from './Graph';
+import { BlankGraph } from '../../templates/BlankGraph';
 
 function MacroGraph(props: MacroGraphProps) {
 	const [strings, setStrings] = useState<string[]>([]);
@@ -100,14 +101,38 @@ function MacroGraph(props: MacroGraphProps) {
 			})
 				.then((response) => response.json())
 				.then((result) => {
-					console.log(result);
-
 					setResult(result);
-
 					props.alert('Grafico computato con successo!');
 				});
 		}
 	}, [computeRequest]);
+
+	useEffect(() => {
+		let tempGraphs = props.graphs
+			.filter((graph) => graph.id !== props.graph.id)
+			.map((graph) => {
+				return {
+					...graph,
+					isDeletable: false,
+					isAnalyzable: false,
+				};
+			});
+
+		let thisGraph = {
+			...props.graph,
+
+			isDeletable: false,
+			isAnalyzable: false,
+			isEmpty: false,
+
+			data: result,
+		};
+
+		console.log('Aggiorno il grafico ' + props.graph.id);
+		console.log(result);
+
+		props.setGraphs([thisGraph, ...tempGraphs]);
+	}, [result]);
 
 	function printForms() {
 		console.log('Printing forms...');
