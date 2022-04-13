@@ -47,6 +47,7 @@ function MacroGraph(props: MacroGraphProps) {
 
 	useEffect(() => {
 		setResult(props.graph.data);
+		setQualityGraphProps(props.qualityGraphProps);
 		props.qualityGraphProps &&
 			setQualityGraphProps(props.qualityGraphProps);
 	}, []);
@@ -147,6 +148,7 @@ function MacroGraph(props: MacroGraphProps) {
 			console.log(tempQualityGraphPropsData);
 
 			setQualityGraphProps({ data: tempQualityGraphPropsData });
+			props.setQualityGraphProps(qualityGraphProps);
 		}
 	}, [quality]);
 
@@ -161,9 +163,9 @@ function MacroGraph(props: MacroGraphProps) {
 				};
 			});
 
-		let isEmpty = !strings.length ? true : false;
+		let isEmpty = result !== undefined ? false : true;
 
-		console.log(isEmpty);
+		console.log(strings);
 
 		let thisGraph = {
 			...props.graph,
