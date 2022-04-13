@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import AppStatus from '../../model/AppStatus';
 import GraphProps from '../../model/GraphProps';
 import NavProps from '../../model/NavProps';
@@ -64,16 +64,36 @@ function Nav(props: NavPropsWrapper) {
 
 				<div className='menu-title'>Algoritmo</div>
 
+				<div className='operation nav-algo'>
+					<h1>ALGORITMO SELEZIONATO</h1>
+					<h2>{state.selectedAlgo.name}</h2>
+				</div>
+
 				{/* Algoritmo > Informazioni Algoritmo */}
 
 				<div className='operation'>
-					&gt; <span>Informazioni algoritmo</span>
+					&gt;{' '}
+					<span
+						onClick={() => {
+							if (state.selectedAlgo.info !== undefined)
+								state.alert(state.selectedAlgo.info);
+						}}
+					>
+						Informazioni algoritmo
+					</span>
 				</div>
 
 				{/* Algoritmo > Seleziona Algoritmo */}
 
 				<div className='operation'>
-					&gt; <span>Seleziona algoritmo</span>
+					&gt;{' '}
+					<span
+						onClick={() => {
+							state.alert('test', true);
+						}}
+					>
+						Seleziona algoritmo
+					</span>
 				</div>
 
 				<br />
@@ -82,17 +102,25 @@ function Nav(props: NavPropsWrapper) {
 
 				<div className='menu-title'>Debug</div>
 				<div className='operation'>
-					&gt; <span>Download --MAW_Sources</span>
-				</div>
-				<div className='operation'>
-					&gt; <span>Codebase Repository</span>
-				</div>
-				<div className='operation'>
 					&gt;{' '}
-					<span onClick={() => generateExampleGraphs()}>
-						Genera esemplificazioni
+					<span>
+						<a
+							href='https://github.com/v1enna/lw-index'
+							target='_blank'
+						>
+							Codebase Repository
+						</a>
 					</span>
 				</div>
+
+				{state.appStatusSet.appStatus === AppStatus.__MultiGraph && (
+					<div className='operation'>
+						&gt;{' '}
+						<span onClick={() => generateExampleGraphs()}>
+							Genera esemplificazioni
+						</span>
+					</div>
+				)}
 
 				<div className='menu-footer-up'>
 					deletability: {state.ability.isDeletable.toString()} <br />
@@ -102,9 +130,9 @@ function Nav(props: NavPropsWrapper) {
 				</div>
 
 				<div className='menu-footer-down'>
-					MAW-LW-Index
+					LW Index Tool
 					<br />
-					LW Index di Crochemore
+					Metrica LW di Crochemore
 				</div>
 			</div>
 		</nav>

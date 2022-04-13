@@ -11,6 +11,9 @@ import MacroGraph from './components/Graph/MacroGraph';
 import { AppStatusSet } from './model/AppStatusSet';
 import { BlankGraph } from './templates/BlankGraph';
 import { DefaultAbilities } from './templates/DefaultAbilities';
+import ALGOS from './templates/Algos';
+import { Algo } from './model/Algo';
+import { QualityGraphProps } from './model/QualityGraphProps';
 
 function App() {
 	const [appStatusSet, setAppStatusSet] = useState<AppStatusSet>({
@@ -32,6 +35,11 @@ function App() {
 
 	const [ability, setAbility] = useState(DefaultAbilities);
 
+	const [selectedAlgo, setSelectedAlgo] = useState<Algo>(ALGOS[0]);
+
+	const [qualityGraphProps, setQualityGraphProps] =
+		useState<QualityGraphProps>({ data: [] });
+
 	const navProps: NavProps = {
 		graphs: graphs,
 		setGraphs: setGraphs,
@@ -49,6 +57,9 @@ function App() {
 
 		ability: ability,
 		setAbility: setAbility,
+
+		selectedAlgo: selectedAlgo,
+		setSelectedAlgo: setSelectedAlgo,
 	};
 
 	useEffect(() => {
@@ -70,11 +81,23 @@ function App() {
 		setGraphs(temp);
 	}
 
-	function alert(alertText: string) {
+	function alert(alertText: string, select?: boolean) {
 		setAlertStatus(true);
-		setAlertProps({
-			text: alertText,
-		});
+
+		if (select === undefined)
+			setAlertProps({
+				text: alertText,
+			});
+		else
+			setAlertProps({
+				text: "Selezione dell'algoritmo",
+				select: true,
+				selectorProps: {
+					selectedAlgo: selectedAlgo,
+					setSelectedAlgo: setSelectedAlgo,
+					setAlertStatus: setAlertStatus,
+				},
+			});
 	}
 
 	return (
@@ -105,6 +128,8 @@ function App() {
 									graph={appStatusSet.graph}
 									alert={alert}
 									setAbility={setAbility}
+									qualityGraphProps={qualityGraphProps}
+									setQualityGraphProps={setQualityGraphProps}
 								/>
 							)}
 						</div>

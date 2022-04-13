@@ -88,7 +88,19 @@ router.post('/', function (req, res, next) {
 		Ottieni i risultati di esecuzione dello script
 	*/
 
-	wsl.stderr.on('data', (data) => console.log(data));
+	let time = 0;
+
+	wsl.stderr.on('data', (data) => {
+		//console.log(data);
+
+		let text = data.split(' ');
+		let elapsed = text[text.length - 2];
+		if (!isNaN(elapsed)) time = elapsed;
+	});
+
+	wsl.stdout.on('data', (data) => {
+		//console.log(data);
+	});
 
 	wsl.on('exit', () => {
 		console.log('LW-Index > Esecuzione di ' + algo + ' terminata');
@@ -152,10 +164,17 @@ router.post('/', function (req, res, next) {
 				});
 			});
 
+			const responseData = {
+				quality: {
+					time: time,
+				},
+				graphData: result,
+			};
+
 			/* Spedisco la risposta al client */
 
-			console.log(result);
-			res.json(result);
+			console.log(responseData);
+			res.json(responseData);
 		});
 	});
 });

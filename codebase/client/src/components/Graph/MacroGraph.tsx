@@ -5,8 +5,10 @@ import StringInput from '../StringInput';
 import { FormProps } from '../../model/FormProps';
 import { COMPUTE_GRAPH_ENDPOINT } from '../../templates/Endpoints';
 import { GraphData } from '../../model/GraphData';
-import Graph from './Graph';
-import { BlankGraph } from '../../templates/BlankGraph';
+import { SyncLoader } from 'react-spinners';
+import { Quality } from '../../model/Quality';
+import QualityGraph from './QualityGraph';
+import { QualityGraphProps } from '../../model/QualityGraphProps';
 
 function MacroGraph(props: MacroGraphProps) {
 	const [strings, setStrings] = useState<string[]>([]);
@@ -17,6 +19,7 @@ function MacroGraph(props: MacroGraphProps) {
 		algo: string;
 	}>();
 	const [result, setResult] = useState<GraphData[]>();
+	const [quality, setQuality] = useState<Quality>();
 
 	const [updateReq, setUpdateReq] = useState<{
 		id: number;
@@ -30,6 +33,11 @@ function MacroGraph(props: MacroGraphProps) {
 		[]
 	);
 
+	const [qualityGraphProps, setQualityGraphProps] =
+		useState<QualityGraphProps>({ data: [] });
+
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+
 	const BlankForm: FormProps = {
 		id: fid,
 		string: '',
@@ -39,6 +47,8 @@ function MacroGraph(props: MacroGraphProps) {
 
 	useEffect(() => {
 		setResult(props.graph.data);
+		props.qualityGraphProps &&
+			setQualityGraphProps(props.qualityGraphProps);
 	}, []);
 
 	useEffect(() => {
@@ -84,6 +94,8 @@ function MacroGraph(props: MacroGraphProps) {
 
 	function drawGraph() {
 		if (strings.length >= 2) {
+			setIsLoading(true);
+
 			setComputeRequest({
 				strings: strings,
 				algo: 'scMAW',
@@ -107,13 +119,36 @@ function MacroGraph(props: MacroGraphProps) {
 					Accept: 'application/json',
 				}),
 			})
-				.then((response) => response.json())
-				.then((result) => {
-					setResult(result);
-					props.alert('Grafico computato con successo!');
+				.then((responsePlain) => responsePlain.json())
+				.then((responseJSON) => {
+					setResult(responseJSON.graphData);
+					setQuality(responseJSON.quality);
+
+					/*setTimeout(
+						() => props.alert('Grafico computato con successo!'),
+						1000
+					);*/
+
+					setIsLoading(false);
 				});
 		}
 	}, [computeRequest]);
+
+	useEffect(() => {
+		if (quality !== undefined) {
+			let tempQualityGraphPropsData: Quality[] = [];
+
+			tempQualityGraphPropsData.push(...qualityGraphProps.data, {
+				...quality,
+				algo: props.graph.algo,
+			});
+
+			console.log('New Quality');
+			console.log(tempQualityGraphPropsData);
+
+			setQualityGraphProps({ data: tempQualityGraphPropsData });
+		}
+	}, [quality]);
 
 	useEffect(() => {
 		let tempGraphs = props.graphs
@@ -126,12 +161,16 @@ function MacroGraph(props: MacroGraphProps) {
 				};
 			});
 
+		let isEmpty = !strings.length ? true : false;
+
+		console.log(isEmpty);
+
 		let thisGraph = {
 			...props.graph,
 
 			isDeletable: false,
 			isAnalyzable: false,
-			isEmpty: false,
+			isEmpty: isEmpty,
 
 			data: result,
 		};
@@ -161,9 +200,6 @@ function MacroGraph(props: MacroGraphProps) {
 			}
 		}
 
-		console.log('Aggiorno il grafico ' + props.graph.id);
-		console.log(result);
-
 		props.setGraphs([thisGraph, ...tempGraphs]);
 	}, [result]);
 
@@ -176,43 +212,63 @@ function MacroGraph(props: MacroGraphProps) {
 
 	return (
 		<div className='graph-window macro-graph'>
-			<div className='macro-graph-title'>Grafico {props.graph.id}</div>
-
-			<ComputedGraph data={result} graphProps={props.graph} />
-
-			<div className='macro-data'>
-				<div className='macro-strings'>
-					<div className='macro-block-title'>Stringhe</div>
-					{renderedForms}
-					<div className='macro-buttons'>
-						<div
-							className='macro-button macro-button-compute'
-							onClick={() => drawGraph()}
-						>
-							Computa
-						</div>
-						<div
-							className='macro-button'
-							onClick={() => {
-								setFid(fid + 1);
-								setForms([
-									...forms,
-									{
-										...BlankForm,
-										id: fid,
-										string: fid.toString(),
-									},
-								]);
-							}}
-						>
-							Inserisci
-						</div>
-					</div>
+			{isLoading && (
+				<div className='macro-loading'>
+					<SyncLoader />
+				</div>
+			)}
+			<div className={isLoading ? 'loading' : ''}>
+				<div className='macro-graph-title'>
+					Grafico {props.graph.id}
 				</div>
 
-				<div className='macro-compute'>
-					<div className='macro-block-title'>Elaborazione</div>
-					{strings.join(', ')}
+				<ComputedGraph data={result} graphProps={props.graph} />
+
+				<div className='macro-data'>
+					<div className='macro-strings'>
+						<div className='macro-block-title'>Stringhe</div>
+						{renderedForms}
+						<div className='macro-buttons'>
+							<div
+								className='macro-button macro-button-compute'
+								onClick={() => drawGraph()}
+							>
+								Computa
+							</div>
+							<div
+								className='macro-button'
+								onClick={() => {
+									setFid(fid + 1);
+									setForms([
+										...forms,
+										{
+											...BlankForm,
+											id: fid,
+											string: fid.toString(),
+										},
+									]);
+								}}
+							>
+								Inserisci
+							</div>
+						</div>
+					</div>
+
+					<div className='macro-compute'>
+						<div className='macro-block-title'>Elaborazione</div>
+						<div className='macro-algo-title'>
+							{props.graph.algo.name}
+						</div>
+						<div className='macro-strings-list'>
+							S=&#123;{strings.join(', ')}&#125;
+						</div>
+						<hr />
+						<div className='quality'>
+							Tempo di computazione:{' '}
+							<span>{quality && quality.time}s</span>
+						</div>
+						<QualityGraph data={qualityGraphProps?.data} />
+					</div>
 				</div>
 			</div>
 		</div>

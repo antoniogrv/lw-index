@@ -9,7 +9,6 @@ import {
 } from 'recharts';
 import AppStatus from '../../model/AppStatus';
 import { ComputedGraphProps } from '../../model/ComputedGraphProps';
-import { GraphData } from '../../model/GraphData';
 
 function ComputedGraph(props: ComputedGraphProps) {
 	const [renderedLines, setRenderedLines] = useState<React.ReactElement[]>();

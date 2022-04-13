@@ -22,6 +22,8 @@ function MultiGraphOperations(props: MultiGraphOperationsProps) {
 
 									appStatusSet: state.appStatusSet,
 									setAppStatusSet: state.setAppStatusSet,
+
+									algo: state.selectedAlgo,
 								},
 							]);
 							props.navProps.setGid(++props.navProps.gid);

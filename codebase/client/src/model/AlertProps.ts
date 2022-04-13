@@ -1,5 +1,7 @@
-import React from 'react';
+import { AlgoSelectorProps } from './AlgoSelectorProps';
 
 export default interface AlertProps {
-    text: string
+	text: string;
+	select?: boolean;
+	selectorProps?: AlgoSelectorProps;
 }

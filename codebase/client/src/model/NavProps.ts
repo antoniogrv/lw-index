@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import AlertProps from './AlertProps';
+import { Algo } from './Algo';
 import { AppStatusSet } from './AppStatusSet';
 import GraphProps from './GraphProps';
 
@@ -10,7 +11,7 @@ export default interface NavProps {
 	alertStatus: boolean;
 	setAlertStatus: Dispatch<SetStateAction<boolean>>;
 
-	alert: (alertText: string) => void;
+	alert: (alertText: string, select?: boolean) => void;
 
 	appStatusSet: AppStatusSet;
 	setAppStatusSet: React.Dispatch<React.SetStateAction<AppStatusSet>>;
@@ -25,4 +26,7 @@ export default interface NavProps {
 			isAnalyzable: boolean;
 		}>
 	>;
+
+	selectedAlgo: Algo;
+	setSelectedAlgo: React.Dispatch<React.SetStateAction<Algo>>;
 }

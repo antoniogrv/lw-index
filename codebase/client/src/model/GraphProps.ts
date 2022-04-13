@@ -1,4 +1,5 @@
 import React from 'react';
+import { Algo } from './Algo';
 import { AppStatusSet } from './AppStatusSet';
 import { GraphData } from './GraphData';
 
@@ -17,4 +18,6 @@ export default interface GraphProps {
 	strings: string[];
 
 	data?: GraphData[];
+
+	algo: Algo;
 }

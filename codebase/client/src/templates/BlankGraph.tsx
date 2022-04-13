@@ -1,5 +1,5 @@
-import AppStatus from '../model/AppStatus';
 import GraphProps from '../model/GraphProps';
+import ALGOS from './Algos';
 
 export const BlankGraph: GraphProps = {
 	id: -1,
@@ -9,4 +9,6 @@ export const BlankGraph: GraphProps = {
 	isAnalyzable: false,
 
 	strings: [],
+
+	algo: ALGOS[0],
 };
