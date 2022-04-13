@@ -16,11 +16,6 @@ import { Algo } from './model/Algo';
 import { QualityGraphProps } from './model/QualityGraphProps';
 
 function App() {
-	const [appStatusSet, setAppStatusSet] = useState<AppStatusSet>({
-		appStatus: AppStatus.__MultiGraph,
-		graph: BlankGraph,
-	});
-
 	const [graphs, setGraphs] = useState<GraphProps[]>([]);
 
 	/* __MultiGraph Views */
@@ -36,6 +31,14 @@ function App() {
 	const [ability, setAbility] = useState(DefaultAbilities);
 
 	const [selectedAlgo, setSelectedAlgo] = useState<Algo>(ALGOS[0]);
+
+	const [appStatusSet, setAppStatusSet] = useState<AppStatusSet>({
+		appStatus: AppStatus.__MultiGraph,
+		graph: {
+			...BlankGraph,
+			algo: selectedAlgo,
+		},
+	});
 
 	const [qualityGraphProps, setQualityGraphProps] =
 		useState<QualityGraphProps>({ data: [] });
@@ -126,6 +129,7 @@ function App() {
 									graphs={graphs}
 									setGraphs={setGraphs}
 									graph={appStatusSet.graph}
+									selectedAlgo={selectedAlgo}
 									alert={alert}
 									setAbility={setAbility}
 									qualityGraphProps={qualityGraphProps}

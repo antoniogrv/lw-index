@@ -12,7 +12,10 @@ function SingleGraphOperations(props: SingleGraphOperationsProps) {
 					onClick={() => {
 						props.setAppStatusSet({
 							appStatus: AppStatus.__MultiGraph,
-							graph: BlankGraph,
+							graph: {
+								...BlankGraph,
+								algo: props.appStatusSet.graph.algo,
+							},
 						});
 
 						props.setAbility(DefaultAbilities);

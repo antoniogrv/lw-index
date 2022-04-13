@@ -9,7 +9,7 @@ const ALGOS: Algo[] = [
 	{
 		name: 'Test Algo',
 		info: 'Informazioni Test Algo',
-		abbrt: 'test',
+		abbr: 'test',
 	},
 ];
 

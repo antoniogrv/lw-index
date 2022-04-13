@@ -9,6 +9,7 @@ import { SyncLoader } from 'react-spinners';
 import { Quality } from '../../model/Quality';
 import QualityGraph from './QualityGraph';
 import { QualityGraphProps } from '../../model/QualityGraphProps';
+import ALGOS from '../../templates/Algos';
 
 function MacroGraph(props: MacroGraphProps) {
 	const [strings, setStrings] = useState<string[]>([]);
@@ -141,16 +142,19 @@ function MacroGraph(props: MacroGraphProps) {
 
 			tempQualityGraphPropsData.push(...qualityGraphProps.data, {
 				...quality,
-				algo: props.graph.algo,
+				algo: props.selectedAlgo,
 			});
 
 			console.log('New Quality');
 			console.log(tempQualityGraphPropsData);
 
 			setQualityGraphProps({ data: tempQualityGraphPropsData });
-			props.setQualityGraphProps(qualityGraphProps);
 		}
 	}, [quality]);
+
+	useEffect(() => {
+		props.setQualityGraphProps(qualityGraphProps);
+	}, [qualityGraphProps]);
 
 	useEffect(() => {
 		let tempGraphs = props.graphs
@@ -267,7 +271,7 @@ function MacroGraph(props: MacroGraphProps) {
 						<hr />
 						<div className='quality'>
 							Tempo di computazione:{' '}
-							<span>{quality && quality.time}s</span>
+							<span>{quality ? quality.time : 0}s</span>
 						</div>
 						<QualityGraph data={qualityGraphProps?.data} />
 					</div>

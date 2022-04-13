@@ -1,3 +1,4 @@
+import { Algo } from './Algo';
 import GraphProps from './GraphProps';
 import { QualityGraphProps } from './QualityGraphProps';
 
@@ -19,4 +20,6 @@ export interface MacroGraphProps {
 	setQualityGraphProps: React.Dispatch<
 		React.SetStateAction<QualityGraphProps>
 	>;
+
+	selectedAlgo: Algo;
 }
