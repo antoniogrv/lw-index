@@ -1,73 +1,132 @@
-\documentclass{article}
+\documentclass[11pt,oneside,a4paper]{book}
+
+\usepackage[italian,english]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage[a4paper, total={6in, 8in}]{geometry}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\renewcommand{\baselinestretch}{1.75}
-\renewcommand{\contentsname}{Indice}
-\usepackage{xcolor}
-\usepackage[fontsize=12pt]{fontsize}
-\usepackage{changepage}
-\usepackage{lipsum}
+\usepackage{calligra}
+\usepackage[T1]{fontenc}
+\usepackage{upquote}
 \usepackage{setspace}
+\onehalfspacing
+
+\usepackage{amsmath}
+
+\usepackage[top=3cm, bottom=2.5cm, right=2.75cm, left=2.75cm]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
 \usepackage{multicol}
-\usepackage[explicit]{titlesec}
-\thispagestyle{empty}
+
+\usepackage{minted}
+\usepackage[usenames,x11names]{xcolor}
+
+
+
+
+\usepackage{csquotes}
+
+\usepackage{hyperref}
+\usepackage[sorting=none]{biblatex}
+\addbibresource{bibliografia.bib}
 
 \begin{document}
+\selectlanguage{italian}
 
-    \begin{center}
-    
-        \includegraphics[scale=0.2]{assets/logo_standard.png}
-    
-        \vspace{2mm}
-    
-        \textsc{\huge Università degli Studi di Salerno}
-        
-        \vspace{5mm}
-        
-        {\fontsize{20pt}{30} \selectfont Dipartimento di Informatica}
-        
-        {\fontsize{20pt}{30} \selectfont Corso di Laurea Triennale in Informatica}
-        
-        \vspace{10mm}
-        
-        \textsc{\Large Tesi di Laurea}
-        
-        \vspace{10mm}
-        
-        \textbf{\fontsize{20pt}{30} \selectfont Il ruolo dell'informazione negativa nei confronti alignment-free fra stringhe: integrazione di un algoritmo di Minimal Absent Words nel tool SMART}
-        
-    \end{center}
-    
-        \vspace{10mm}
-    
-        {\large \setstretch{1.5}
-            \begin{multicols}{2}
-                \begin{adjustwidth}{0pt}{0pt}\textsc{Relatrice}\end{adjustwidth}
-                Prof.ssa \textbf{Rosalba Zizza}\\
-                Università degli Studi di Salerno
-                
-                \columnbreak
-                
-                \hspace*{\fill}\textsc{Candidato}\\
-                \hspace*{\fill}\textbf{Antonio Gravino}\\
-                \hspace*{\fill}Matricola: 05121 07161
-            \end{multicols}
-        }
-        
-        \begin{center}
-            \vspace*{\fill}Anno Accademico 2021-2022
-        \end{center}
-        
-        \break
-        
-        \include{contents/abstract}
-        
-        \vspace{-15mm}
-        
-        \tableofcontents
+\title{Sviluppo di un tool per lacomparazione qualitativa di algoritmidi confronto fra stringhe basati sulle Minimal Absent Words}
+\author{Antonio Gravino}
 
-        \include{contents/chapters/intr}
+
+\begin{titlepage}
+\begin{center}
+
+\includegraphics[width=3cm]{Figure/logo_standard.png}\\
+\hfill\\
+\begin{spacing}{2.0}
+{\LARGE Università degli Studi di Salerno}\\
+{\Large Dipartimento di Informatica}\\
+\end{spacing}
+\hrulefill\\
+\vfill
+{\Large Corso di Laurea Triennale in Informatica }\\
+\vfill\vfill
+%{\large Tesi di Laurea in }\\[0.2truecm]
+%{\Large Informatica}\\
+
+\begin{spacing}{2.5}
+\textbf{\Huge Sviluppo di un tool per la comparazione qualitativa di algoritmi di confronto fra stringhe basati sulle Minimal Absent Words}\\
+\end{spacing}
+\vfill\vfill
+
+\begin{multicols}{2}
+\begin{flushleft}
+{\bf Relatrice}\\
+Prof.ssa Rosalba Zizza\\
+\end{flushleft}
+\columnbreak
+\begin{flushright}
+{\bf Candidato}\\
+Antonio Gravino\\
+Matricola: 05121 07161\\
+\end{flushright}
+\end{multicols}
+
+\vfill
+\hrulefill 
+
+Anno Accademico 2021/2022
+
+\end{center}
+\end{titlepage}
+
+\newpage
+\thispagestyle{empty}
+\begin{flushright}
+\null\vspace{\stretch{1}}
+{\calligra{}}
+\vspace{\stretch{2}}\null
+\end{flushright}
+
+
+\newpage
+\chapter*{}
+\thispagestyle{empty}
+\input{Appendici/ringraziamenti}
+
+\newpage
+\thispagestyle{empty}
+\begin{flushright}
+\null\vspace{\stretch{1}}
+{\calligra{}}
+\vspace{\stretch{2}}\null
+\end{flushright}
+
+\newpage
+\tableofcontents
+\thispagestyle{empty}
+
+\newpage
+\fontsize{14}{21}\selectfont
+\setcounter{page}{1}
+\addcontentsline{toc}{chapter}{Abstract}
+\chapter*{Abstract}
+    \input{abstract}
+    
+\chapter{Introduzione}
+    \input{Capitolo 1/introduzione}
+
+\chapter{Cenni teorici e nozionistici}
+    \input{Capitolo 2/nozionistica}
+
+\chapter{Analisi dell'algoritmo scMAW}
+    \input{Capitolo 3/scMAW}
+
+\chapter{Analisi del tool SMART}
+    \input{Capitolo 4/SMART}
+
+\chapter{Realizzazione del tool LW Index}
+    \input{Capitolo 5/lwIndex}
+    
+\chapter{Conclusioni e possibili sviluppi futuri}
+    \input{Capitolo 6/conclusioni}
+
+\printbibliography
 
 \end{document}
