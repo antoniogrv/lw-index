@@ -1,5 +1,6 @@
 \documentclass[11pt,oneside,a4paper]{book}
 
+\usepackage{booktabs}
 \usepackage[italian,english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{calligra}
@@ -7,7 +8,15 @@
 \usepackage{upquote}
 \usepackage{minted}
 \usepackage{setspace}
+\usepackage{listings}
+\usepackage[most]{tcolorbox}
+\usepackage{inconsolata}
 \onehalfspacing
+
+\newtcblisting[auto counter]{sexylisting}[2][]{sharp corners, 
+    fonttitle=\bfseries, colframe=gray, listing only, 
+    listing options={basicstyle=\ttfamily,language=java}, 
+    title=\thetcbcounter: #2, #1}
 
 \usepackage{amsmath}
 
@@ -17,9 +26,13 @@
 \usepackage{multicol}
 
 \usepackage{minted}
-\usepackage[usenames,x11names]{xcolor}
 
+\setlength{\fboxsep}{0.005pt}
+\newcommand{\tmpframe}[1]{\fbox{#1}}
+%\renewcommand{\tmpframe}[1]{#1}
 
+\usepackage{float}
+\restylefloat{table}
 
 
 \usepackage{csquotes}

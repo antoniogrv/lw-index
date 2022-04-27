@@ -101,4 +101,311 @@ L'obiettivo è dunque di creare un tool che riesca ad accogliere algoritmi basat
         
 \section{Implementazione del tool}
 
+\subsection{Backend e Webserver}
+    
+La macrocartella \verb|/api|, come accennato nel paragrafo 5.1.2 e 5.1.4, conterrà l'implementazione del backend dell'applicativo, incluse le routine logiche necessarie al webserver per accogliere, processare e modellare le richieste in arrivo dal webclient in modo corretto.
+    
+Una volta installato Express seguendo le istruzioni presente sul sito del framework, un vasto numero di file si autogenererà nella cartella in cui si è lanciato il comando d'installazione. Di questi file, sarà sufficiente modificare esclusivamente \verb|app.js| e \verb|routes/computeAPI.js|. Si noti che quest'ultimo file dev'essere creato manualmente. 
+
+\subsubsection{Backbone: App.js}
+
+Il file \verb|app.js| avrà la seguente struttura:
+
+\begin{itemize}
+  \item In cima, una serie di require() per imporre l'utilizzo di specifiche dipendenze di routing, parsing e pathing, oltre che di gestione di errori.
+  \item Immediatamente dopo il listing delle dipendenze, comandare l'utilizzo di Express tramite \verb|app = express()|
+  \item Successivamente, indicare le routes (punti di contatto delle API) da rendere disponibili all'esterno, e in particolare al webclient, tramite \verb|app.use('/api/computeAPI')|. 
+  \item Infine, stabilire le modalità di gestione degli errori HTTP più comuni, come il 404.
+  \item Come ultimo passaggio, esportare il nucleo del backend come modulo tramite \verb|module.exports = app|.
+\end{itemize}
+    
+\begin{sexylisting}{app.js}
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cors = require('cors');
+var bodyParser = require('body-parser');
+
+[..]
+
+var computeRouter = require('./routes/computeAPI');
+
+var app = express();
+
+[..]
+
+app.use('/api/computeAPI', computeRouter);
+app.use(function (req, res, next) {
+	next(createError(404));
+});
+
+[..]
+
+module.exports = app;
+\end{sexylisting}
+
+Per quanto sia possibile arricchire ulteriormente \verb|app.js|, non risulta necessario nel nostro caso. Infatti, questo file - che rappresenta il backbone, o spina dorsale, del backend - ha semplicemente due funzioni:
+
+\begin{itemize}
+    \item Segnalare casi di errore, ed eventualmente ridirezionare la richiesta
+    \item Accogliere la richiesta di computazione del confronto, di conseguenza accedere ed invocare la route \verb|/api/computeAPI|. Quando il client spedirà una richiesta verso \verb|/computeAPI|, il server sarà in grado di applicare un'interfaccia logica fra l'API \verb|/computeAPI| e il contenuto del file \verb|routes/computeAPI.js|. In effetti, il contenuto di quest'ultimo file è il cuore del backend, e ha il compito di gestire le richieste in entrare e restituire dei dati come risposta.
+\end{itemize}
+
+\subsubsection{Router: ComputeAPI.js}
+
+Il webclient, al momento della spedizione di una nuova richiesta computativa, dovrà inserire come endpoint della richiesta la route \verb|/computeAPI|, indicando l'indirizzo di rete del webserver come origine. L'unica richiesta che questa route è in grado di accogliere è di tipo \textit{POST}. 
+
+Inoltre, la route ammette esclusivamente richieste sicure, che rispettino il protocollo CORS e che prevedano JSON come formato comune di elaborazione.
+
+\begin{sexylisting}{computeAPI.js > Header}
+router.post('/', function (req, res, next) \{
+	res.set({
+		'Content-Type': 'application/json',
+		'Access-Control-Allow-Origin': '*',
+	});
+	
+    [..]
+\}
+\end{sexylisting}
+
+A basso livello, l'obiettivo del webserver è generare un file FASTA a partire da un insieme di stringhe in input; successivamente, il webserver dovrà fornire il file FASTA appena creato in pasto all'algoritmo selezionato. A questo punto, il webserver dovrà attendere l'esecuzione dell'algoritmo e, in particolare, che quest'ultimo stampi i risultati sul file di output. Infine, il webserver dovrà interpretare il file di output e convertirne i dani estrapolati come JSON. A questo punto, il webserver sarà in grado di rispondere al webclient con i dati necessari per generare il grafico.
+
+\vspace{3mm}
+
+Il primo step risulta, dunque, convertire il JSON pervenuto dal webclient in formato FASTA. Il fulcro del lavoro di conversione giace nell'interpretare le stringhe contenute nel corpo della richiesta ed inserirle con le opportune tabulazioni e spaziature in un file di testo vergine; similmente, ogni stringa dovrà essere associata ad un indice incrementale con la quale potrà essere, in seguito, identificata visivamente sul grafico prodotto.
+
+\begin{sexylisting}{computeAPI.js > Conversione del JSON in FASTA}
+const strings = req.body.strings;
+	
+strings.forEach((string) => {
+	FASTA += '>' + index + '\n';
+	FASTA += string.toUpperCase() + '\n';
+	stringNames.push(string.toUpperCase());
+	++index;
+});
+\end{sexylisting}
+
+Di seguito si propone il template di un file FASTA e esempio popolato da quattro stringhe.
+
+\begin{sexylisting}{computeAPI.js > Template di un file FASTA}
+>[index]
+STRING
+>[index 2]
+STRING 2
+...
+>[index N]
+STRING N
+\end{sexylisting}
+
+\begin{sexylisting}{computeAPI.js > Esempio di un file FASTA}
+>1
+GGTAAC
+>2
+AAAAAACCCTGTGT
+>3
+TTTTATATACC
+>4
+CCGTTTAAACC
+\end{sexylisting}
+
+Risulta altresì fondamentale elaborare un protocollo di denominazione che generi nomenclature univoche sia per i file di input, che per i file di output. Si decide di utilizzare il timestamp tramite \verb|Date.now()| per creare associazioni uno-a-uno fra i due file. E' importante osservare che i file saranno gestiti in UTF-8.
+
+\vspace{5mm}
+
+I file di input saranno costruiti come segue.
+
+\begin{table}[H]
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Costante}                    & \textbf{Contenuto}               \\ \midrule
+\textit{\textbf{\_\_IN\_FILE\_NAME}} & algo + '-request-' + Date.now()  \\
+\textit{\textbf{\_\_IN\_EXTENSION}}  & '.fasta';                        \\
+\textit{\textbf{\_\_IN\_DIRECTORY}}  & './algo/' + algo + '/lw-index/'; \\ \bottomrule
+\end{tabular}
+\end{table}
+
+Analogamente, i file di output saranno costruiti come segue.
+
+\begin{table}[H]
+\begin{tabular}{ll}
+\hline
+\textbf{Costante}                     & \textbf{Contenuto}                      \\ \hline
+\textit{\textbf{\_\_OUT\_FILE\_NAME}} & Date.now();                             \\
+\textit{\textbf{\_\_OUT\_EXTENSION}}  & '.fasta.out';                           \\
+\textit{\textbf{\_\_OUT\_DIRECTORY}}  & './algo/' + algo + '/lw-index/result/'; \\ \hline
+\end{tabular}
+\end{table}
+
+Poiché gli algoritmi sono lanciati da eseguibili ottenuti come risultato di bundle precompilati generalmente adatti ad un ambiente Linux, e riservandoci l'abilità di poter sfruttare il tool in sviluppo anche su ambiente Windows, si decide di utilizzare Windows Subsystem for Linux (WSL) per lanciare gli eseguibili degli algoritmi. E' sufficiente \textit{spawnare} (ossia istanziare) un terminale WSL e utilizzare STDIN, STDOUT e STDERR come un qualsiasi ambiente dotato di stream di input e output.
+
+In questo modo, è possibile lanciare l'eseguibile dell'algoritmo selezionato simulando l'immissione di un comando personalizzato. Immediatamente dopo, per motivi di integrità dell'input, chiudiamo il flusso STDIN tramite \verb|end()|.
+
+\begin{sexylisting}{computeAPI.js > Avvio dell'esecuzione dell'algoritmo}
+wsl.stdin.write(
+	'./algo/scMAW/sc-maw -a DNA -i ' +
+	__IN_FILE +
+	' -o ' +
+	__OUT_FILE +
+	'[opzioni]'
+);
+
+wsl.stdin.end();
+\end{sexylisting}
+
+Si osservi che, nelle fasi di integrazione di nuovi algoritmi, basterà sostituire \verb|scMAW|, l'unico algoritmo integrato in maniera predefinita nel tool, con una variabile di tipo stringa.
+
+\vspace{3mm}
+
+A questo punto, l'algoritmo eseguirà in autonomia i propri sottoprocessi. Il webserver rimarrà in attesa di un riscontro sullo standard output STDOUT. La chiusura del processo di WSL fungerà da indicatore al router di iniziare ad estrapolare ed interpretare i dati dal file di output.
+
+\vspace{3mm}
+
+Il file di output sarà di tipo FASTA.OUT ed è strutturato come segue.
+
+\begin{sexylisting}{computeAPI.js > Template di un file FASTA.OUT}
+[# Numero di stringhe]
+[index 1]	 Lw(1, 1)   LW(1, 2)    LW(1, n)
+[index 2]	 LW(2, 1)   LW(2, 2)    LW(2, n)
+...	
+[index N]	LW(n, 1)    LW(n, 2)    LW(n, n)
+\end{sexylisting}
+
+\begin{sexylisting}{computeAPI.js > Esempio di un file FASTA.OUT}
+3
+1	0.000000	0.861111	2.751123	
+2	0.861111	0.000000	1.989003	
+3	2.751123	1.989003	0.000000
+\end{sexylisting}
+
+La struttura prevede una riga per ogni stringa in input. Ogni stringa sarà dotata di una colonna per ogni stringa in input, più uno. La prima colonna di ogni riga rappresenta l'indice della stringa (da 1 a $N$), mentre la prima riga del file contiene il numero di stringhe.
+
+Tralascinado la prima colonna, le colonne rimanenti di ogni riga eccetto la prima conterranno il valore della matrica LW fra la stringa rappresentata dall'indice di quella riga, e ogni altra stringa nell'insieme in input. Questa struttura permette di avere una visione complessiva delle similitudini fra tutte le stringhe in esame.
+
+\vspace{3mm}
+
+$LW(i, j)$ restituirà la similitudine (in float) fra la stringhe $i$ e la stringa $j$. Banalmente, $LW(i, i) = 0$.
+
+\vspace{3mm}
+
+E' possibile consultare il Capitolo 2 per ulteriori informazioni circa il calcolo grezzo dell'indice LW.
+
+\vspace{3mm}
+
+Il file risulta di semplice lettura. Infatti, è sufficiente troncare le singole righe, e successivamente gli spazi tabellari, per individuare la matrice di indici LW desiderata. Questa matrice rappresenta il risultato atteso dall'algoritmo, e sarà incapsulato nella proprietà \verb|graphData: result| di \verb|responseData|. Allo stesso tempo, l'algoritmo terrà conto del tempo impiegato (in millisecondi) per eseguire l'algoritmo in funzione delle stringhe in input, e depositerà questo dato nella proprietù \verb|quality.time|, rendendo disponibile future considerazioni qualitative da parte dell'utente.
+
+\begin{sexylisting}{computeAPI.js > Conversione FASTA.OUT in JSON}
+fs.readFile(__OUT_FILE, ENCODING, (err, data) => {
+	if (err) throw err;
+	var result = [], j = 0;
+
+	const rows = data.split(/\r?\n/);
+	rows.forEach((row) => {
+		const splitData = row.split('\t');
+		let string = stringNames[j++]
+		let lw = [];
+
+		splitData.shift();
+		splitData.pop();
+		splitData.forEach(
+		    (data) => lw.push(data)
+		);
+
+		result.push({
+			string: string,
+			lw: lw,
+		});
+	});
+
+	const responseData = {
+		quality: {
+			time: time,
+		},
+		graphData: result,
+	};
+
+	res.json(responseData);
+});
+\end{sexylisting}
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=4in]{Figure/console.png}}
+    \caption{Anteprima di una porzione del processo di computazione svolto dal server}
+    \label{fig:esempio}
+\end{figure}
+
+
+L'istruzione conclusiva \verb|res.json(responseData)| rappresenta la chiusura della richiesta e l'invio della risposta al client. A questo punto, il webserver rimarrà attivo e in attesa di nuove richieste da parte del client. Non eseguirà, in ogni caso, altre azioni in autonomia.
+
+\subsection{Webclient e Frontend}
+
+L'implementazione del frontend di una piattaforma web in React è dissimile rispetto ai metodi tradizioni di costruzione di siti web interattivi con tecnologie primitive come JavaScript. React, per definizione, è un framework per JavaScript che adotta una filosofia a componenti. Ogni elemento sulla pagina viene interpretato logicamente come un componente funzionale della piattaforma, dipendente o meno rispetto ad un componente padre, e contenente o meno uno o più componenti figli. 
+
+I componenti React sono estremamente versatili e poliedrici, in grado di assumere connotazioni particolarizzanti in funzione degli obiettivi dello sviluppatore. 
+
+Oltre a React, la marcatura della piattaforma sarà costruita tramite HTML e CSS. 
+
+Per quanto si vorrebbe dare una spiegazione ampia e dettagliata di ogni singolo aspetto dell'implementazione del frontned, non è possibile data l'enorme mole di codice, che si attesta sull'ordine delle migliaia di righe al netto dei file autogenerati dal processo di installazione. Per questo motivo, il codice sorgente è liberamente e gratuitamente consultabile al seguente indirizzo: \url{https://github.com/v1enna/lw-index}.
+
+\vspace{3mm}
+
+Il sistema dovrà essere fornito di una dashboard interattiva e un menù laterale che permetta di effettuare operazioni. Le operazioni, essenzialmente, avranno il compito di alterare il contenuto della dashboard, e di conseguenza modificare lo stato dell'applicazione.
+\newpage
+\subsubsection{Dashboard e gestione dello stato}
+
+Il menù laterale prevede tre macrosezioni: \textbf{Operazioni}, \textbf{Algoritmo} e \textbf{Debug}.
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=5in]{Figure/menu.png}}
+    \caption{Menù laterale della piattaforma. La pressione dei tasti produce alterazioni uniche in termini di contenuto dello spazio di lavoro (dashboard) e dello stato dell'applicativo.}
+    \label{fig:esempio}
+\end{figure}
+
+\begin{itemize}
+    \item La sezione \textbf{Operazioni} sarà l'area principale di interazione con l'utente. L'utente potrà creare nuove istanze di lavoro, analizzarle, eliminarle e svuota l'intera dashboard. Si osservi che 'tavolo di lavoro' e dashboard sono intercambiabili.
+    \item La sezione \textbf{Algoritmo} fornisce informazioni critiche sull'algoritmo selezionato, permettendo inoltre di selezionarne di differenti. 
+    \item La sezione \textbf{Debug} permette di generare una serie di grafici esemplificativi, riempiendo il tavolo di lavoro con quattro istanze popolate, e di accedere al codice sorgente dell'applicazione, che è open source.
+\end{itemize}
+
+\subsubsection{Fase di analisi delle istanze di lavoro}
+
+E' possibile analizzare le istanze di lavoro a prescindere dal loro stato; di conseguenza, un'istanza è analisi anche se non ancora popolata da stringhe. Analizzare un'istanza trasformerà il tavolo di lavoro generale in un tavolo di lavoro specifico per l'istanza in analizi. Da questa schermata, è possibile effettuare la maggior parte delle operazioni previste dalle funzionalità ad alto livello indicate in precedenza.
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/analisi.png}}
+    \caption{La fase di analisi prevede una schermata bianca divisa in due semispazi. Il semispazio superiore conterrà il grafico prodotto dalla computazione più recente (relativa all'istanza in analisi); il semispazio inferiore conterrà a sinistra i form di immissione delle stringhe, e a destra un grafico di comparazione qualitativa.}
+    \label{fig:esempio}
+\end{figure}
+
+Se l'istanza in analisi è neonata o non popolata, il semispazio superiore della schermata sarà occupato da due assi esenti da curve. In alternativa, se l'istanza è stata precedentemente popolata o si richiede una nuova computazione in essere, il semispazio sarà occupato da un grafico ricco di tante curve quante le stringhe immesse nella parte sinistra del semispazio inferiore della schermata di analisi.
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/grafico.png}}
+    \caption{Esempio di grafico generato dal tool. I grafici rappresentano la similitudine fra le stringhe in input. Ciò significa che ogni curva rappresenta una stringa dell'insieme di stringhe fornito al momento della computazione. L'asse delle ordinate rappresenta gli indici LW, mentre quello delle ordinate rappresenta le stringhe.}
+    \label{fig:esempio}
+\end{figure}
+
+La lettura del grafico è immediata, conoscendo la struttura di 
+
+\subsubsection{Generazione automatica di grafici esemplificativi}
+
+La voce \textit{Genera esemplificazioni} è particolarmente utile per avere un'anteprima del funzionamento dell'applicativo. Alla pressione, infatti, il tool autogenererà quattro grafici con dati casuali, simulando il processo di elaborazione di cui si occupa il server. Proprio perché i dati sono casuali, il riavvio dell'applicazione resetterà i parametri che generano i grafici, creandone di nuovi ogni volta. In figura un esempio visivo.
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/esempi.png}}
+    \caption{L'operazione di debug "Genera esemplificazioni" riempie il tavolo di lavoro con grafici casuali come in figura.}
+    \label{fig:esempio}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/singoloEsempio.png}}
+    \caption{Dettaglio di un singolo grafico esemplificativo autogenerato tramite operazioni di debug.}
+    \label{fig:esempio}
+\end{figure}
+
 \section{Esempi di utilizzo pratico}
