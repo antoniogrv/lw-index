@@ -330,7 +330,7 @@ fs.readFile(__OUT_FILE, ENCODING, (err, data) => {
 \begin{figure}[ht!]
     \centering
     \tmpframe{\includegraphics[width=4in]{Figure/console.png}}
-    \caption{Anteprima di una porzione del processo di computazione svolto dal server}
+    \caption{Anteprima di una porzione del processo di computazione svolto dal server.}
     \label{fig:esempio}
 \end{figure}
 
@@ -350,7 +350,33 @@ Per quanto si vorrebbe dare una spiegazione ampia e dettagliata di ogni singolo 
 \vspace{3mm}
 
 Il sistema dovrà essere fornito di una dashboard interattiva e un menù laterale che permetta di effettuare operazioni. Le operazioni, essenzialmente, avranno il compito di alterare il contenuto della dashboard, e di conseguenza modificare lo stato dell'applicazione.
+
 \newpage
+
+\subsubsection{Trasmissione globale delle informazioni}
+
+L'applicativo è strutturato a componenti funzionali, più o meno indipendenti l'uni dagli altri. 
+
+Tuttavia, tutti fanno riferimento ad un singolo componente per la trasmissione globale di dati e informazioni; altresì, questo stesso componente è responsabile della generazione di nuovi componenti e, in generale, del corretto funzionamento dell'applicazione. 
+
+L'intero applicativo è, ad un certo istante, un'istanza delle possibili configurazioni che il suddetto componente può assumere. Il componente in questione è chiamato \verb|App|. Fra le altre cose, il componente è responsabile della creazione dei grafici e della corretta renderizzazione del markup sulla pagina.
+
+Se un qualsiasi componente ha necessità di spedire un dato, oppure propagare un'informazione, al resto dell'applicativo, si limiterà piuttosto a delegare al componente \verb|App| tale compito, specificando la natura della trasmissione e il contenuto del messaggio.
+
+\vspace{3mm}
+
+Di seguito viene riportata una porzione del componente \verb|App|. In generale, il componente è declinato da una moltitudine di funzioni, variabili e constanti in grado di alterare l'applicazione nel suo complessivo.
+
+\begin{sexylisting}{App}
+const [alertProps, setAlertProps] = ..
+const [alertStatus, setAlertStatus] = ..
+const [graphs, setGraphs] = ..
+const [ability, setAbility] = ..
+const [selectedAlgo, setSelectedAlgo] = ..
+
+[..]
+\end{sexylisting}
+
 \subsubsection{Dashboard e gestione dello stato}
 
 Il menù laterale prevede tre macrosezioni: \textbf{Operazioni}, \textbf{Algoritmo} e \textbf{Debug}.
@@ -367,6 +393,47 @@ Il menù laterale prevede tre macrosezioni: \textbf{Operazioni}, \textbf{Algorit
     \item La sezione \textbf{Algoritmo} fornisce informazioni critiche sull'algoritmo selezionato, permettendo inoltre di selezionarne di differenti. 
     \item La sezione \textbf{Debug} permette di generare una serie di grafici esemplificativi, riempiendo il tavolo di lavoro con quattro istanze popolate, e di accedere al codice sorgente dell'applicazione, che è open source.
 \end{itemize}
+
+Il componente \verb|Nav| governa il comportamento del menù laterale, distiguendo le operazioni esegubili in funzione dello \textbf{stato del sistema}. Il tool, infatti, ad un certo istante può avere solo uno dei due seguenti stati.
+\begin{itemize}
+    \item \textbf{SingleGraph}: stato di analisi. Per accedere a questo stato, è necessario che almeno un grafico (vuoto o meno) sia presente sul tavolo di lavoro, e che uno di questi grafici sia stato selezionato tramite "Analizza istanza" sul menù laterale, nella sezione Operazioni.
+    \item \textbf{MultiGraph}: stato di \textit{default}. Ammette la creazione, rimozione e analisi dei grafici; la selezione di nuovi algoritmi; la generazione di esemplificazioni.
+\end{itemize}
+
+Le configurazioni dello stato dell'applicativo sono elaborate in un dato speciale definito \verb|AppStatusSet|. I componenti dell'applicativo possono richiedere cambiamenti di stato trasmettendo al componente \verb|App| un'opportuna richiesta. Inoltre, \verb|AppStatusSet| contiene informazioni sui grafici attivi: in questo modo, i cambiamenti di stato non produrranno modifiche accidentali (e potenzialmente distruttive) al tavolo di lavoro.
+
+\begin{sexylisting}{AppStatusSet}
+const [appStatusSet, setAppStatusSet] = 
+  useState<AppStatusSet>({
+    appStatus: AppStatus.__MultiGraph,
+    graph: {
+      ...BlankGraph,
+	  algo: selectedAlgo,
+    },
+  });
+\end{sexylisting}
+
+\vspace{3mm}
+
+L'operazione di creazione di nuove istanze di lavoro genererà dei quadranti svuoti, identificati da un indice incrementale, come in figura. Le istanze sono analizzabili o eliminabili. Come accennato in precedenza, creare o distruggere grafici è direttamente legato allo stato dell'applicativo; motivo per cui, alla richiesta di creazione o eliminazione di grafici, il componente \verb|Nav| trasmetterà la richiesta al componente \verb|App|, che eventualmente procederà ad alterare lo stato dell'applicazione. 
+
+In particolare, la richiesta di creazione ed eliminazione di grafici, assieme alla richiesta di analisi di grafici, sono fra le uniche che richiedono al componente \verb|App| di ridisegnare l'interfaccia utente, e cioè modificare direttamente l'aspetto esteriore dell'applicazione.
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/graficiVuoti.png}}
+    \caption{L'utente ha generato due grafici vuoti, che adesso popolano il tavolo di lavoro.}
+    \label{fig:esempio}
+\end{figure}
+
+In alternativa, il tavolo di lavoro è svuotabile di tutte le sue istanze di lavoro. Questa operazione non riporta a zero l'indice identificativo dei grafici, al fine di tener traccia delle attività dell'utente.
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/svuota.png}}
+    \caption{Un \textit{alert} notificherà l'utente dell'avvenuto svuotamento del tavolo di lavoro.}
+    \label{fig:esempio}
+\end{figure}
 
 \subsubsection{Fase di analisi delle istanze di lavoro}
 
@@ -388,7 +455,38 @@ Se l'istanza in analisi è neonata o non popolata, il semispazio superiore della
     \label{fig:esempio}
 \end{figure}
 
-La lettura del grafico è immediata, conoscendo la struttura di 
+La lettura del grafico è immediata, conoscendo i metodi di conversione fra file FASTA.OUT e JSON delineati in questo Capitolo.
+
+\vspace{3mm}
+
+D'altro canto, il semispazio inferiore consta - nel lato sinistro -  di una sezione di immissione, rimozione e modifica delle stringhe in input. E' possibile aggiungere o rimuovere form di input tramite il pulsante "Inserisci". Accanto ad ogni form di input, sarà presente - oltre ad un pulsante per verificare la validità, e dunque aggiungere, la stringa digitata - un tasto per rimuovere il form dalla schermata, e un quadrante che indicherà la validità della stringa immessa. Difatto, algoritmi diversi ammettono stringhe composte a partire da alfabeti distinti. Nel caso dell'algoritmo predefinito scMAW, l'unico alfabeto consentito è $DNA$. In caso di immissione di una stringa non consentita, il quadrante si popolerà con una $X$ rossa; in alternativa, in caso di validità, il quadrante si popolerà con un $OK$ verde. Fino alla pressione del pulsante "Aggiungi", il quadrante sarà occupato da un $?$.
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/stringhe.png}}
+    \caption{Nell'esempio in figura, l'utente ha generato tre form di input, digitando $GGTA$ nel primo, $KJH$ nel secondo e lasciando vuoto il terzo. Ha, inoltre, premuto "Aggiungi" (sostituito adesso da "Modifica") nei primi due form. Il primo risulta valido, e cioè composto da lettere amesse dall'alfabeto; il secondo, invece, no. Poiché solo una stringa valida è stata immessa, l'utente non potrà computare alcun confronto da stringhe.}
+    \label{fig:esempio}
+\end{figure}
+
+\vspace{3mm}
+
+Il lato destro del semispazio inferiore proporrà una serie di informazioni circa la natura e la composizione dell'insieme di stringhe $S$ da dare in pasto all'algoritmo. D'altro canto, un grafico relativo alla qualità (in termini di secondi) della computazione
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/stringheInsieme.png}}
+    \caption{La successiva computazione che l'utente avvierà avrà come input l'insieme $S={GGTA, GGTATATA, TTTAT, TTACC, GGTACCA}$ delle stringhe. L'algoritmo selezionato è indicato col suo nome completo e un suo eventuale acronimo.}
+    \label{fig:esempio}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=5in]{Figure/computo.png}}
+    \caption{L'utente ha effettuato 4 computazioni. L'ultima computazione ha impiegato $0.014279$ secondi. Le prime tre computazioni sono state effettuate con l'algoritmo $scMAW$, mentre le restanti tre con l'algoritmo $test$. E' possibile determinare la qualità degli algoritmi proposti in maniera visiva; d'altro canto, insiemi di stringhe in input più vasti sarebbero in grado di produrre dati più significativi.}
+    \label{fig:esempio}
+\end{figure}
+
+\newpage
 
 \subsubsection{Generazione automatica di grafici esemplificativi}
 
@@ -408,4 +506,55 @@ La voce \textit{Genera esemplificazioni} è particolarmente utile per avere un'a
     \label{fig:esempio}
 \end{figure}
 
-\section{Esempi di utilizzo pratico}
+\subsubsection{Selezione e integrazione degli algoritmi}
+
+La sezione Algoritmi prevede, fra le altre cose, una voce per selezionare l'algoritmo da usare. Alla pressione, un alert personalizzato si presenterà all'utente, oscurando il restante contenuto della pagina e portando l'attenzione dell'utilizzare al selezione. L'alert conterrà una lista di algoritmi, ognuno presentato come bottone interattivo. L'interazione con uno qualsiasi dei bottoni presenti condurrà ad un cambio di stato dell'applicazione, per il quale il sistema sarà notificato di impiegare l'algoritmo selezionato.
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/selectAlgo.png}}
+    \caption{Gli algoritmi sono elencati per nome. Il sistema autogenererà un bottone per ogni algoritmo disponibile e/o selezionabile. Nell'esempio in figura, sono disponibili solo due algoritmi.}
+    \label{fig:esempio}
+\end{figure}
+
+Una volta selezionato l'algoritmo, la piattaforma sarà in grado di riformulare le modalità di computazione alla prossima richiesta. E' dunque possibile tornare (o avviare) una fase di analisi e procedere ad una nuova computazione. Quest'ultima verrà eseguita impiegando l'ultimo algoritmo selezionato.
+
+\vspace{3mm}
+
+La selezione di algoritmi è governata dal componente \verb|AlgoSelector| il quale predispone un array di elementi (quali i pulsanti di selezione degli algoritmi, come nell'esempio in figura), ognuno dei quali interagibili al \textit{click}. Ogni click produce un cambiato di stato: in particolare, viene lanciata la funzione \verb|setSelectedAlgo()| per comandare all'hub \verb|App| di trasmettere all'intero sistema le proprietà del nuovo algoritmo.
+
+E' interessante osservare come l'array di algoritmi viene generato. 
+
+\begin{sexylisting}{AlgoSelector}
+ALGOS.forEach((algo) => {
+  temp.push(
+    <div
+      onClick={() => {
+		[..] props.setSelectedAlgo(algo);
+	  }}
+	  className='selector'
+	>
+	  {algo.name}
+    </div>
+  );
+});
+\end{sexylisting}
+
+Nel componente in esame, così come nel resto del sistema, \verb|ALGOS| rappresenta logicamente gli algoritmi disponibili. Se uno svluppatore volesse integrare il proprio algoritmo nel tool, sarebbe sufficiente aggiungere una nuova entry nel seguente array, indicando le proprietà \verb|name| (nome dell'algoritmo), \verb|info| (informazioni riguardanti il funzionamento dell'algoritmo -- ad esempio, le strutture dati utilizzate) e \verb|abbr| (un nome alternativo sufficientemente corto).
+
+\begin{sexylisting}{ALGOS: Algo[ ]}
+const ALGOS: Algo[] = [
+  {
+    name: 'Sequence Comparison by Absent Words',
+	info: "[..]",
+	abbr: 'scMAW',
+  },
+  {
+    name: 'Test Algo',
+	info: 'Informazioni Test Algo',
+	abbr: 'test',
+  },
+];
+\end{sexylisting}
+
+Posto che il server sia popolato dai file necessari (rif. Capitolo 5.1) per eseguire l'algoritmo, il sistema sarà in grado di riconoscere immediatamente la presenza di un nuovo algoritmo fra le sue file, e permettere dunque nuovi confronti fra stringhe impiegandolo.
