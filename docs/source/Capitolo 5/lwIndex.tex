@@ -54,7 +54,7 @@ L'obiettivo è dunque di creare un tool che riesca ad accogliere algoritmi basat
     
     \subsection{Scelta delle tecnologie impiegate nell'implementazione}
     
-        L'applicativo sarà implementato con tecnologie moderne e convenienti, al fine di semplificare la fase di implementazione e ridurre al minimo i casi di errore da gestire. Si è dunque deciso di implementare il webserver e il backend dell'applicazione con Node, mentre il frontend del client con React. Il techstack costituito da React e Node è un'alternativa popolare all'utilizzo grezzo della tecnologia fondamentale dalla quale entrambi derivano, quale JavaScript.  
+        L'applicativo sarà implementato con tecnologie moderne e convenienti, al fine di semplificare la fase di implementazione e ridurre al minimo i casi di errore da gestire. Si è dunque deciso di implementare il webserver e il backend dell'applicazione con Node, mentre il frontend del client con React. Il techstack costituito da React e Node è un'alternativa popolare all'utilizzo grezzo della tecnologia fondamentale dalla quale entrambi derivano, quale JavaScript. 
         
         \vspace{3mm}
         
@@ -70,7 +70,7 @@ L'obiettivo è dunque di creare un tool che riesca ad accogliere algoritmi basat
         
         \vspace{3mm}
         
-        Ulteriori informazioni su React e Node sono reperibili in italiano rispettivamente ai seguenti indirizzi: \url{https://it.reactjs.org/} e \url{https://nodejs.org/it/}.
+        Ulteriori informazioni su React \cite{react} e Node \cite{node} sono reperibili in italiano sui rispettivi siti web.
     
     \subsection{Struttura del filesystem dell'applicazione}
     
@@ -337,7 +337,7 @@ fs.readFile(__OUT_FILE, ENCODING, (err, data) => {
 
 L'istruzione conclusiva \verb|res.json(responseData)| rappresenta la chiusura della richiesta e l'invio della risposta al client. A questo punto, il webserver rimarrà attivo e in attesa di nuove richieste da parte del client. Non eseguirà, in ogni caso, altre azioni in autonomia.
 
-\subsection{Webclient e Frontend}
+\subsection{Frontend e Webclient}
 
 L'implementazione del frontend di una piattaforma web in React è dissimile rispetto ai metodi tradizioni di costruzione di siti web interattivi con tecnologie primitive come JavaScript. React, per definizione, è un framework per JavaScript che adotta una filosofia a componenti. Ogni elemento sulla pagina viene interpretato logicamente come un componente funzionale della piattaforma, dipendente o meno rispetto ad un componente padre, e contenente o meno uno o più componenti figli. 
 
@@ -345,7 +345,7 @@ I componenti React sono estremamente versatili e poliedrici, in grado di assumer
 
 Oltre a React, la marcatura della piattaforma sarà costruita tramite HTML e CSS. 
 
-Per quanto si vorrebbe dare una spiegazione ampia e dettagliata di ogni singolo aspetto dell'implementazione del frontned, non è possibile data l'enorme mole di codice, che si attesta sull'ordine delle migliaia di righe al netto dei file autogenerati dal processo di installazione. Per questo motivo, il codice sorgente è liberamente e gratuitamente consultabile al seguente indirizzo: \url{https://github.com/v1enna/lw-index}.
+Per quanto si vorrebbe dare una spiegazione ampia e dettagliata di ogni singolo aspetto dell'implementazione del frontned, non è possibile data l'enorme mole di codice, che si attesta sull'ordine delle migliaia di righe al netto dei file autogenerati dal processo di installazione. Per questo motivo, il codice sorgente è liberamente e gratuitamente consultabile su GitHub. \cite{lwIndexGithub}
 
 \vspace{3mm}
 
@@ -384,7 +384,7 @@ Il menù laterale prevede tre macrosezioni: \textbf{Operazioni}, \textbf{Algorit
 \begin{figure}[ht!]
     \centering
     \tmpframe{\includegraphics[width=5in]{Figure/menu.png}}
-    \caption{Menù laterale della piattaforma. La pressione dei tasti produce alterazioni uniche in termini di contenuto dello spazio di lavoro (dashboard) e dello stato dell'applicativo.}
+    \caption{Menù laterale della piattaforma.}
     \label{fig:esempio}
 \end{figure}
 
@@ -442,7 +442,7 @@ E' possibile analizzare le istanze di lavoro a prescindere dal loro stato; di co
 \begin{figure}[ht!]
     \centering
     \tmpframe{\includegraphics[width=6in]{Figure/analisi.png}}
-    \caption{La fase di analisi prevede una schermata bianca divisa in due semispazi. Il semispazio superiore conterrà il grafico prodotto dalla computazione più recente (relativa all'istanza in analisi); il semispazio inferiore conterrà a sinistra i form di immissione delle stringhe, e a destra un grafico di comparazione qualitativa.}
+    \caption{La fase di analisi prevede una schermata bianca divisa in due semispazi, come in figura.}
     \label{fig:esempio}
 \end{figure}
 
@@ -451,7 +451,7 @@ Se l'istanza in analisi è neonata o non popolata, il semispazio superiore della
 \begin{figure}[ht!]
     \centering
     \tmpframe{\includegraphics[width=6in]{Figure/grafico.png}}
-    \caption{Esempio di grafico generato dal tool. I grafici rappresentano la similitudine fra le stringhe in input. Ciò significa che ogni curva rappresenta una stringa dell'insieme di stringhe fornito al momento della computazione. L'asse delle ordinate rappresenta gli indici LW, mentre quello delle ordinate rappresenta le stringhe.}
+    \caption{Esempio di grafico generato dal tool.}
     \label{fig:esempio}
 \end{figure}
 
@@ -513,7 +513,7 @@ La sezione Algoritmi prevede, fra le altre cose, una voce per selezionare l'algo
 \begin{figure}[ht!]
     \centering
     \tmpframe{\includegraphics[width=6in]{Figure/selectAlgo.png}}
-    \caption{Gli algoritmi sono elencati per nome. Il sistema autogenererà un bottone per ogni algoritmo disponibile e/o selezionabile. Nell'esempio in figura, sono disponibili solo due algoritmi.}
+    \caption{Gli algoritmi sono elencati per nome. Nell'esempio in figura, sono disponibili solo due algoritmi.}
     \label{fig:esempio}
 \end{figure}
 
