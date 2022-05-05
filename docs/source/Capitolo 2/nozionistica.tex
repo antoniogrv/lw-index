@@ -10,7 +10,7 @@ Le \textit{absent words} rappresentano, in effetti, la tipologia più genuina di
 
 E' altresì possibile individuare specifiche classi di \textit{absent words}, quali le \textit{minimal absent words}, il cui numero è lineare in $n$. Le \textit{minimal absent words} sono \textit{absent words} di una sequenza $S$ che non occorrono propriamente nella sequenza, ma di cui - invece - tutte le fattorizzazioni proprie occorrono nella sequenza. Si è dunque davanti ad un contrasto interessante: da un lato informazione negativa cruda e grezza; dall'altro, informazione positiva derivata dalla fattorizzazione di informazione negativa. 
 
-\vspace{3mm}
+\(M_L = \{aub | a,b \in \Sigma*, aub\not\in L, au,ub\in L\} \)
 
 Lo studio di queste fattorizzazioni e la loro applicazione pratica nell'implementazione di \verb|scMAW| ci permetterà di stabilire un metodo efficiente per confrontare stringhe impiegando, alla base, informazione genuinamente negativa.
 
@@ -88,7 +88,7 @@ Una range minimum query \cite{RMQ} permettere di trovare il valore minimo in una
 
 \vspace{3mm}
 
-Dato un array $A[1...n]$ di $n$ oggetti confrontabili e ordinati, il range minimum query $RMQ_A (l,r)$ coincide con $arg min A[k]$, con $1<=l<=k<=r<=n$. La funzione restituisce la posizione dell'elemento più piccolo nel sotto-array determinato da $A[l...r]$. 
+Dato un array $A[1...n]$ di $n$ oggetti confrontabili e ordinati, il range minimum query $RMQ_A (l,r)$ coincide con $arg_{min} A[k]$, con $1<=l<=k<=r<=n$. La funzione restituisce la posizione dell'elemento più piccolo nel sotto-array determinato da $A[l...r]$. 
 
 \vspace{3mm}
 
