@@ -383,12 +383,7 @@ const [selectedAlgo, setSelectedAlgo] = ..
 
 Il menù laterale prevede tre macrosezioni: \textbf{Operazioni}, \textbf{Algoritmo} e \textbf{Debug}.
 
-\begin{figure}[ht!]
-    \centering
-    \tmpframe{\includegraphics[width=5in]{Figure/menu.png}}
-    \caption{Menù laterale della piattaforma.}
-    \label{fig:esempio}
-\end{figure}
+\vspace{3mm}
 
 \begin{itemize}
     \item La sezione \textbf{Operazioni} sarà l'area principale di interazione con l'utente. L'utente potrà creare nuove istanze di lavoro, analizzarle, eliminarle e svuota l'intera dashboard. Si osservi che 'tavolo di lavoro' e dashboard sono intercambiabili.
@@ -417,113 +412,47 @@ const [appStatusSet, setAppStatusSet] =
 
 \vspace{3mm}
 
-L'operazione di creazione di nuove istanze di lavoro genererà dei quadranti svuoti, identificati da un indice incrementale, come in figura. Le istanze sono analizzabili o eliminabili. Come accennato in precedenza, creare o distruggere grafici è direttamente legato allo stato dell'applicativo; motivo per cui, alla richiesta di creazione o eliminazione di grafici, il componente \verb|Nav| trasmetterà la richiesta al componente \verb|App|, che eventualmente procederà ad alterare lo stato dell'applicazione. 
+L'operazione di creazione di nuove istanze di lavoro genererà dei quadranti svuoti, identificati da un indice incrementale. Le istanze sono analizzabili o eliminabili. Come accennato in precedenza, creare o distruggere grafici è direttamente legato allo stato dell'applicativo; motivo per cui, alla richiesta di creazione o eliminazione di grafici, il componente \verb|Nav| trasmetterà la richiesta al componente \verb|App|, che eventualmente procederà ad alterare lo stato dell'applicazione. 
+
+\vspace{3mm}
 
 In particolare, la richiesta di creazione ed eliminazione di grafici, assieme alla richiesta di analisi di grafici, sono fra le uniche che richiedono al componente \verb|App| di ridisegnare l'interfaccia utente, e cioè modificare direttamente l'aspetto esteriore dell'applicazione.
 
-\begin{figure}[ht!]
-    \centering
-    \tmpframe{\includegraphics[width=6in]{Figure/graficiVuoti.png}}
-    \caption{L'utente ha generato due grafici vuoti, che adesso popolano il tavolo di lavoro.}
-    \label{fig:esempio}
-\end{figure}
+\vspace{3mm}
 
 In alternativa, il tavolo di lavoro è svuotabile di tutte le sue istanze di lavoro. Questa operazione non riporta a zero l'indice identificativo dei grafici, al fine di tener traccia delle attività dell'utente.
-
-\begin{figure}[ht!]
-    \centering
-    \tmpframe{\includegraphics[width=6in]{Figure/svuota.png}}
-    \caption{Un \textit{alert} notificherà l'utente dell'avvenuto svuotamento del tavolo di lavoro.}
-    \label{fig:esempio}
-\end{figure}
 
 \subsubsection{Fase di analisi delle istanze di lavoro}
 
 E' possibile analizzare le istanze di lavoro a prescindere dal loro stato; di conseguenza, un'istanza è analisi anche se non ancora popolata da stringhe. Analizzare un'istanza trasformerà il tavolo di lavoro generale in un tavolo di lavoro specifico per l'istanza in analizi. Da questa schermata, è possibile effettuare la maggior parte delle operazioni previste dalle funzionalità ad alto livello indicate in precedenza.
 
-\begin{figure}[ht!]
-    \centering
-    \tmpframe{\includegraphics[width=6in]{Figure/analisi.png}}
-    \caption{La fase di analisi prevede una schermata bianca divisa in due semispazi, come in figura.}
-    \label{fig:esempio}
-\end{figure}
+\vspace{3mm}
 
 Se l'istanza in analisi è neonata o non popolata, il semispazio superiore della schermata sarà occupato da due assi esenti da curve. In alternativa, se l'istanza è stata precedentemente popolata o si richiede una nuova computazione in essere, il semispazio sarà occupato da un grafico ricco di tante curve quante le stringhe immesse nella parte sinistra del semispazio inferiore della schermata di analisi.
 
-\begin{figure}[ht!]
-    \centering
-    \tmpframe{\includegraphics[width=6in]{Figure/grafico.png}}
-    \caption{Esempio di grafico generato dal tool.}
-    \label{fig:esempio}
-\end{figure}
+\vspace{3mm}
 
-La lettura del grafico è immediata, conoscendo i metodi di conversione fra file FASTA.OUT e JSON delineati in questo Capitolo.
+D'altro canto, il semispazio inferiore consta - nel lato sinistro -  di una sezione di immissione, rimozione e modifica delle stringhe in input. E' possibile aggiungere o rimuovere form di input tramite il pulsante "Inserisci". Accanto ad ogni form di input, sarà presente - oltre ad un pulsante per verificare la validità, e dunque aggiungere, la stringa digitata - un tasto per rimuovere il form dalla schermata, e un quadrante che indicherà la validità della stringa immessa. 
 
 \vspace{3mm}
 
-D'altro canto, il semispazio inferiore consta - nel lato sinistro -  di una sezione di immissione, rimozione e modifica delle stringhe in input. E' possibile aggiungere o rimuovere form di input tramite il pulsante "Inserisci". Accanto ad ogni form di input, sarà presente - oltre ad un pulsante per verificare la validità, e dunque aggiungere, la stringa digitata - un tasto per rimuovere il form dalla schermata, e un quadrante che indicherà la validità della stringa immessa. Difatto, algoritmi diversi ammettono stringhe composte a partire da alfabeti distinti. Nel caso dell'algoritmo predefinito scMAW, l'unico alfabeto consentito è $DNA$. In caso di immissione di una stringa non consentita, il quadrante si popolerà con una $X$ rossa; in alternativa, in caso di validità, il quadrante si popolerà con un $OK$ verde. Fino alla pressione del pulsante "Aggiungi", il quadrante sarà occupato da un $?$.
-
-\begin{figure}[ht!]
-    \centering
-    \tmpframe{\includegraphics[width=6in]{Figure/stringhe.png}}
-    \caption{Nell'esempio in figura, l'utente ha generato tre form di input, digitando $GGTA$ nel primo, $KJH$ nel secondo e lasciando vuoto il terzo. Ha, inoltre, premuto "Aggiungi" (sostituito adesso da "Modifica") nei primi due form. Il primo risulta valido, e cioè composto da lettere amesse dall'alfabeto; il secondo, invece, no. Poiché solo una stringa valida è stata immessa, l'utente non potrà computare alcun confronto da stringhe.}
-    \label{fig:esempio}
-\end{figure}
+Difatti, algoritmi diversi ammettono stringhe composte a partire da alfabeti distinti. Nel caso dell'algoritmo predefinito scMAW, l'unico alfabeto consentito è $DNA$. In caso di immissione di una stringa non consentita, il quadrante si popolerà con una $X$ rossa; in alternativa, in caso di validità, il quadrante si popolerà con un $OK$ verde. Fino alla pressione del pulsante "Aggiungi", il quadrante sarà occupato da un $?$.
 
 \vspace{3mm}
 
 Il lato destro del semispazio inferiore proporrà una serie di informazioni circa la natura e la composizione dell'insieme di stringhe $S$ da dare in pasto all'algoritmo. D'altro canto, un grafico relativo alla qualità (in termini di secondi) della computazione
 
-\begin{figure}[ht!]
-    \centering
-    \tmpframe{\includegraphics[width=6in]{Figure/stringheInsieme.png}}
-    \caption{La successiva computazione che l'utente avvierà avrà come input l'insieme $S={GGTA, GGTATATA, TTTAT, TTACC, GGTACCA}$ delle stringhe. L'algoritmo selezionato è indicato col suo nome completo e un suo eventuale acronimo.}
-    \label{fig:esempio}
-\end{figure}
-
-\begin{figure}[ht!]
-    \centering
-    \tmpframe{\includegraphics[width=5in]{Figure/computo.png}}
-    \caption{L'utente ha effettuato 4 computazioni. L'ultima computazione ha impiegato $0.014279$ secondi. Le prime tre computazioni sono state effettuate con l'algoritmo $scMAW$, mentre le restanti tre con l'algoritmo $test$. E' possibile determinare la qualità degli algoritmi proposti in maniera visiva; d'altro canto, insiemi di stringhe in input più vasti sarebbero in grado di produrre dati più significativi.}
-    \label{fig:esempio}
-\end{figure}
-
-\newpage
-
-\subsubsection{Generazione automatica di grafici esemplificativi}
-
-La voce \textit{Genera esemplificazioni} è particolarmente utile per avere un'anteprima del funzionamento dell'applicativo. Alla pressione, infatti, il tool autogenererà quattro grafici con dati casuali, simulando il processo di elaborazione di cui si occupa il server. Proprio perché i dati sono casuali, il riavvio dell'applicazione resetterà i parametri che generano i grafici, creandone di nuovi ogni volta. In figura un esempio visivo.
-
-\begin{figure}[ht!]
-    \centering
-    \tmpframe{\includegraphics[width=6in]{Figure/esempi.png}}
-    \caption{L'operazione di debug "Genera esemplificazioni" riempie il tavolo di lavoro con grafici casuali come in figura.}
-    \label{fig:esempio}
-\end{figure}
-
-\begin{figure}[ht!]
-    \centering
-    \tmpframe{\includegraphics[width=6in]{Figure/singoloEsempio.png}}
-    \caption{Dettaglio di un singolo grafico esemplificativo autogenerato tramite operazioni di debug.}
-    \label{fig:esempio}
-\end{figure}
-
 \subsubsection{Selezione e integrazione degli algoritmi}
 
 La sezione Algoritmi prevede, fra le altre cose, una voce per selezionare l'algoritmo da usare. Alla pressione, un alert personalizzato si presenterà all'utente, oscurando il restante contenuto della pagina e portando l'attenzione dell'utilizzare al selezione. L'alert conterrà una lista di algoritmi, ognuno presentato come bottone interattivo. L'interazione con uno qualsiasi dei bottoni presenti condurrà ad un cambio di stato dell'applicazione, per il quale il sistema sarà notificato di impiegare l'algoritmo selezionato.
 
-\begin{figure}[ht!]
-    \centering
-    \tmpframe{\includegraphics[width=6in]{Figure/selectAlgo.png}}
-    \caption{Gli algoritmi sono elencati per nome. Nell'esempio in figura, sono disponibili solo due algoritmi.}
-    \label{fig:esempio}
-\end{figure}
+\vspace{3mm}
 
 Una volta selezionato l'algoritmo, la piattaforma sarà in grado di riformulare le modalità di computazione alla prossima richiesta. E' dunque possibile tornare (o avviare) una fase di analisi e procedere ad una nuova computazione. Quest'ultima verrà eseguita impiegando l'ultimo algoritmo selezionato.
 
 \vspace{3mm}
 
-La selezione di algoritmi è governata dal componente \verb|AlgoSelector| il quale predispone un array di elementi (quali i pulsanti di selezione degli algoritmi, come nell'esempio in figura), ognuno dei quali interagibili al \textit{click}. Ogni click produce un cambiato di stato: in particolare, viene lanciata la funzione \verb|setSelectedAlgo()| per comandare all'hub \verb|App| di trasmettere all'intero sistema le proprietà del nuovo algoritmo.
+La selezione di algoritmi è governata dal componente \verb|AlgoSelector| il quale predispone un array di elementi (quali i pulsanti di selezione degli algoritmi), ognuno dei quali interagibili al \textit{click}. Ogni click produce un cambiato di stato: in particolare, viene lanciata la funzione \verb|setSelectedAlgo()| per comandare all'hub \verb|App| di trasmettere all'intero sistema le proprietà del nuovo algoritmo.
 
 E' interessante osservare come l'array di algoritmi viene generato. 
 
@@ -560,3 +489,117 @@ const ALGOS: Algo[] = [
 \end{sexylisting}
 
 Posto che il server sia popolato dai file necessari (rif. Capitolo 5.1) per eseguire l'algoritmo, il sistema sarà in grado di riconoscere immediatamente la presenza di un nuovo algoritmo fra le sue file, e permettere dunque nuovi confronti fra stringhe impiegandolo.
+
+\newpage
+
+\subsection{Interfaccia utente}
+
+L'interfaccia di LW Index è spartana e alterna colorazioni scure a tonalità più chiare, al fine di mettere in risalto gli elementi interagibili della UI.
+
+\subsubsection{Generazione automatica di grafici esemplificativi}
+
+La voce \textit{Genera esemplificazioni} del menù laterale è particolarmente utile per avere un'anteprima del funzionamento dell'applicativo. Alla pressione, infatti, il tool autogenererà quattro grafici con dati casuali, simulando il processo di elaborazione di cui si occupa il server. Proprio perché i dati sono casuali, il riavvio dell'applicazione resetterà i parametri che generano i grafici, creandone di nuovi ogni volta.
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/esempi.png}}
+    \caption{L'operazione di debug "Genera esemplificazioni" riempie il tavolo di lavoro con grafici casuali come in figura.}
+    \label{fig:esempio}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/singoloEsempio.png}}
+    \caption{Dettaglio di un singolo grafico esemplificativo autogenerato tramite operazioni di debug.}
+    \label{fig:esempio}
+\end{figure}
+
+\subsubsection{Selezione degli algoritmi}
+
+L'interfaccia di selezione di algoritmi è costituita da un semplice alert composto da bottoni interattivi. Ogni bottone rappresenta uno degli algoritmi selezionabili, ordinati lessicograficamente. La pressione di un bottone produrrà un significativo cambio di stato nell'applicativo.
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=5.5in]{Figure/selectAlgo.png}}
+    \caption{Gli algoritmi sono elencati per nome. Nell'esempio in figura, sono disponibili solo due algoritmi.}
+    \label{fig:esempio}
+\end{figure}
+
+\clearpage
+
+\subsubsection{Schermata di analisi}
+
+La schermata di analisi è del tutto bianca, per indicare all'utente che si è in una fase dell'utilizzo dell'applicazione genuinamente interattiva. La maggior parte delle componenti sulla schermata sono interagibili e produrranno significativi cambi di stato o l'invocazione del webserver per l'esecuzione di operazioni nel backend.
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/analisi.png}}
+    \caption{La fase di analisi prevede una schermata bianca divisa in due semispazi, come in figura.}
+    \label{fig:esempio}
+\end{figure}
+
+\clearpage
+
+\subsubsection{Stringhe in input}
+
+Due schermate in particolare permettono di tener traccia e di manipolare le stringhe in input. E' fondamentale che l'utente sia in grado di discernere con rapidità le stringhe ammesse, non ammesse o non ancora verificate; d'altro canto, è importante che salti all'occhio la possibilità di modificare, aggiungere o alterare l'insieme di stringhe in input, motivo per cui sono state utilizzate tonalità uniche, disponibile ersclusivamente nella schermata di analisi.
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/stringheInsieme.png}}
+    \caption{La successiva computazione che l'utente avvierà avrà come input l'insieme $S={GGTA, GGTATATA, TTTAT, TTACC, GGTACCA}$ delle stringhe. L'algoritmo selezionato è indicato col suo nome completo e un suo eventuale acronimo.}
+    \label{fig:esempio}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/stringhe.png}}
+    \caption{Nell'esempio in figura, l'utente ha generato tre form di input, digitando $GGTA$ nel primo, $KJH$ nel secondo e lasciando vuoto il terzo. Ha, inoltre, premuto "Aggiungi" (sostituito adesso da "Modifica") nei primi due form. Il primo risulta valido, e cioè composto da lettere amesse dall'alfabeto; il secondo, invece, no. Poiché solo una stringa valida è stata immessa, l'utente non potrà computare alcun confronto da stringhe.}
+    \label{fig:esempio}
+\end{figure}
+
+\newpage
+
+\subsubsection{Grafici illustrativi}
+
+I grafici offerti sono fondamentalmente due: il \textit{grafico di validità} degli indici LW, che permette di assicurare la robustezza dell'algoritmo selezionato; e il \textit{grafo di qualità} dell'algoritmo, che permette di confrontare, sfruttando il tempo di computazione come parametro, gli algoritmi impiegati.
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=5in]{Figure/computo.png}}
+    \caption{L'utente ha effettuato 4 computazioni. L'ultima computazione ha impiegato $0.014279$ secondi. Le prime tre computazioni sono state effettuate con l'algoritmo $scMAW$, mentre le restanti tre con l'algoritmo $test$. E' possibile determinare la qualità degli algoritmi proposti in maniera visiva; d'altro canto, insiemi di stringhe in input più vasti sarebbero in grado di produrre dati più significativi.}
+    \label{fig:esempio}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/grafico.png}}
+    \caption{Esempio di grafico di validità generato dal tool.}
+    \label{fig:esempio}
+\end{figure}
+
+\newpage
+
+\subsubsection{Menù laterale}
+
+Il menù laterale della piattaforma è stato progettato per essere quanto più usabile e funzionale possibile. La pressione diretta di una voce del menù coincide con la pressione del testo presente sulla voce stessa; in generale, il menù laterale può essere visto come una tabella, composta da tante voci quante le operazioni possibili, più gli header (come ad esempio "Operazioni", o "Algoritmo") che non risultano interagibili. L'hover del mouse su una qualsiasi voce interagibile causerà un cambio di colore del testo di quest'ultima, passando da bianco ad azzurro.
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=5in]{Figure/menu.png}}
+    \caption{Menù laterale della piattaforma.}
+    \label{fig:esempio}
+\end{figure}
+
+\newpage
+
+\subsubsection{Generazione di nuove istanze}
+
+La creazione di nuove istanze di lavoro produrrà quadranti vuoti. Ogni quadrante sarà contrassegnato da un ID (detto \textit{GID}, ossia \textit{Graph ID}), il quale sarà stampato al centro del quadrante. Questi quadranti sono abilitati ad entrare in fase di analisi ed eliminazione.
+
+\begin{figure}[ht!]
+    \centering
+    \tmpframe{\includegraphics[width=6in]{Figure/graficiVuoti.png}}
+    \caption{L'utente ha generato due grafici vuoti, che adesso popolano il tavolo di lavoro.}
+    \label{fig:esempio}
+\end{figure}

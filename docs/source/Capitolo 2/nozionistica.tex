@@ -16,17 +16,21 @@ Lo studio di queste fattorizzazioni e la loro applicazione pratica nell'implemen
 
 \vspace{3mm}
 
-Risulta dunque immediato osservare che, impiegando le \textit{minimal absent words} di sequenze $S_1$ e $S_2$, è possibile determinarne la similiarità in tempo proporzionale rispetto alla loro lunghezza $n_1$ e $n_2$, a patto che le due sequenze appartengano al medesimo alfabeto. In particolare, studieremo l'applicazione delle minimal absent words nella cornice dell'alfabeto del genoma $\Sigma={A, C, G, T}$.
+Risulta dunque immediato osservare che, impiegando le \textit{minimal absent words} di sequenze $S_1$ e $S_2$, è possibile determinarne la similiarità in tempo proporzionale rispetto alla loro lunghezza $n_1$ e $n_2$, a patto che le due sequenze appartengano al medesimo alfabeto. In particolare, studieremo l'applicazione delle\textit{ minimal absent words} nella cornice dell'alfabeto del genoma $\Sigma_{DNA} =\{A, C, G, T\}$.
 
-\subsection{Risultati basati sulle Minimal Absent Words}
+\vspace{10mm}
 
-In letteratura, un moderato numero di risultati sono stati prodotti a partire dalla nozione di \textit{minimal absent words}. Si tratta di soluzioni di complessità, generalmente, $O(n)$, sia in termini di spazio che di tempo, posto e fissato un alfabeto preciso, di lunghezza ben definita. Tuttavia, è interressante osservare la moltitudine di strutture dati impiegate nell'implementazione di questi algoritmi: suffix arrays, suffix trees, suffix automata \cite{CROCHEMORE1998111}, per citarne alcuni. Alcune soluzioni risultano meno performanti di altre, presentano una complessità (nel caso peggiore) pari a $O(n^2 )$ \cite{findingMaw}.
+\underline{\textbf{Risultati basati sulle Minimal Absent Words}}
+
+\vspace{5mm}
+
+In letteratura, un moderato numero di risultati sono stati prodotti a partire dalla nozione di \textit{minimal absent words}. Si tratta di soluzioni di complessità, generalmente, $O(n)$, sia in termini di spazio che di tempo, posto e fissato un alfabeto preciso, di lunghezza ben definita. Tuttavia, è interressante osservare la moltitudine di strutture dati impiegate nell'implementazione di questi algoritmi: suffix arrays, suffix trees, suffix automata \cite{CROCHEMORE1998111}, per citarne alcuni. Alcune soluzioni risultano meno performanti di altre, presentando una complessità (nel caso peggiore) pari a $O(n^2 )$ \cite{findingMaw}.
 
 \vspace{3mm}
 
-In questa tesi, presenteremo e analizzeremo - nel Capitolo 3 - l'algoritmo \verb|scMAW|, uno dei più recenti risultati nell'ambito di confronto fra stringhe impiegando le minimal absent words e di soddisfacente complessità, sia in termini di tempo che di spazio.
+In questa tesi, presenteremo e analizzeremo - nel Capitolo 3 - l'algoritmo \verb|scMAW|, uno dei più recenti risultati nell'ambito di confronto fra stringhe impiegando le \textit{minimal absent words} e di soddisfacente complessità, sia in termini di tempo che di spazio.
 
-\section{Suffix Arrays, Suffix Tree}
+\section{Suffix Arrays}
 
 Come osservato, è possibile introdurre il concetto di minimal absent words impiegando le strutture dati più disparate, come gli automi e i suffix arrays. Questi ultimi sono centrali nell'implementazione dell'algoritmo in esame, quale \verb|scMAW|.
 
@@ -84,15 +88,15 @@ E' altrettanto possibile costruire un suffix tree in funzione dei suffix arrays.
 
 \section{Range Minimum Queries}
 
-Una range minimum query \cite{RMQ} permettere di trovare il valore minimo in una sottostringa di un array di oggetti paragonabile (nel nostro caso, numeri interi). Sono generalmente utilizzati lateralmente ai LCP (Longest Common Prefix) arrays, quando necessario.
+Una range minimum query \cite{RMQ} permettere di trovare il valore minimo in una sottostringa di un array di oggetti confrontabili (nel nostro caso, numeri interi). Sono generalmente utilizzati lateralmente agli LCP (Longest Common Prefix) arrays, quando necessario.
 
 \vspace{3mm}
 
-Dato un array $A[1...n]$ di $n$ oggetti confrontabili e ordinati, il range minimum query $RMQ_A (l,r)$ coincide con $arg_{min} A[k]$, con $1<=l<=k<=r<=n$. La funzione restituisce la posizione dell'elemento più piccolo nel sotto-array determinato da $A[l...r]$. 
+Dato un array $A[1...n]$ di $n$ oggetti confrontabili e ordinati, il range minimum query $RMQ_A (l,r)$ coincide con $arg_{min} A[k]$, con $1\leq l\leq k \leq r \leq n$. La funzione restituisce la posizione dell'elemento più piccolo nel sotto-array determinato da $A[l...r]$. 
 
 \vspace{3mm}
 
-Ad esempio, $A=0,5,2,5,4,3,1,6,3$, risulterà che il range minimum query di $A[3...8]=2,5,4,3,1,6$ è 7, poiché $A[7]=1$ ne é il valore più piccolo, dunque il minimo, ottenuto tramite confronti più o meno lineari.
+Ad esempio, per l'array $A=0,5,2,5,4,3,1,6,3$, risulterà che il range minimum query di $A[3...8]=2,5,4,3,1,6$ è 7, poiché $A[7]=1$ ne é il valore più piccolo, dunque il minimo, ottenuto tramite confronti più o meno lineari.
 
 \vspace{3mm}
 
@@ -100,7 +104,7 @@ La nozione di range minimum queries è, analogamente a quella di suffix arrays, 
 
 \section{Metrica LW di Crochemore}
 
-Chairungsee e Crochemore del King's College di Londra hanno presentato, nel 2012, una misura di similiarità fra due stringhe $x$ e $y$ impiegando le minimal absent words \cite{CHAIRUNGSEE2012109} di ciascuna delle due, rispettivamente $M^l_x$ e $M^l_y$, dove $l$ è la lunghezza massima fra le due stringhe.
+Chairungsee e Crochemore del King's College di Londra hanno presentato, nel 2012, una misura di similiarità fra due stringhe $x$ e $y$ impiegando le \textit{minimal absent words} \cite{CHAIRUNGSEE2012109} di ciascuna delle due, rispettivamente $M^l_x$ e $M^l_y$, dove $l$ è la lunghezza massima fra le due stringhe.
 
 \vspace{3mm}
 

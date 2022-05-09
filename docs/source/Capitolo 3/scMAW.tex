@@ -1,8 +1,8 @@
-Nel 2018, un gruppo di studio internazionale composto da studenti del King's College di Londra, dell'Università di Palermo e dell'Universitità di Loughborough (Regno Unito), ha proposto una soluzione efficiente ed originale in merito al problema del confronto fra stringhe impiegando le minimal absent words, la cui nozione è descritta nel Capitolo 2. 
+Nel 2018, un gruppo di studio internazionale composto da studenti del King's College di Londra, dell'Università di Palermo e dell'Universitità di Loughborough (Regno Unito), propose una soluzione efficiente ed originale in merito al problema del confronto fra stringhe impiegando le \textit{minimal absent words}, la cui nozione è descritta nel Capitolo 2. 
 
 \vspace{3mm}
 
-Al tempo della stesura del paper relativo all'algoritmo in questione \cite{scMAW}, gli algoritmi dalla complessità migliore, generalmente $O(n)$ in media e $O(n^2 )$ nei casi peggiori, impiegavano strutture dati variegate, alcune più o meno adatte a trattare l'informazione negativa rappresentata dalle minimal absent words. 
+Al tempo della stesura del paper relativo all'algoritmo in questione \cite{scMAW}, gli algoritmi più efficienti, generalmente di complessità $O(n)$ in media e $O(n^2 )$ nei casi peggiori, impiegavano strutture dati variegate, alcune più o meno adatte a trattare l'informazione negativa rappresentata dalle \textit{minimal absent words}. 
 
 \vspace{3mm}
 
@@ -10,28 +10,28 @@ Analogamente, il gruppo di studio decise di sfruttare una metrica originale, pre
 
 \vspace{3mm}
 
-L'indice permette di definire la similiarità, o similitudine, fra due stringhe - generalmente su un alfabeto ben definito, come quello genomico o proteico - in funzione delle loro minimal absent words, ed in particolare sulla loro differenza simmetrica, generalmente calcolabile con complessità $O(m+n)$ in media, con $m$ e $n$ le lunghezze delle stringhe in input.
+L'indice permette di definire la similiarità, o similitudine, fra due stringhe - generalmente su un alfabeto ben definito, come quello genomico o proteico - in funzione delle loro \textit{minimal absent words}, ed in particolare sulla loro differenza simmetrica, generalmente calcolabile con complessità $O(m+n)$ in media, con $m$ e $n$ le lunghezze delle stringhe in input.
 
 \vspace{3mm}
 
-La prima sfida posta dall'algoritmo giaceva nella ricerca delle loro minimal absent words. Il gruppo di studio ha deciso di utilizzare soluzioni ben note, delineate in \cite{maw1}. 
+La prima sfida posta dall'algoritmo giaceva nella ricerca delle \textit{minimal absent words} delle stringhe oggetto di confronto. Il gruppo di studio decise di utilizzare soluzioni ben note, delineate in \cite{maw1}. 
 
-Questo risultato accademico dimostra che è possibile computare, poste due stringhe $x$ e $y$, le corrispettive minimal absent words $M_x$ e $M_y$ in tempo lineare relativo alle lunghezze delle stringhe, rispettivamente $n$ e $m$. 
-
-\vspace{3mm}
-
-La strategia fondamentale dell'algoritmo, d'ora in poi denominato in questo Capitolo come \verb|scMAW|, è di effettaure una \textit{merge-sort} dei due insiemi $M_x$ e $M_y$, unendoli dopo che i due insiemi sono stati ordinati tramite l'ausilio dei suffix arrays. 
+Questo risultato accademico dimostra che è possibile computare, date due stringhe $x$ e $y$, le corrispettive \textit{minimal absent words} $M_x$ e $M_y$ in tempo lineare relativo alle lunghezze delle stringhe, rispettivamente $n$ e $m$. 
 
 \vspace{3mm}
 
-A questo fine, verrà costruito il suffix array associato alla parola $w=xy$. Questa struttura può essere costruita con complessità di tempo e spazio $O(m+n)$. Attraverso questa struttura dati, è immediato ordinare in maniera lessicografica (e cioè tramite i suffissi delle parole associate) i due insiemi di minimal absent words. 
+La strategia fondamentale dell'algoritmo, d'ora in poi denominato in questo Capitolo come \verb|scMAW|, è di effettaure una \textit{merge} dei due insiemi $M_x$ e $M_y$, unendoli dopo che i due insiemi sono stati ordinati tramite l'ausilio dei suffix arrays. 
+
+\vspace{3mm}
+
+A questo fine, verrà costruito il suffix array associato alla parola $w=xy$. Questa struttura può essere costruita con complessità di tempo e spazio $O(m+n)$. Attraverso questa struttura dati, è immediato ordinare in maniera lessicografica (e cioè tramite i suffissi delle parole associate) i due insiemi di \textit{minimal absent words}. 
 Questo significa che gli insiemi sono considerati associati se, posti $x_1$ e $x_2$ tuple di uno degli insiemi, $x_1 < x_2$ se la prima lettera dopo il \textit{longest common prefix} di $x_1$ è lessicograficamente più piccola di quella di $x_2$. 
 
-In generale, il \textit{longest common prefix} è una struttura prodotta a partire dal preprocessamento di un suffix array. E' intuitivo individuarne la relazione: i suffix array lavorano ai suffissi, che in maniera laterale possono condurre al calcolo dei prefissi.
+In generale, il \textit{longest common prefix} è una struttura prodotta a partire dal preprocessamento di un suffix array. E' intuitivo individuarne la relazione: i suffix array lavorano sui suffissi, che in maniera laterale possono condurre al calcolo dei prefissi.
 
 \section{Computazione dell'insieme \(M_{x,y}\) e di \(LW(x,y)\)}
 
-Una volta ordinati $M_x$ e $M_y$, è possibile procedere con la merge. Si tratta di un'operazione elementare. L'obiettivo è costruire l'insieme $M_{x,y} = M_x U M_y$ utilizzando due indici incrementali $i$ e $j$, tali che l'insieme non contenga ridondanze e sia, al termine della computazione, ordinato. L'insieme è dunque definito come segue.
+Una volta ordinati $M_x$ e $M_y$, è possibile procedere con la \textit{merge}. Si tratta di un'operazione elementare. L'obiettivo è costruire l'insieme $M_{x,y} = M_x U M_y$ utilizzando due indici incrementali $i$ e $j$, tali che l'insieme non contenga ridondanze e sia, al termine della computazione, ordinato. L'insieme è dunque definito come segue.
 
 \begin{equation*}
   \left\{
@@ -67,7 +67,7 @@ Contemporaneamente alla costruzione dell'insieme $M_{x,y}$ è possibile costruir
   \right.
 \end{equation*}
 
-E' interessante osservare che quando $x_i = x_y$, l'indice $LW(x,y)$ non incrementa. In alternativa, quando $x_i =/= x_y$, l'indice incrementa in funzione della composizione propria della parola, delineata in base al quadrato della sua cardinalità.
+E' interessante osservare che quando $x_i = x_y$, l'indice $LW(x,y)$ non incrementa. In alternativa, quando $x_i\not= x_y$, l'indice incrementa in funzione della composizione propria della parola, delineata in base al quadrato della sua cardinalità.
 
 \vspace{3mm}
 
@@ -79,11 +79,13 @@ E' importante sottolineare che questo algoritmo è disponibile in una contropart
 
 \section{Implementazione e versioning}
 
-Le implementazioni di \verb|scMAW| utilizzano, per la ricerca delle minimal absent words e il conseguente popolamento degli insiemi $M_x$ e $M_y$, algoritmi già noti, a cui ci si riferirà come $MAW$. \verb|scMAW| è stato implementato nel linguaggio C. 
+Le implementazioni di \verb|scMAW| utilizzano, per la ricerca delle \textit{minimal absent words} e il conseguente popolamento degli insiemi $M_x$ e $M_y$, algoritmi già noti, a cui ci si riferirà come \verb|MAW|. 
+
+\verb|scMAW| è stato implementato nel linguaggio C. 
 
 Ammette, come input, un file in formato FASTA (o MultiFASTA) con una formattazione ben precisa, definita nel Capitolo 5, ed un parametro che indica se valutare le sequenze in input come lineari o circolari. 
 
-Restituisce, come output, un file (generalmente FASTA.OUT, oppure PHYLIP) formattato come altresì descritto nel Capitolo 5. 
+Restituisce, come output, un file (generalmente FASTA.OUT, oppure PHYLIP) formattato come altrettanto descritto nel Capitolo 5. 
 
 \vspace{3mm}
 
@@ -99,12 +101,12 @@ La root della repository contiene, per lo più, file di installazione e compilaz
 
 \vspace{3mm}
 
-La directory contiene due subfolders, \verb|data| ed \verb|exp|. Il primo contiene alcuni file FASTA di esempio, popolate con stringhe casuali sull'alfabeto del genoma. La seconda, invece, contiene i corrispettivi file di output generati a partire dai file in input nella prima cartella. 
+La directory \verb|~root/scMAW| contiene due subfolders, \verb|data| ed \verb|exp|. La prima cartella contiene alcuni file FASTA di esempio, popolate con stringhe casuali sull'alfabeto del genoma. La seconda, invece, contiene i corrispettivi file di output generati a partire dai file in input nella prima cartella.
 
-La cartella è popolata con numerosi file, per lo più di installazione.  Gli unici file relativi al risultato originale sono \verb|functions| e \verb|mawdefs|. Il secondo file è fondamentalmente uno snapshot a basso livello delle funzioni impiegate, successivamente, nel primo file. 
+La cartella principale, invece, è popolata con numerosi file, per lo più di installazione.  Gli unici file relativi al risultato originale sono \verb|functions| e \verb|mawdefs|. Il secondo file è fondamentalmente uno snapshot a basso livello delle funzioni impiegate, elencando esclusivamente le firme delle funzioni stesse.
 
-Si tratta di funzioni come \verb|getMaws(..)| (per computare e popolare gli insiemi $M_x$ e $M_y$) e \verb|maw_seq_comp(..)| per l'effettivo computo degli indici $LW(x,y)$. La maggior parte delle funzioni sono per lo più ausiliari e di scarso interesse. Le altre funzioni presenti, come la creazione del file di output e la stampa dei risultati, hanno generalmente lo scopo di coadiuvare il computo (es. predisporre le strutture dati necessarie) e/o occuparsi del pre-computo o post-computo (es. leggere il file di input o generare il file di output).
+Il contenuto del primo file, d'altro canto, tratta di funzioni come \verb|getMaws(..)|, per computare e popolare gli insiemi $M_x$ e $M_y$, e \verb|maw_seq_comp(..)|, per l'effettivo computo degli indici $LW(x,y)$. La maggior parte delle funzioni sono per lo più ausiliari e di scarso interesse. Le restanti, come la creazione del file di output e la stampa dei risultati, hanno generalmente lo scopo di coadiuvare il computo (es. predisporre le strutture dati necessarie) e/o occuparsi del pre-computo o post-computo (es. leggere il file di input o generare il file di output).
 
 \vspace{3mm}
 
-La codifica degli algoritmi è il corrispettivo in C si assesta sull'ordine delle migliaia di righe e non risulta di conseguenza opportuno includerne porzioni decontestualizzate in questo documento; si invita, dunque, a consultare, in caso di interesse, la repository che ne deposita il codice sorgente.
+La codifica degli algoritmi e il corrispettivo in C si assesta sull'ordine delle migliaia di righe e non risulta di conseguenza opportuno includerne porzioni decontestualizzate in questo documento; si invita, dunque, a consultare, in caso di interesse, la repository che ne deposita il codice sorgente.

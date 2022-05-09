@@ -2,11 +2,11 @@ Lo String Matching Algorithm Research Tool, da qui in poi SMART \cite{smart}, è
 
 \vspace{3mm}
 
-Il tool è stato sviluppato da un gruppo accademico internazionale \cite{smartHomepage}, il quale ha successivamente rilasciato il codice sorgente dell'applicativo su GitHub in una repository pubblica. Il tool ha successivamente ricevuto una moderata documentazione ai fini di coadiuvare i futuri sviluppatori che intendessero estendere le funzionalità del tool o, più banalmente, integrare nuovi algoritmi di confronto fra stringhe \cite{smartHelp}.
+Il tool è stato sviluppato da un gruppo accademico internazionale \cite{smartHomepage}, il quale ha successivamente rilasciato il codice sorgente dell'applicativo su GitHub in una repository pubblica. Il tool ha successivamente ricevuto una moderata documentazione al fine di coadiuvare i futuri sviluppatori che intendessero estendere le funzionalità del tool o, più banalmente, integrare nuovi algoritmi di confronto fra stringhe \cite{smartHelp}.
 
 \vspace{3mm}
 
-E' possibile utilizzare SMART in ambiente Windows, MAC OS X e Linux. Per semplicità, si è deciso di utilizzare una macchina virtualizzata montata con Ubuntu 64bit. L'ambiente di lavoro barebones e Unix-based ha permesso al tool di lavorare al massimo dell'efficienza e senza alcun disguido di natura tecnica, che avrebbero potuto aver luogo in contesti non-Unix, come Windows e MAC OS X, soprattutto in termini di compatibilità con librerie e dipendenze di cui SMART fa ampiamente uso.
+E' possibile utilizzare SMART in ambiente Windows, MAC OS X e Linux. Per semplicità, si è deciso di utilizzare una macchina virtualizzata montata con Ubuntu 64bit. L'ambiente di lavoro \textit{barebones} e Unix-based ha permesso al tool di lavorare al massimo dell'efficienza e senza alcun disguido di natura tecnica, che avrebbero potuto aver luogo in contesti non-Unix, come Windows e MAC OS X, soprattutto in termini di compatibilità con librerie e dipendenze di cui SMART fa ampiamente uso.
 
 \section{Funzionamento di SMART}
 
@@ -22,7 +22,7 @@ Ad alto livello, il tool SMART:
 \begin{itemize}
     \item Permette di selezionare al più $N$ algoritmi $A+$, dove:
     \begin{itemize}
-        \item $A+$ è un algoritmo che sia testato, funzionante e \textit{valido}. Un algoritmo $A$ non testato, funzionante o valido non può essere selezionato. Una volta testato tramite gli appropriati strumenti offerti dal tool, un simbolo $+$ viene utilizzato per indicare la traslazione di stato da algoritmo non selezionabile $A$ ad algoritmo selezionabile $A+$.
+        \item $A+$ è un algoritmo che sia testato, funzionante e \textit{valido}. Un algoritmo $A$ non testato, funzionante e valido non può essere selezionato. Una volta testato tramite gli appropriati strumenti offerti dal tool, un simbolo $+$ viene utilizzato per indicare la traslazione di stato da algoritmo non selezionabile $A$ ad algoritmo selezionabile $A+$.
         \item $N$ è il numero di algoritmi disponibili. In particolare, $N$ non coincide necessariamente con i sorgenti degli algoritmi presenti nel filesystem del tool, bensì con il numero di algoritmi presenti nella cartella \verb|~root/sources/algos| al momento della compilazione e del bundling tramite \verb|Makefile|. Il processo è descritto nel dettaglio in seguito.
     \end{itemize}
     \item Permette di selezionare uno o più testi $T$ su cui lanciare la computazione. I testi, incapsulati in file TXT, sono fra i più variegati:
@@ -31,7 +31,7 @@ Ad alto livello, il tool SMART:
         \item Descrizioni del genoma. Insiemi di stringhe su alfabeti DNA o PROT. 
     \end{itemize}
     \item Permette di selezionare l'upper bound e il lower bound dei pattern da riscontrare nelle sequenze. In generale, SMART confronta le stringhe in input in funzione dei loro pattern costituenti: è possibile, dunque, specificare una lunghezza minima e massima dei suddetti pattern; all'esecuzione, il tool incrementerà la lunghezza dei pattern in maniera esponenziale (ad esempio, potrebbe iniziare confrontando le stringhe con pattern di lunghezza 2, poi 4, 8, 16, 32 e così via). E' anche possibile determinare specifiche regioni di testo sulla quale ricercare i pattern.
-    \item Una volta selezionato almeno $1$ algoritmo $A+$ e almeno un testo $T$, ed eventualmente aver definito parametri limitativi sui pattern da rilevare nelle stringhe accolte, è possibile lanciare l'applicativo. Il terminale verrà popolato da barre di caricamento sufficientemente descrittive che segnaleranno l'avanzamento della computazione. Una volta conclusa, SMART indicizzerà l'esperimento con l'attuale $timestamp$ seguendo una nomenclatura precisa (es. $EXP20220203$). 
+    \item Una volta selezionato almeno un algoritmo $A+$ e almeno un testo $T$, ed eventualmente aver definito parametri limitativi sui pattern da rilevare nelle stringhe accolte, sarà possibile lanciare l'applicativo. Il terminale verrà popolato da barre di caricamento sufficientemente descrittive che segnaleranno l'avanzamento della computazione. Una volta conclusa, SMART indicizzerà l'esperimento con l'attuale $timestamp$ seguendo una nomenclatura precisa (es. $EXP20220203$). 
     
     \begin{figure}[ht!]
     \centering
@@ -68,7 +68,7 @@ E' importante osservare che è necessario ricompilare tramite \verb|Makefile| og
     \item \verb|~root|: Contiene una serie di eseguibili extension-less lanciabili tramite terminale, fra cui \verb|./SMART| e \verb|./SELECT|. Un ulteriore eseguibile è disponibile per verificare la correttezza dei nuovi algoritmi da integrare nel tool.
     \begin{itemize}
         \item \verb|./SMART|: E' il core dell'applicativo. Da linea di comando, ammette un insieme di opzioni che permettono di descrivere l'input del programma, l'alfabeto utilizzato, la lunghezza massima dei pattern da ricercare nelle stringhe, nonché ulteriori flag opzionali per confronti più specializzati.
-        \item \verb|./SELECT|: analogamente all'eseguibile SMART, ammette una serie di opzioni che hanno l'obiettivo di determinare gli algoritmi da utilizzare quando si lancerà il prossimo confronto con SMART. I comandi ammessi, fra gli altri, sono \verb|-show| (stampa un elenco esaustivo degli algoritmi selezionabili), \verb|-none| (deseleziona tutti gli algoritmi), \verb|-all| (seleziona tutti gli algoritmi) e \verb|[ALGO_NAME]| (seleziona uno specifico algoritmo, a patto che sia presente nella cartella \verb|/algos|. Il comando \verb|-which| permette di identificare gli algoritmi attualmente selezionati e in procinto di essere computati con la prossima invocazione del comando \verb|./SMART|. Infine, il comando \verb|-add| permette di integrare nuovi algoritmi nel tool: è un comando centrale nel funzionamento ad alto livello di SMART, poiché permette a sviluppatori esterni di estenderne le prospettive computative.
+        \item \verb|./SELECT|: analogamente all'eseguibile SMART, ammette una serie di opzioni che hanno l'obiettivo di determinare gli algoritmi da utilizzare quando si lancerà il prossimo confronto con SMART. I comandi ammessi, fra gli altri, sono \verb|-show| (stampa un elenco esaustivo degli algoritmi selezionabili), \verb|-none| (deseleziona tutti gli algoritmi), \verb|-all| (seleziona tutti gli algoritmi) e \verb|[ALGO_NAME]| (seleziona uno specifico algoritmo, a patto che sia presente nella cartella \verb|/algos|). Il comando \verb|-which| permette di identificare gli algoritmi attualmente selezionati e in procinto di essere computati con la prossima invocazione del comando \verb|./SMART|. Infine, il comando \verb|-add| permette di integrare nuovi algoritmi nel tool: è un comando centrale nel funzionamento ad alto livello di SMART, poiché permette a sviluppatori esterni di estenderne le prospettive computative.
         
         \begin{figure}[ht!]
         \centering
@@ -142,12 +142,12 @@ Il contenuto della funzione è irrilevante, a patto che rispetti i requisiti sop
     \label{fig:esempio}
 \end{figure}
 
-E' possibile validare l'algoritmo attraverso il comando \verb|./TEST [ALGO_NAME]|. Il tool tenterà di e, se il numero di occorrenze restituito dall'algoritmo testato coinciderà con l'intero che il tool si aspetta, allora l'algoritmo sarà considerato valido, testato e pienamente funzionante; sarà possibile, a questo punto, integrarlo e selezionarlo tramite \verb|./SELECT|.
+E' possibile validare l'algoritmo attraverso il comando \verb|./TEST [ALGO_NAME]|. Il tool tenterà di eseguire una computazione su parametri predefiniti, se il numero di occorrenze restituito dall'algoritmo testato coinciderà con l'intero che il tool si aspetta, allora l'algoritmo sarà considerato valido, testato e pienamente funzionante; sarà possibile, a questo punto, integrarlo e selezionarlo tramite \verb|./SELECT|.
 
 
 \section{Accenni al versioning parallelo di SMART-GUI}
 
-Gli autori del tool SMART, per venire incontro a prerogative di usabilità, hanno deciso di sviluppare una versione parallela che, invece di poter essere utilizzata esclusivamente da linea di comando, sia invece adoperabile tramite un'interfaccia grafica. Questa versione è stata denominata SMART-GUI ed è disponibile su GitHub \cite{smartGUI}. 
+Gli autori del tool SMART, per venire incontro ad esigenze di usabilità, hanno deciso di sviluppare una versione parallela che, invece di poter essere utilizzata esclusivamente da linea di comando, sia invece adoperabile tramite un'interfaccia grafica. Questa versione è stata denominata SMART-GUI ed è disponibile su GitHub \cite{smartGUI}. 
 
 \vspace{3mm}
 
@@ -170,7 +170,7 @@ Tuttavia, l'autore di questa tesi ha individuato empiricamente alcuni problemi d
 
 \section{Conclusioni e criticità del software}
 
-Inizialmente, il tool SMART è stato analizzato e studiato come possibile candidato ad ospitare algoritmi come \verb|scMAW|. In generale, si parla di algoritmi che sfruttano le minimal absent words e la metrica LW per indicare la similitudine fra le stringhe oggetto di confronto. Dopo un'attenta analisi e a seguito delle dovute considerazioni, risulta che SMART non sia adeguato né per \verb|scMAW|, né per tutti gli algoritmi che, analogamente a quest'ultimo, 
+Inizialmente, il tool SMART è stato analizzato e studiato come possibile candidato ad ospitare algoritmi come \verb|scMAW|. In generale, si parla di algoritmi che sfruttano le \textit{minimal absent words} e la metrica LW per indicare la similitudine fra le stringhe oggetto di confronto. Dopo un'attenta analisi e a seguito delle dovute considerazioni, risulta che SMART non sia adeguato né per \verb|scMAW|, né per tutti gli algoritmi che, analogamente a quest'ultimo, forniscono matrici di metriche LW come output. 
 
 E' banale osservare come \verb|scMAW| e SMART, in relazione a quanto analizzato in questo Capitolo e nei Capitolo 2 e 3, non possa essere integrabile nel tool secondo i metodi previsti dagli autori. Difatto, come delineato nel Capitolo 4.2, gli algoritmi in via di integrazione devono seguire schemi ben precisi e non posso, almeno nella forma dei parametri accolti e dei tipi restituiti, divergere dalle condizioni vincolanti della piattaforma. Nello specifico, SMART impone la restituzione del numero di occorrenze di un certo pattern in un determinato corpo di testo. Invece, \verb|scMAW| prevede la generazione di un risultato di più ampio respiro, quale un file FASTA.OUT (descritto nel Capitolo 5), contenente indici LW per insiemi ben definiti di stringhe.
 
