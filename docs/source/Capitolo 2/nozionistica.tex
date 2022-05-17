@@ -108,9 +108,19 @@ Chairungsee e Crochemore del King's College di Londra hanno presentato, nel 2012
 
 \vspace{3mm}
 
+\textit{LW Index} sta per \textit{Length-Weighted Index}.
+
+\vspace{3mm}
+
 La metrica, che restituisce un float, è calcolata come sommatoria di $\frac{1}{|w|^2}$ dove ogni $w$ è una parola ottenuta dalla differenza simmetrica fra le minima absent words di $x$ e di $y$.
 
 \[LW_l (x, y)=\sum_{w \in M^l_x \Delta M^l_y} \frac{1}{|w|^2 }\]
+
+\vspace{3mm}
+
+Ricordiamo, inoltre, che la \textit{differenza simmetrica} fra due insiemi $X$ e $Y$ è definita come unione fra la differenza tra il primo insieme e il secondo insieme, e la differenza fra il secondo insieme e il primo insieme. Si osservi che il motivo per cui la metrica fa uso dell'inverso delle stringhe è proprio a causa della differenza simmetrica stessa.
+
+\vspace{3mm}
 
 In generale, nell'implementare l'algoritmo \verb|scMAW| considereremo una più generica metrica LW che non tiene conto della lunghezza $l$.
 
