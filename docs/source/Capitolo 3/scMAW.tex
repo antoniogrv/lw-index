@@ -1,4 +1,4 @@
-Nel 2018, un gruppo di studio internazionale composto da studenti del King's College di Londra, dell'Università di Palermo e dell'Universitità di Loughborough (Regno Unito), propose una soluzione efficiente ed originale in merito al problema del confronto fra stringhe impiegando le \textit{minimal absent words}, la cui nozione è descritta nel Capitolo 2. 
+Nel 2018, è stata proposta una soluzione efficiente ed originale in merito al problema del confronto fra stringhe impiegando le \textit{minimal absent words}, la cui nozione è descritta nel Capitolo 2. 
 
 \vspace{3mm}
 
@@ -14,9 +14,7 @@ L'indice permette di definire la similiarità, o similitudine, fra due stringhe 
 
 \vspace{3mm}
 
-La prima sfida posta dall'algoritmo giaceva nella ricerca delle \textit{minimal absent words} delle stringhe oggetto di confronto. Il gruppo di studio decise di utilizzare soluzioni ben note, delineate in \cite{maw1}. 
-
-Questo risultato accademico dimostra che è possibile computare, date due stringhe $x$ e $y$, le corrispettive \textit{minimal absent words} $M_x$ e $M_y$ in tempo lineare relativo alle lunghezze delle stringhe, rispettivamente $n$ e $m$. 
+La prima sfida posta dall'algoritmo giaceva nella ricerca delle \textit{minimal absent words} delle stringhe oggetto di confronto. Il gruppo di studio decise di utilizzare soluzioni ben note, delineate in \cite{maw1}. Questo risultato dimostra che è possibile computare, date due stringhe $x$ e $y$, le corrispettive \textit{minimal absent words} $M_x$ e $M_y$ in tempo lineare relativo alle lunghezze delle stringhe, rispettivamente $n$ e $m$. 
 
 \vspace{3mm}
 
@@ -24,7 +22,7 @@ La strategia fondamentale dell'algoritmo, d'ora in poi denominato in questo Capi
 
 \vspace{3mm}
 
-A questo fine, verrà costruito il suffix array associato alla parola $w=xy$. Questa struttura può essere costruita con complessità di tempo e spazio $O(m+n)$. Attraverso questa struttura dati, è immediato ordinare in maniera lessicografica (e cioè tramite i suffissi delle parole associate) i due insiemi di \textit{minimal absent words}. 
+A questo fine, verrà costruito il suffix array associato alla parola $w=xy$. Questa struttura può essere costruita con complessità di tempo e spazio $O(m+n)$ \cite{suffixArray}. Attraverso questa struttura dati, è immediato ordinare in maniera lessicografica (e cioè tramite i suffissi delle parole associate) i due insiemi di \textit{minimal absent words}. 
 Questo significa che gli insiemi sono considerati associati se, posti $x_1$ e $x_2$ tuple di uno degli insiemi, $x_1 < x_2$ se la prima lettera dopo il \textit{longest common prefix} di $x_1$ è lessicograficamente più piccola di quella di $x_2$. 
 
 In generale, il \textit{longest common prefix} è una struttura prodotta a partire dal preprocessamento di un suffix array. E' intuitivo individuarne la relazione: i suffix array lavorano sui suffissi, che in maniera laterale possono condurre al calcolo dei prefissi.

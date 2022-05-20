@@ -1,16 +1,17 @@
-In questa tesi si assumeranno per scontate le nozioni basilari di sequenza, fattore e fattorizzazione, parola, stringa, alfabeto. Inoltre, si assumerà per scontata l'operazione di differenza simmetrica fra due stringhe.
+In questa tesi si assumeranno per scontate le nozioni basilari di sequenza, fattore e fattorizzazione, parola, stringa, alfabeto.
 
 \section{Absent Words, Minimal Absent Words}
 
-Una \textit{absent word} o \textit{parola assente} (detta talvolta \textit{forbidden word} o \textit{parola proibita}) di una certa sequenza $S$ è tale se essa non occorre nella sequenza $S$ stessa. 
+Una \textit{absent word} o \textit{parola assente} (detta talvolta \textit{forbidden word} o \textit{parola proibita}) di una certa sequenza $S$ è tale se essa non occorre come fattore nella sequenza $S$ stessa. 
 
 Le \textit{absent words} rappresentano, in effetti, la tipologia più genuina di informazione negativa: costituiscono, infatti, un dato che non si presenta in nessuna forma o composizione nella sequenza in esame. In generale, se la sequenza $S$ ha lunghezza $n$, il numero di \textit{absent words} è al più esponenziale in $n$. 
 
 \vspace{3mm}
 
-E' altresì possibile individuare specifiche classi di \textit{absent words}, quali le \textit{minimal absent words}, il cui numero è lineare in $n$. Le \textit{minimal absent words} sono \textit{absent words} di una sequenza $S$ che non occorrono propriamente nella sequenza, ma di cui - invece - tutte le fattorizzazioni proprie occorrono nella sequenza. Si è dunque davanti ad un contrasto interessante: da un lato informazione negativa cruda e grezza; dall'altro, informazione positiva derivata dalla fattorizzazione di informazione negativa. 
+E' altresì possibile individuare specifiche classi di \textit{absent words}, quali le \textit{minimal absent words}, il cui numero è lineare in $n$. Le \textit{minimal absent words} sono \textit{absent words} di una sequenza $S$ che non occorrono propriamente nella sequenza, ma di cui - invece - tutti i fattori propri occorrono nella sequenza 
+\(M_L = \{aub | a,b \in \Sigma, u\in \Sigma* aub\not\in L, au,ub\in L\} \). Si è dunque davanti ad un contrasto interessante: da un lato informazione negativa cruda e grezza; dall'altro, informazione positiva derivata dalla fattorizzazione di informazione negativa. 
 
-\(M_L = \{aub | a,b \in \Sigma*, aub\not\in L, au,ub\in L\} \)
+\vspace{3mm}
 
 Lo studio di queste fattorizzazioni e la loro applicazione pratica nell'implementazione di \verb|scMAW| ci permetterà di stabilire un metodo efficiente per confrontare stringhe impiegando, alla base, informazione genuinamente negativa.
 
@@ -24,7 +25,7 @@ Risulta dunque immediato osservare che, impiegando le \textit{minimal absent wor
 
 \vspace{5mm}
 
-In letteratura, un moderato numero di risultati sono stati prodotti a partire dalla nozione di \textit{minimal absent words}. Si tratta di soluzioni di complessità, generalmente, $O(n)$, sia in termini di spazio che di tempo, posto e fissato un alfabeto preciso, di lunghezza ben definita. Tuttavia, è interressante osservare la moltitudine di strutture dati impiegate nell'implementazione di questi algoritmi: suffix arrays, suffix trees, suffix automata \cite{CROCHEMORE1998111}, per citarne alcuni. Alcune soluzioni risultano meno performanti di altre, presentando una complessità (nel caso peggiore) pari a $O(n^2 )$ \cite{findingMaw}.
+In letteratura, un moderato numero di risultati sono stati prodotti a partire dalla nozione di \textit{minimal absent words}. Si tratta di soluzioni di complessità generalmente $O(n)$ sia in termini di spazio che di tempo, posto e fissato un alfabeto preciso, di lunghezza ben definita. Tuttavia, è interressante osservare la moltitudine di strutture dati impiegate nell'implementazione di questi algoritmi: suffix arrays, suffix trees, suffix automata \cite{maw1}, per citarne alcuni. Alcune soluzioni risultano meno performanti di altre, presentando una complessità (nel caso peggiore) pari a $O(n^2 )$ \cite{findingMaw}.
 
 \vspace{3mm}
 
@@ -36,11 +37,13 @@ Come osservato, è possibile introdurre il concetto di minimal absent words impi
 
 \vspace{3mm}
 
-I suffix arrays, risultato originale del 1990 di Manber-Myers \cite{suffixArray}, sono un array ordinato di tutti i suffissi di una stringa $S$. E' una struttura dati ampiamente utilizzata nell'indicizzazione di testi, negli algoritmi di compressione e nel campo della bibliometrica. La loro complessità è, sia in media che nei casi peggiori, $O(n)$, risultando dunque una struttura dati efficiente e di semplice costruzione.
+I suffix arrays, risultato originale del 1990 di Manber-Myers \cite{suffixArray}, sono un array ordinato di tutti i suffissi di una stringa $S$. E' una struttura dati ampiamente utilizzata nell'indicizzazione di testi, negli algoritmi di compressione e nel campo della bibliometrica. E' possibile costruire un suffix array con complessità $O(n)$, risultando dunque una struttura dati efficiente e di semplice costruzione.
 
 \vspace{3mm}
 
-In generale, posta $S=S[1]S[2]...S[n]$ una stringa di lunghezza $n$ denotata dai suoi fattori monocarattere, il suffix array $A$ di $S$ è definito come array di interi costituito dalle posizioni iniziali dei suffissi S in ordine lessicografico. $A[i]$ conterrà, in effetti, la posizione iniziale dell'$i$-esimo suffisso più piccolo in $S$. Ogni suffisso compare esattamente una volta. Didatticamente, viene generalmente utilizzata la stringa $banana$ per fornire un esempio.
+In generale, posta $S=S[1]S[2]...S[n]$ una stringa di lunghezza $n$ denotata dai suoi fattori monocarattere, il suffix array $A$ di $S$ è definito come array di interi costituito dalle posizioni iniziali dei suffissi S in ordine lessicografico. $A[i]$ conterrà, in effetti, la posizione iniziale dell'$i$-esimo suffisso più piccolo in $S$. Ovviamente, gni suffisso compare esattamente una volta. 
+
+Didatticamente, viene generalmente utilizzata la stringa $banana$ per fornire un esempio.
 
 \vspace{3mm}
 
@@ -92,7 +95,7 @@ Una range minimum query \cite{RMQ} permettere di trovare il valore minimo in una
 
 \vspace{3mm}
 
-Dato un array $A[1...n]$ di $n$ oggetti confrontabili e ordinati, il range minimum query $RMQ_A (l,r)$ coincide con $arg_{min} A[k]$, con $1\leq l\leq k \leq r \leq n$. La funzione restituisce la posizione dell'elemento più piccolo nel sotto-array determinato da $A[l...r]$. 
+Dato un array $A[1...n]$ di $n$ oggetti confrontabili e ordinati, il range minimum query $RMQ_A (l,r)$ coincide con $arg_{min} A[k]$, con $1\leq l\leq k \leq r \leq n$, cioè con la posizione dell'elemento più piccolo nel sotto-array determinato da $A[l...r]$. 
 
 \vspace{3mm}
 
@@ -104,21 +107,17 @@ La nozione di range minimum queries è, analogamente a quella di suffix arrays, 
 
 \section{Metrica LW di Crochemore}
 
-Chairungsee e Crochemore del King's College di Londra hanno presentato, nel 2012, una misura di similiarità fra due stringhe $x$ e $y$ impiegando le \textit{minimal absent words} \cite{CHAIRUNGSEE2012109} di ciascuna delle due, rispettivamente $M^l_x$ e $M^l_y$, dove $l$ è la lunghezza massima fra le due stringhe.
+Chairungsee e Crochemore del King's College di Londra hanno presentato, nel 2012, una misura di similiarità - detta $LW$, che sta per \textit{Length-Weigthed Index} - fra due stringhe $x$ e $y$ impiegando le \textit{minimal absent words} \cite{CHAIRUNGSEE2012109} di ciascuna delle due, rispettivamente $M^l_x$ e $M^l_y$, dove $l$ è la lunghezza massima fra le due stringhe.
 
 \vspace{3mm}
 
-\textit{LW Index} sta per \textit{Length-Weighted Index}.
+Ricordiamo che la \textit{differenza simmetrica} $\Delta$ fra due insiemi di stringhe $X$ e $Y$ è definita come unione fra la differenza tra il primo insieme e il secondo insieme, e la differenza fra il secondo insieme e il primo insieme. Si osservi che il motivo per cui la metrica fa uso dell'inverso delle stringhe è proprio a causa della differenza simmetrica stessa.
 
 \vspace{3mm}
 
 La metrica, che restituisce un float, è calcolata come sommatoria di $\frac{1}{|w|^2}$ dove ogni $w$ è una parola ottenuta dalla differenza simmetrica fra le minima absent words di $x$ e di $y$.
 
 \[LW_l (x, y)=\sum_{w \in M^l_x \Delta M^l_y} \frac{1}{|w|^2 }\]
-
-\vspace{3mm}
-
-Ricordiamo, inoltre, che la \textit{differenza simmetrica} fra due insiemi $X$ e $Y$ è definita come unione fra la differenza tra il primo insieme e il secondo insieme, e la differenza fra il secondo insieme e il primo insieme. Si osservi che il motivo per cui la metrica fa uso dell'inverso delle stringhe è proprio a causa della differenza simmetrica stessa.
 
 \vspace{3mm}
 
@@ -140,6 +139,10 @@ Risulterà:
 
 Di consequenza, il soprastante risultato verrà dato in pasto alla sommatoria produttrice della metrica LW. Ogni lunghezza (inversa, ed elevata al quadrato) degli elementi dell'insieme ($aaba$, $aba$, ...) sarà sommata, al fine di produrre la metrica.
 
+\vspace{3mm}
+
 \(LW(x,y) = \frac{1}{4^2}+\frac{1}{3^2}+\frac{1}{4^2}+\frac{1}{4^2}+\frac{1}{2^2}+\frac{1}{4^2}\)
 
-Questa misura permette di quantificare la distanza fra due parole, definendone la similitudine. Risulta, infatti, $LW(x,x)=0$. 
+\vspace{3mm}
+
+Questa misura permette di quantificare la distanza fra due parole in funzione delle loro minimal absent words, definendone la similitudine. Risulta, infatti, $LW(x,x)=0$. D'altro canto, è stato dimostrato che l'indice $LW$ sia, per sua natura, una metrica su $\Sigma*$ \cite{scMAW}. E' importante osservare che $LW(x,y)$ è influenzato sia dalla cardinalità di $M_x \Delta M_y$, sia dalle lunghezze degli elementi che lo costituiscono: più sono lunghe le stringhe in $M_x \Delta M_y$, meno contribuirranno al valore di $LW(x,y)$. Intuitivamente, parole più corte in $M_x \Delta M_y$ indicano un grado maggiore di dissimilarità fra $x$ e $y$.
