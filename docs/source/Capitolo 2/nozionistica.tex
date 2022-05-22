@@ -9,7 +9,7 @@ Le \textit{absent words} rappresentano, in effetti, la tipologia più genuina di
 \vspace{3mm}
 
 E' altresì possibile individuare specifiche classi di \textit{absent words}, quali le \textit{minimal absent words}, il cui numero è lineare in $n$. Le \textit{minimal absent words} sono \textit{absent words} di una sequenza $S$ che non occorrono propriamente nella sequenza, ma di cui - invece - tutti i fattori propri occorrono nella sequenza 
-\(M_L = \{aub | a,b \in \Sigma, u\in \Sigma* aub\not\in L, au,ub\in L\} \). Si è dunque davanti ad un contrasto interessante: da un lato informazione negativa cruda e grezza; dall'altro, informazione positiva derivata dalla fattorizzazione di informazione negativa. 
+\(M_L = \{aub | a,b \in \Sigma, u\in \Sigma^*, aub\not\in L, au,ub\in L\} \). Si è dunque davanti ad un contrasto interessante: da un lato informazione negativa cruda e grezza; dall'altro, informazione positiva derivata dalla fattorizzazione di informazione negativa. 
 
 \vspace{3mm}
 
@@ -25,7 +25,7 @@ Risulta dunque immediato osservare che, impiegando le \textit{minimal absent wor
 
 \vspace{5mm}
 
-In letteratura, un moderato numero di risultati sono stati prodotti a partire dalla nozione di \textit{minimal absent words}. Si tratta di soluzioni di complessità generalmente $O(n)$ sia in termini di spazio che di tempo, posto e fissato un alfabeto preciso, di lunghezza ben definita. Tuttavia, è interressante osservare la moltitudine di strutture dati impiegate nell'implementazione di questi algoritmi: suffix arrays, suffix trees, suffix automata \cite{maw1}, per citarne alcuni. Alcune soluzioni risultano meno performanti di altre, presentando una complessità (nel caso peggiore) pari a $O(n^2 )$ \cite{findingMaw}.
+In letteratura, un moderato numero di risultati sono stati prodotti a partire dalla nozione di \textit{minimal absent words}. Si tratta di soluzioni di complessità generalmente $O(n)$ sia in termini di spazio che di tempo, posto e fissato un alfabeto preciso, di lunghezza ben definita. Tuttavia, è interessante osservare la moltitudine di strutture dati impiegate nell'implementazione di questi algoritmi: suffix arrays, suffix trees, suffix automata \cite{maw1}, per citarne alcuni. Alcune soluzioni risultano meno performanti di altre, presentando una complessità (nel caso peggiore) pari a $O(n^2 )$ \cite{findingMaw}.
 
 \vspace{3mm}
 
@@ -41,13 +41,16 @@ I suffix arrays, risultato originale del 1990 di Manber-Myers \cite{suffixArray}
 
 \vspace{3mm}
 
-In generale, posta $S=S[1]S[2]...S[n]$ una stringa di lunghezza $n$ denotata dai suoi fattori monocarattere, il suffix array $A$ di $S$ è definito come array di interi costituito dalle posizioni iniziali dei suffissi S in ordine lessicografico. $A[i]$ conterrà, in effetti, la posizione iniziale dell'$i$-esimo suffisso più piccolo in $S$. Ovviamente, gni suffisso compare esattamente una volta. 
+In generale, posta $S=S[1]S[2]...S[n]$ una stringa di lunghezza $n$ denotata dai suoi fattori monocarattere, il suffix array $A$ di $S$ è definito come array di interi costituito dalle posizioni iniziali dei suffissi S in ordine lessicografico. $A[i]$ conterrà, in effetti, la posizione iniziale dell'$i$-esimo suffisso più piccolo in $S$. Ovviamente, ogni suffisso compare esattamente una volta. 
+
+Inoltre, il carattere \textit{blank}, generalmente indicato con un trattino basso (\_), risulta il più piccolo in ordine lessicografico.
+
 
 Didatticamente, viene generalmente utilizzata la stringa $banana$ per fornire un esempio.
 
 \vspace{3mm}
 
-Si ponga $S=banana$. Risulta che $S[1]=b, S[2]=a, S[3]=n, ..., S[6]=a, S[7]=blank$. Il $blank$ è generalmente indicato con un trattino basso.
+Si ponga $S=banana$. Risulta che $S[1]=b, S[2]=a, S[3]=n, ..., S[6]=a, S[7]=blank$.
 
 \vspace{3mm}
 
@@ -99,7 +102,7 @@ Dato un array $A[1...n]$ di $n$ oggetti confrontabili e ordinati, il range minim
 
 \vspace{3mm}
 
-Ad esempio, per l'array $A=0,5,2,5,4,3,1,6,3$, risulterà che il range minimum query di $A[3...8]=2,5,4,3,1,6$ è 7, poiché $A[7]=1$ ne é il valore più piccolo, dunque il minimo, ottenuto tramite confronti più o meno lineari.
+Ad esempio, per l'array $A=0,5,2,5,4,3,1,6,3$, risulterà che il range minimum query di $A[3...8]=2,5,4,3,1,6$ è 7, poiché $A[7]=1$ ne è il valore più piccolo, dunque il minimo, ottenuto tramite confronti più o meno lineari.
 
 \vspace{3mm}
 
@@ -125,7 +128,7 @@ In generale, nell'implementare l'algoritmo \verb|scMAW| considereremo una più g
 
 \[LW (x, y)=\sum_{w \in M_x \Delta M_y} \frac{1}{|w|^2 }\]
 
-Ad esempio, posto $x=abaab$ e $y=aabbbaa$, risulterà che $M_x=aaa, aaba, bab, bb$ (osserviamo che tutte le fattorizzazioni di $M_x$ sono presenti in $x$) e $M_y=aaa,bbbb,aba,abba,bab,baab$.
+Ad esempio, posto $x=abaab$ e $y=aabbbaa$, risulterà che $M_x= \{ aaa, aaba, bab, bb \} $ (osserviamo che tutte le fattorizzazioni di $M_x$ sono presenti in $x$) e $M_y=\{ aaa,bbbb,aba,abba,bab,baab \}$.
 
 \vspace{3mm}
 
@@ -133,7 +136,7 @@ Risulterà:
 
 \vspace{3mm}
 
-\(M_x \Delta M_y ={aaba,aba,abba,baab,bb,bbbb}\)
+\(M_x \Delta M_y = \{ aaba,aba,abba,baab,bb,bbbb \} \)
 
 \vspace{3mm}
 
@@ -145,4 +148,4 @@ Di consequenza, il soprastante risultato verrà dato in pasto alla sommatoria pr
 
 \vspace{3mm}
 
-Questa misura permette di quantificare la distanza fra due parole in funzione delle loro minimal absent words, definendone la similitudine. Risulta, infatti, $LW(x,x)=0$. D'altro canto, è stato dimostrato che l'indice $LW$ sia, per sua natura, una metrica su $\Sigma*$ \cite{scMAW}. E' importante osservare che $LW(x,y)$ è influenzato sia dalla cardinalità di $M_x \Delta M_y$, sia dalle lunghezze degli elementi che lo costituiscono: più sono lunghe le stringhe in $M_x \Delta M_y$, meno contribuirranno al valore di $LW(x,y)$. Intuitivamente, parole più corte in $M_x \Delta M_y$ indicano un grado maggiore di dissimilarità fra $x$ e $y$.
+Questa misura permette di quantificare la distanza fra due parole in funzione delle loro minimal absent words, definendone la similitudine. Risulta, infatti, $LW(x,x)=0$. D'altro canto, è stato dimostrato che l'indice $LW$ sia, per sua natura, una metrica su $\Sigma^*$ \cite{scMAW}. E' importante osservare che $LW(x,y)$ è influenzato sia dalla cardinalità di $M_x \Delta M_y$, sia dalle lunghezze degli elementi che lo costituiscono: più sono lunghe le stringhe in $M_x \Delta M_y$, meno contribuirranno al valore di $LW(x,y)$. Intuitivamente, parole più corte in $M_x \Delta M_y$ indicano un grado maggiore di dissimilarità fra $x$ e $y$.

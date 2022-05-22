@@ -18,7 +18,7 @@ La prima sfida posta dall'algoritmo giaceva nella ricerca delle \textit{minimal 
 
 \vspace{3mm}
 
-La strategia fondamentale dell'algoritmo, d'ora in poi denominato in questo Capitolo come \verb|scMAW|, è di effettaure una \textit{merge} dei due insiemi $M_x$ e $M_y$, unendoli dopo che i due insiemi sono stati ordinati tramite l'ausilio dei suffix arrays. 
+La strategia fondamentale dell'algoritmo, d'ora in poi denominato in questo Capitolo come \verb|scMAW|, è di effettuare una \textit{merge} dei due insiemi $M_x$ e $M_y$, unendoli dopo che i due insiemi sono stati ordinati tramite l'ausilio dei suffix arrays. 
 
 \vspace{3mm}
 
@@ -65,11 +65,11 @@ Contemporaneamente alla costruzione dell'insieme $M_{x,y}$ è possibile costruir
   \right.
 \end{equation*}
 
-E' interessante osservare che quando $x_i = x_y$, l'indice $LW(x,y)$ non incrementa. In alternativa, quando $x_i\not= x_y$, l'indice incrementa in funzione della composizione propria della parola, delineata in base al quadrato della sua cardinalità.
+E' interessante osservare che quando $x_i = x_j$, l'indice $LW(x,y)$ non incrementa. In alternativa, quando $x_i\not= x_j$, l'indice incrementa in funzione della composizione propria della parola, delineata in base al quadrato della sua cardinalità.
 
 \vspace{3mm}
 
-I calcoli elementari nell'algoritmo, come le somme, hanno complessità costante; vengono, altresì, effettuate per ogni tupla in $M_x$ e $M_y$: è dunque possibile concludere che l'intera operazione richieda $O(m+n)$
+I calcoli elementari nell'algoritmo, come le somme, hanno complessità costante; vengono, altresì, effettuate per ogni tupla in $M_x$ e $M_y$: è dunque possibile concludere che l'intera operazione richieda $O(m+n)$.
 
 \vspace{3mm}
 
