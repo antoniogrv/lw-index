@@ -7,7 +7,7 @@ Algoritmi predefiniti:
 
 ## Istruzioni
 
-Clonare la repository tramite `git clone https://github.com/v1enna/maw-lw-index.git` e installare le dipendenze tramite `npm start` sia in `codebase/client` che in `codebase/api`.
+Clonare la repository tramite `git clone https://github.com/v1enna/maw-lw-index.git` e installare le dipendenze tramite `npm i` sia in `codebase/client` che in `codebase/api`.
 
 Per avviare il client:
 `npm start` in `codebase/client` sulla porta 3000
