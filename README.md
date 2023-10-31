@@ -1,6 +1,6 @@
 # LW Index
 
-LW Index è un tool simil-[SMART](https://github.com/smart-tool/smart) per creare grafici illustrativi su algoritmi basati sull'omonimo indice [LW](https://www.sciencedirect.com/science/article/pii/S0304397512003866).
+LW Index è un tool simil-[SMART](https://github.com/smart-tool/smart) per l'analisi qualitativa di algoritmi basati sull'omonimo indice [LW](https://www.sciencedirect.com/science/article/pii/S0304397512003866).
 
 Algoritmi predefiniti:
 - [scMAW](https://github.com/solonas13/maw) di M. Crochemore, G. Fici, R. Mercas, S. P. Pissis
